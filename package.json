@@ -1,0 +1,14 @@
+{
+  "name": "student_management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "cd ./st-ma-sv && npm run dev",
+    "start-client": "cd ./st-ma-cl && npm run dev",
+    "ic": "cd ./st-ma-cl && npm i",
+    "is": "cd ./st-ma-sv && npm i"
+  },
+  "author": "Swayam",
+  "license": "ISC"
+}
