@@ -2,8 +2,8 @@ import React, { useRef, useState,useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import {AuthContext} from '../contexts/AuthContext.jsx'
 import "./login.css";
+import useAuthStore from "../contexts/AuthStore.js";
 
 const Login = () => {
 
@@ -16,7 +16,7 @@ const Login = () => {
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
 
-  const {saveUserData}=useContext(AuthContext);
+  const saveUserData=useAuthStore((state)=>state.setUserData)
 
 
   const handleLogin = async (e) => {
@@ -33,9 +33,11 @@ const Login = () => {
         withCredentials:true,
       });
       toast.success(response.data.message);
+      response.data.user.isLoggedIn=true
       saveUserData(response.data.user)
-      if(!response.data.user.approved) navigate("/student_approval")
-      navigate('/')
+      if(response.data.user.isAdmin) return navigate("/")
+      if(!response.data.user.approved) return navigate("/student_approval")
+      navigate('/students')
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {

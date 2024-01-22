@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../style.css';
+
 import { FaRegBell,FaTimes  } from "react-icons/fa";
 import { LuMessageSquare } from "react-icons/lu";
+
 import avtar from '../images/avtar2.jpg';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import axiosConfig from '../utils/axiosConfig';
+import { toast } from 'react-toastify';
+import useAuthStore from '../contexts/AuthStore';
 
-
-Modal.setAppElement('#root'); 
 
 function Topbar({ userRole }) {
+   const logOutUser=useAuthStore((state)=>state.logOutUser)
+   Modal.setAppElement('#root'); 
+
   const [showOptions, setShowOptions] = useState(false);
+ 
   const [showNotifications, setShowNotifications] = useState(false);
   const [pendingStudents, setPendingStudents] = useState([
     { id: 1, name: 'John Doe' },
@@ -90,8 +96,10 @@ function Topbar({ userRole }) {
                   withCredentials:true
                 })
                 console.log(response);
+                toast.success("Logged Out Succesfully!")
+                logOutUser()
                } catch (error) {
-                console.log(error);
+                toast.error("Internal Server Error")
                }
               }} className="profileOptionButton">Log Out</button>
 

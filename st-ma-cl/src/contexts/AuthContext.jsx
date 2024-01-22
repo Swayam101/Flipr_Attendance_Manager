@@ -1,17 +1,47 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
 
-  const saveUserData = (data) => localStorage.setItem("user", JSON.stringify(data));
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
+  const [isAdmin,setIsAdmin]=useState(false)
+  const [userData,setUserData]=useState({})
+
+  useEffect(()=>{
+    const currentData=JSON.parse(sessionStorage.getItem("user"))
+    if(!currentData){ 
+      setIsLoggedIn(false)
+      setIsAdmin(false)
+      setUserData({})
+    }
+    else{
+      setUserData(currentData)
+      setIsAdmin(true)
+      setIsLoggedIn(true)
+    }
+  },[])
+
+  const getUserData=()=>{
+   if(!sessionStorage.getItem("user")) return {} 
+   return JSON.parse(sessionStorage.getItem("user"))
+  }
+
   
-  const getUserData=()=>JSON.parse(localStorage.getItem("user"))
   
-  const removeUserData=()=>localStorage.removeItem("user")
+
+  const saveUserData = (data) => {
+    setIsLoggedIn(true)
+    if(data.isAdmin) setIsAdmin(true)
+    return sessionStorage.setItem("user", JSON.stringify(data));
+  }
+  
+ 
+  
+  const removeUserData=()=>sessionStorage.removeItem("user")
   return (
-    <AuthContext.Provider value={{ saveUserData,getUserData,removeUserData }}>
+    <AuthContext.Provider value={{ saveUserData,getUserData,removeUserData,isLoggedIn,setIsLoggedIn,isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
