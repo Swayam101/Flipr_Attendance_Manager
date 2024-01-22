@@ -7,7 +7,7 @@ const studentSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique:true
+      unique: true,
     },
     name: {
       type: String,
@@ -21,14 +21,16 @@ const studentSchema = new Schema(
       type: String,
       required: true,
     },
-    isAdmin:{
-      type:Boolean,
-      default:false
+    isAdmin: {
+      type: Boolean,
+      default: false,
     },
-   
+    roll:{
+      type:String,
+      required:true
+    }
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
-
 
 export default model("student", studentSchema);

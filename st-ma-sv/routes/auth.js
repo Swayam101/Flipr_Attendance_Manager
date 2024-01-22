@@ -37,8 +37,8 @@ router.post(
 
 router.post("/login",loginUser)
 
-router.post('/send-update-mail',protectRoute,sendUpdatePasswordEmail)
-router.post('/check-hash',protectRoute,checkMailHash)
+router.post('/send-update-mail',sendUpdatePasswordEmail)
+router.post('/check-hash',checkMailHash)
 
 router.post("/logout",protectRoute,logoutUser)
 

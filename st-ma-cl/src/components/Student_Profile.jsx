@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import avtar from '../images/avtar2.jpg';
 import { FaEdit } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
+import { AuthContext } from '../contexts/AuthContext';
 
 
 function Student_Profile() {
+    const {getUserData}=useContext(AuthContext)
+    const userData=getUserData()
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
-        firstName: 'Hatim',
-        lastName: 'Dahi',
-        dateOfBirth: '1990-01-01',
+        firstName: userData.name.split(" ")[0],
+        lastName: userData.name.split(" ")[1],
+        dateOfBirth: 'DD/MM/YYY',
         gender: 'Male',
         address: 'Devi sing garden road, 451551 ',
-        phone: '1010101010',
-        email: 'hatim@gmail.com',
-        roll_no:'2023001'
+        phone: 'eg . 9872343566',
+        email: userData.email,
+        roll_no:userData.roll
     });
 
     const handleEdit = () => {
@@ -61,8 +64,8 @@ function Student_Profile() {
                                 type="text"
                                 name="firstName"
                                 value={formData.firstName}
-                                onChange={handleInputChange}
-                                disabled={!editMode}
+                                style={{cursor: 'not-allowed'}}
+                                disabled={true}
                             />
                             <h5>
                                 Last Name:
@@ -71,8 +74,8 @@ function Student_Profile() {
                                 type="text"
                                 name="lastName"
                                 value={formData.lastName}
-                                onChange={handleInputChange}
-                                disabled={!editMode}
+                                style={{cursor: 'not-allowed'}}
+                                disabled={true}
                             />
                         </div>
                         <div className="info-field">
@@ -93,8 +96,7 @@ function Student_Profile() {
                                 type="text"
                                 name="gender"
                                 value={formData.gender}
-                                onChange={handleInputChange}
-                                disabled={!editMode}
+                              
                             />
                         </div>
                         <div className="info-field">

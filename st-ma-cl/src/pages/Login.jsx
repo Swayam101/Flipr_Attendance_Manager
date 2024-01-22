@@ -30,12 +30,14 @@ const Login = () => {
         url: "http://localhost:3000/auth/login",
         method: "POST",
         data: userCredentials,
+        withCredentials:true,
       });
       toast.success(response.data.message);
       saveUserData(response.data.user)
       if(!response.data.user.approved) navigate("/student_approval")
       navigate('/')
     } catch (error) {
+      console.log(error);
       toast.error(error.response.data.message, {
         position: "top-right",
         autoClose: 3000,

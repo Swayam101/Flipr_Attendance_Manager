@@ -9,7 +9,7 @@ config();
 // Controller Functions
 export const protectRoute = async (req, res, next) => {
   let token;
-
+  console.log(req.headers.cookie);
   try {
     if (req.cookies.token) {
       token = req.cookies.token;
