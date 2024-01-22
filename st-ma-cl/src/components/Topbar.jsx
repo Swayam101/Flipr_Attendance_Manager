@@ -4,6 +4,7 @@ import { FaRegBell } from "react-icons/fa";
 import { LuMessageSquare } from "react-icons/lu";
 import avtar from '../images/avtar2.jpg';
 import { Link } from 'react-router-dom';
+import axiosConfig from '../utils/axiosConfig';
 
 function Topbar() {
   const [showOptions, setShowOptions] = useState(false);
@@ -74,7 +75,21 @@ function Topbar() {
                 <p>Hatimdahi@gmail.com</p>
               </div>
               <div className="list-options">
-                <Link to={`/profile/${username}`} ><button className="profileOptionButton">View Profile</button></Link>
+
+              <Link to={`/profile/${username}`} ><button className="profileOptionButton">View Profile</button></Link>
+              <button onClick={async (e)=>{
+               try {
+                const response=await axiosConfig({
+                  url:"/auth/logout",
+                  method:"POST",
+                  withCredentials:true
+                })
+                console.log(response);
+               } catch (error) {
+                console.log(error);
+               }
+              }} className="profileOptionButton">Log Out</button>
+
               </div>
             </div>
           )}
