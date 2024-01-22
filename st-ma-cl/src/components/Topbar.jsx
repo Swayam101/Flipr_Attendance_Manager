@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../style.css';
 import { FaRegBell } from "react-icons/fa";
-import { LuMessageSquare } from "react-icons/lu";
 import avtar from '../images/avtar2.jpg';
 import { Link } from 'react-router-dom';
 import axiosConfig from '../utils/axiosConfig';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../contexts/AuthContext';
+import useAuthStore from '../contexts/AuthStore';
 
 function Topbar() {
   const [showOptions, setShowOptions] = useState(false);
+  const logOutUser=useAuthStore((state)=>state.logOutUser)
 
   const handleProfileClick = () => {
     setShowOptions(!showOptions);
@@ -50,8 +53,10 @@ function Topbar() {
                   withCredentials:true
                 })
                 console.log(response);
+                toast.success("Logged Out Succesfully!")
+                logOutUser()
                } catch (error) {
-                console.log(error);
+                toast.error("Internal Server Error")
                }
               }} className="profileOptionButton">Log Out</button>
               </div>
