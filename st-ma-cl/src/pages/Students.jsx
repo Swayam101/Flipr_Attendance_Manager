@@ -4,6 +4,10 @@ import Topbar from '../components/Topbar';
 import axiosConfig from '../utils/axiosConfig';
 
 const Students = () => {
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const userRole = isAdmin ? 'admin' : 'student';
+
   const [students, setStudents] = useState([]);
   useEffect(()=>{
     axiosConfig({
@@ -16,7 +20,6 @@ const Students = () => {
   },[])
 
   
-
   // State for search functionality
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -58,8 +61,8 @@ const Students = () => {
 
   return (
     <>
-      <Topbar />
-      <Sidebar />
+      <Topbar userRole={userRole}/>
+      <Sidebar userRole={userRole}/>
       <div className="container card student-table">
         <div className="row search-bar">
           <div className="col-md-4 offset-md-8">

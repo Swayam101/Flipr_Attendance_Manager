@@ -6,20 +6,27 @@ import Login from "./pages/Login";
 import Students from "./pages/Students";
 import Attendence from "./pages/Attendence";
 import StudenDashboard from "./pages/StudenDashboard";
-import Profile from "./pages/Profile";
-import Forget_password from "./pages/Forget_password";
+
+
 
 import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 import StudentRoute from "./components/StudentRoute.jsx";
 import AdminRoute from  './components/AdminRoute.jsx'
 import Unauthorised from "./components/Unauthorised.jsx";
 
+import Profile from './pages/Profile';
+import Forget_password  from './pages/Forget_password';
+
+import Attendence_Marking from "./pages/Attendence_Marking.jsx";
+
+
 function App() {
   return (
-    <AuthContextProvider>
+    
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
+
           <Route
             path="/"
             element={<AdminRoute component={<Dashboard />} />}
@@ -45,9 +52,10 @@ function App() {
             element={<StudentRoute component={<Forget_password />} />}
           />
           <Route path="*" element={<Unauthorised/>} />
+
         </Routes>
       </Router>
-    </AuthContextProvider>
+   
   );
 }
 export default App;

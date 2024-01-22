@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; 
 import '../style.css';
 import adminlogo from '../images/adminlogo1.png';
 
-function Sidebar() {
+function Sidebar({ userRole }) {
   const [activeItem, setActiveItem] = useState('Dashboard');
 
   const handleItemClick = (itemName) => {
@@ -22,16 +22,30 @@ function Sidebar() {
             Dashboard
           </Link>
         </li>
-        <li className={activeItem === 'Students' ? 'active' : ''}>
-          <Link to="/students" onClick={() => handleItemClick('Students')}>
-            Students
-          </Link>
-        </li>
-        <li className={activeItem === 'Attendance' ? 'active' : ''}>
-          <Link to="/attendance" onClick={() => handleItemClick('Attendance')}>
-            Attendance
-          </Link>
-        </li>
+        {userRole === 'admin' && (
+          <>
+            <li className={activeItem === 'Students' ? 'active' : ''}>
+              <Link to="/students" onClick={() => handleItemClick('Students')}>
+                Students
+              </Link>
+            </li>
+            <li className={activeItem === 'Attendance' ? 'active' : ''}>
+              <Link to="/attendance" onClick={() => handleItemClick('Attendance')}>
+                Attendance
+              </Link>
+            </li>
+          </>
+        )}
+        {userRole === 'student' && (
+          <>
+            <li className={activeItem === 'MarkAttendance' ? 'active' : ''}>
+              <Link to="/mark_attendance" onClick={() => handleItemClick('MarkAttendance')}>
+                Mark Attendance
+              </Link>
+            </li>
+            {/* Add other student-specific items here */}
+          </>
+        )}
       </ul>
     </div>
   );
