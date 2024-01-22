@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Students from "./pages/Students";
@@ -8,8 +9,6 @@ import Attendence from "./pages/Attendence";
 import StudenDashboard from "./pages/StudenDashboard";
 
 
-
-import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 import StudentRoute from "./components/StudentRoute.jsx";
 import AdminRoute from  './components/AdminRoute.jsx'
 import Unauthorised from "./components/Unauthorised.jsx";
@@ -37,15 +36,15 @@ function App() {
           />
           <Route
             path="/students"
-            element={<StudentRoute component={<Students />} />}
+            element={<AdminRoute component={<Students />} />}
           />
           <Route
             path="/attendance"
             element={<StudentRoute component={<Attendence />} />}
           />
           <Route
-            path="/profile/:username"
-            element={<StudentRoute component={<Profile />} />}
+            path="/profile"
+            element={<Profile />}
           />
           <Route
             path="/forget_password"

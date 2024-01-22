@@ -24,8 +24,7 @@ export const protectRoute = async (req, res, next) => {
       next();
     }
   } catch (error) {
-    res.status(401);
-    next(error);
+    next(error)
   }
   if (!token) next(new Error("This Feature requires Login To Continue!"));
 };
