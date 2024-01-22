@@ -5813,12 +5813,14 @@ table.grid td {
 .topbar__right {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .topbar__icon {
     margin: 2px 20px;
     cursor: pointer;
     font-size: 20px;
+    margin-top: 8px;
 }
 
 .topbar__userProfile img {
@@ -6026,3 +6028,25 @@ table.grid td {
     align-items: center;
     margin-left: 15px;
 }
+/* notification for approval */
+.notification-count{
+    font-size: 10px;
+    position: absolute;
+    top: 1px;
+    right: 65px;
+    
+}
+.notification-popup{
+    width: 300px;
+    max-height: 400px;
+}
+.pending-students{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 2%;
+    padding: 2px 5px;
+    padding-left: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
