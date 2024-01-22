@@ -66,6 +66,7 @@ const Login = () => {
         data: userData,
       });
       toast.success(response.data.message);
+      navigate("/student_approval")
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error, {
