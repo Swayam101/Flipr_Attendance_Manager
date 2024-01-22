@@ -10,5 +10,8 @@
     "is": "cd ./st-ma-sv && npm i"
   },
   "author": "Swayam",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "victory": "^36.8.2"
+  }
 }

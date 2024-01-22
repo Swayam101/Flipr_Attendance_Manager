@@ -3,6 +3,9 @@ import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 
 const Students = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const userRole = isAdmin ? 'admin' : 'student';
+
   // Sample data for students
   const [students, setStudents] = useState([
       { id: 1, name: 'John Doe', age: 20, grade: 'A' },
@@ -69,8 +72,8 @@ const Students = () => {
 
   return (
     <>
-      <Topbar />
-      <Sidebar />
+      <Topbar userRole={userRole}/>
+      <Sidebar userRole={userRole}/>
       <div className="container card student-table">
         <div className="row search-bar">
           <div className="col-md-4 offset-md-8">
