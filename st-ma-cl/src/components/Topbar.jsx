@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import '../style.css';
-import { FaRegBell } from "react-icons/fa";
+import { FaRegBell,FaTimes  } from "react-icons/fa";
 import { LuMessageSquare } from "react-icons/lu";
 import avtar from '../images/avtar2.jpg';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
 import axiosConfig from '../utils/axiosConfig';
 
-function Topbar() {
+
+Modal.setAppElement('#root'); 
+
+function Topbar({ userRole }) {
   const [showOptions, setShowOptions] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [pendingStudents, setPendingStudents] = useState([
@@ -27,13 +31,13 @@ function Topbar() {
   const handleBellIconClick = () => {
     if (showOptions) setShowOptions(false);
     setShowNotifications(!showNotifications);
-    setNotificationCount(0);
     setShowOptions(false);
   };
 
   const handleStudentClick = (student) => {
     setSelectedStudent(student);
     setShowModal(true);
+    setShowNotifications(false);
   };
 
   const handleCloseModal = () => {
@@ -47,13 +51,14 @@ function Topbar() {
     <div className="topbar">
       <div></div>
       <div className="topbar__right">
+      {userRole === 'admin' && (
         <div className="topbar__icon" onClick={handleBellIconClick}>
           <FaRegBell />
           {pendingStudents.length > 0 && (
             <div className="notification-count">{pendingStudents.length}</div>
           )}
         </div>
-
+      )}
         <div className="topbar__userProfile">
           <img
             src={avtar}
@@ -107,21 +112,39 @@ function Topbar() {
           )}
 
           {selectedStudent && (
-            <Modal show={showModal} onHide={handleCloseModal} centered>
-              <Modal.Header closeButton>
-                <Modal.Title>{selectedStudent.name}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>Details: {selectedStudent.id}</p>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
-                  Close
-                </Button>
-                <Button variant="primary" onClick="">
-                  Approve
-                </Button>
-              </Modal.Footer>
+            <Modal
+              isOpen={showModal}
+              onRequestClose={handleCloseModal}
+              style={{
+                content: {
+                  top: '50%',
+                  left: '50%',
+                  right: 'auto',
+                  bottom: 'auto',
+                  marginRight: '-50%',
+                  transform: 'translate(-50%, -50%)',
+                  backgroundColor:' rgba(78, 89, 92)',
+                  boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                  border:'none',
+                  width:'350px',
+                  display:'flex',
+                  flexDirection:'column',
+                  justifyContent:'center',
+                  textAlign:'center',
+                  marginLeft:'70px'
+                },
+                overlay: {
+                  background: 'rgba(98, 96, 96, 0.5)',
+                },
+              }}
+            >
+               <span className="close-button" onClick={handleCloseModal} style={{position:'absolute', top:'4px', right:'5px', cursor:'pointer'}}>
+                <FaTimes />
+              </span>
+              <h6 style={{marginTop:'5px'}}> <span style={{fontWeight:'bold', fontSize:'18px'}}>{selectedStudent.name}</span> has requested approval to join Class. Do you want to approve their admission?</h6>
+              <div>
+                <button onClick="" className="profileOptionButton" style={{marginTop:'15px',marginBottom:'5px'}}>Approve</button>
+              </div>
             </Modal>
           )}
         </div>

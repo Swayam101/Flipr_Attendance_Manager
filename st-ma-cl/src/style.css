@@ -5845,8 +5845,8 @@ table.grid td {
 }
 
 .row_wrapper {
-    width: 100%;
-    height: auto;
+    width: 75%;
+    height: 20vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -6034,10 +6034,10 @@ table.grid td {
     position: absolute;
     top: 1px;
     right: 65px;
-    
+
 }
 .notification-popup{
-    width: 300px;
+    width: 270px;
     max-height: 400px;
 }
 .pending-students{
@@ -6047,6 +6047,10 @@ table.grid td {
     margin-bottom: 2%;
     padding: 2px 5px;
     padding-left: 15px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
 }
 
+/* qrcode generation */
+.qrcode{
+    height: auto;
+}
