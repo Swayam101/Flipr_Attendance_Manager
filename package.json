@@ -12,6 +12,5 @@
   "author": "Swayam",
   "license": "ISC",
   "dependencies": {
-    "victory": "^36.8.2"
   }
 }

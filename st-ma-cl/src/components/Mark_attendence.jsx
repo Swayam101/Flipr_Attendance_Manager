@@ -1,6 +1,6 @@
 // MarkAttendance.jsx
 import React, { useState } from 'react';
-import QRCode from 'qrcode.react';
+import {QRCodeSVG} from 'qrcode.react';
 
 const MarkAttendance = ({ attendanceData }) => {
   const [isGenerated, setIsGenerated] = useState(false);
@@ -24,7 +24,7 @@ const MarkAttendance = ({ attendanceData }) => {
         <>
         <h4 style={{marginBottom:'15px'}}>Mark Today's Attendence</h4>
         <div>
-          <QRCode value={attendanceData} />
+          <QRCodeSVG value={attendanceData} />
         </div>
         <p>Scan the QR code to mark your attendence</p>
         </>

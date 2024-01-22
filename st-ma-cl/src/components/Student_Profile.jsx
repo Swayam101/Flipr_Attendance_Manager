@@ -2,16 +2,16 @@ import React, { useContext, useState } from 'react';
 import avtar from '../images/avtar2.jpg';
 import { FaEdit } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
-import { AuthContext } from '../contexts/AuthContext';
+import useAuthStore from '../contexts/AuthStore';
+
 
 
 function Student_Profile() {
-    const {getUserData}=useContext(AuthContext)
-    const userData=getUserData()
+   const userData=useAuthStore((state)=>state.userData)
+    
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
-        firstName: userData.name.split(" ")[0],
-        lastName: userData.name.split(" ")[1],
+        name:userData.name,
         dateOfBirth: 'DD/MM/YYY',
         gender: 'Male',
         address: 'Devi sing garden road, 451551 ',
@@ -45,7 +45,7 @@ function Student_Profile() {
                     <img src={avtar} alt="user profile" />
                 </div>
                 <span className='pencil-icon' onClick={handleEdit}><FaEdit /></span>
-                <h4 className='username-st-pro'>{formData.firstName +" "+formData.lastName}</h4>
+                <h4 className='username-st-pro'>{formData.name}</h4>
                 <p>{formData.email}</p>
             </div>
 
@@ -57,48 +57,19 @@ function Student_Profile() {
                 <div className="personal-info">
                     <form onSubmit={handleSubmit}>
                         <div className="info-field">
+                           
                             <h5>
-                                First Name:
-                            </h5>
-                            <input
-                                type="text"
-                                name="firstName"
-                                value={formData.firstName}
-                                style={{cursor: 'not-allowed'}}
-                                disabled={true}
-                            />
-                            <h5>
-                                Last Name:
+                                Full Name:
                             </h5>
                             <input
                                 type="text"
                                 name="lastName"
-                                value={formData.lastName}
+                                value={formData.name}
                                 style={{cursor: 'not-allowed'}}
                                 disabled={true}
                             />
                         </div>
-                        <div className="info-field">
-                            <h5>
-                                Date of Birth:
-                            </h5>
-                            <input
-                                type="date"
-                                name="dateOfBirth"
-                                value={formData.dateOfBirth}
-                                onChange={handleInputChange}
-                                disabled={!editMode}
-                            />
-                            <h5>
-                                Gender:
-                            </h5>
-                            <input
-                                type="text"
-                                name="gender"
-                                value={formData.gender}
-                              
-                            />
-                        </div>
+                        
                         <div className="info-field">
                             <h5>
                                 Phone:
@@ -123,19 +94,7 @@ function Student_Profile() {
                             />
                         </div>
                         
-                        <div className="info-field">
-                            <h5>
-                                Address:
-                            </h5>
-                            <input
-                                className='address-input'
-                                type="text"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleInputChange}
-                                disabled={!editMode}
-                            />
-                        </div>
+                       
                         <div className="pro-info-sub">
                         {editMode && <button type="submit">Save</button>}
                         </div>
