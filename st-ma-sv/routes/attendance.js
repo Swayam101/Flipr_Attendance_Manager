@@ -3,9 +3,8 @@ import { protectRoute } from "../middlewares/routeProtect.js";
 
 const router=Router()
 
-router.get('/',protectRoute,async (req,res,next)=>{
-    res.json({message:`Get Attendance Route Accessed!`})
-})
+
+router.get('/',)
 
 router.post('/:sessionId',()=>{})
 

@@ -1,36 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
+import axiosConfig from '../utils/axiosConfig';
 
 const Students = () => {
+
   const [isAdmin, setIsAdmin] = useState(false);
   const userRole = isAdmin ? 'admin' : 'student';
 
-  // Sample data for students
-  const [students, setStudents] = useState([
-      { id: 1, name: 'John Doe', age: 20, grade: 'A' },
-      { id: 2, name: 'Jane Doe', age: 22, grade: 'B' },
-      { id: 3, name: 'Bob Smith', age: 21, grade: 'C' },
-      { id: 4, name: 'Alice Johnson', age: 23, grade: 'A' },
-      { id: 5, name: 'Charlie Brown', age: 19, grade: 'B' },
-      { id: 6, name: 'David Williams', age: 24, grade: 'C' },
-      { id: 7, name: 'Eva Martinez', age: 22, grade: 'B' },
-      { id: 8, name: 'Frank Miller', age: 20, grade: 'A' },
-      { id: 9, name: 'Grace Davis', age: 21, grade: 'B' },
-      { id: 10, name: 'Henry Johnson', age: 23, grade: 'A' },
-      { id: 11, name: 'Isaac Newton', age: 25, grade: 'A' },
-      { id: 12, name: 'Marie Curie', age: 26, grade: 'B' },
-      { id: 13, name: 'Albert Einstein', age: 27, grade: 'A' },
-      { id: 14, name: 'Ada Lovelace', age: 24, grade: 'C' },
-      { id: 15, name: 'Nikola Tesla', age: 28, grade: 'B' },
-      { id: 16, name: 'Rosalind Franklin', age: 25, grade: 'A' },
-      { id: 17, name: 'Stephen Hawking', age: 30, grade: 'C' },
-      { id: 18, name: 'Grace Hopper', age: 29, grade: 'B' },
-      { id: 19, name: 'Alan Turing', age: 28, grade: 'A' },
-      { id: 20, name: 'Katherine Johnson', age: 26, grade: 'A' }    
-    // Add more students as needed
-  ]);
+  const [students, setStudents] = useState([]);
+  useEffect(()=>{
+    axiosConfig({
+      url:"/student",
+      method:"GET",
+      withCredentials:true,
+    }).then((response)=>{
+      setStudents(response.data.students)
+    })
+  },[])
 
+  
   // State for search functionality
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -94,7 +83,7 @@ const Students = () => {
             <table className="table table-striped table-bordered table-hover">
               <thead className='table-head'>
                 <tr>
-                  <th>ID</th>
+                  <th>Roll No.</th>
                   <th>Name</th>
                   <th>Age</th>
                   <th>Grade</th>
@@ -102,8 +91,8 @@ const Students = () => {
               </thead>
               <tbody>
                 {currentStudents.map((student) => (
-                  <tr key={student.id}>
-                    <td>{student.id}</td>
+                  <tr key={student._id}>
+                    <td>{student.roll}</td>
                     <td>{student.name}</td>
                     <td>{student.age}</td>
                     <td>{student.grade}</td>
