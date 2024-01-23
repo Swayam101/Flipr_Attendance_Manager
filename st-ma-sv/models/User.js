@@ -35,7 +35,7 @@ const studentSchema = new Schema(
     },
     DOB: {
       type: Date,
-      default:" "
+      default:(()=>Date.now())()
     },
     country: {
       type: String,
