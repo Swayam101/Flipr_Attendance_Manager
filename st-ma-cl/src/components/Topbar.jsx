@@ -125,7 +125,7 @@ function Topbar({ userRole }) {
                   <p>{student.name} is pending approval</p>
                 </div>
               ))}
-              {pendingStudents.length === 0 && <p>No pending students</p>}
+              {pendingStudents.length === 0 && <p>No notification to show</p>}
             </div>
           )}
 

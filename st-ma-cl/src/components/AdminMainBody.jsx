@@ -1,6 +1,6 @@
 import React from 'react';
 import { PiStudentFill } from 'react-icons/pi';
-import { VictoryPie} from 'victory';
+import { VictoryPie } from 'victory';
 
 
 function AdminMainBody({ userRole }) {
@@ -13,7 +13,7 @@ function AdminMainBody({ userRole }) {
         { x: 'PresentDays', y: 25 },
         { x: 'AbsentDays', y: 5 },
     ];
-    
+
     return (
         <div className="main_body_wrapper">
             {userRole === 'admin' && (
@@ -48,7 +48,7 @@ function AdminMainBody({ userRole }) {
                         </div>
                     </div>
                     <div className="row_wrapper">
-                        <div className="card matric_div">
+                        <div className="card matric_div piechart-container">
                             <VictoryPie
                                 data={AdminData}
                                 colorScale={['#005d99', '#dcb207']}
@@ -57,19 +57,13 @@ function AdminMainBody({ userRole }) {
                                     data: { stroke: 'white', strokeWidth: 1 },
                                 }}
                                 labelRadius={190}
+                                labels={({ datum }) => [
+                                    datum.x,
+                                    `${Math.round((datum.y / 100) * 100)}%`
+                                ]}
                             />
                         </div>
-                        <div className="card matric_div">
-                            <VictoryPie
-                                data={AdminData}
-                                colorScale={['#c9005b', '#0295b3']}
-                                style={{
-                                    labels: { fontSize: 20, fill: 'white' },
-                                    data: { stroke: 'white', strokeWidth: 1 },
-                                }}
-                                labelRadius={190} 
-                            />
-                        </div>
+
                     </div>
                 </>
             )}
@@ -107,7 +101,7 @@ function AdminMainBody({ userRole }) {
                         </div>
                     </div>
                     <div className="row_wrapper">
-                        <div className="card matric_div">
+                        <div className="card matric_div piechart-container">
                             <VictoryPie
                                 data={StudentData}
                                 colorScale={['#005d99', '#dcb207']}
@@ -115,18 +109,7 @@ function AdminMainBody({ userRole }) {
                                     labels: { fontSize: 20, fill: 'white' },
                                     data: { stroke: 'white', strokeWidth: 1 },
                                 }}
-                                labelRadius={190} 
-                            />
-                        </div>
-                        <div className="card matric_div">
-                            <VictoryPie
-                                data={StudentData}
-                                colorScale={['#005d99', '#dcb207']}
-                                style={{
-                                    labels: { fontSize: 20, fill: 'white' },
-                                    data: { stroke: 'white', strokeWidth: 1 },
-                                }}
-                                labelRadius={190} 
+                                labelRadius={190}
                             />
                         </div>
                     </div>
