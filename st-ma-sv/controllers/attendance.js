@@ -16,6 +16,9 @@ res.json({message:"Attendance Added Successfully!"})
 })
 
 export const getAttendanceQr=asyncWrapper(async(req,res,next)=>{
-    
-    const hash=await signAccessToken()
+    const {_id}=req.user
+    const date=new Date()
+    const checkSum=`${_id}/delimiter${date.toString()}`
+    const hash=await signAccessToken(checkSum)
+    res.json({hash})
 })

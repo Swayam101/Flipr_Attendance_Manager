@@ -9,7 +9,7 @@ const errorHandlerMiddleware = async (err, req, res, next) => {
     const message = `${collection} with this ${key} Already Exists`;
     return res.status(409).json({ error: message });
   }
- if(err.message=='jwt expired') return res.status(401).json({message:"Your Session Has Expired!",error:err.message})
+ if(err.message=='jwt expired') return res.status(401).json({message:"Your Token Has Expired!",error:err.message})
 
   res.status(500).json({ message: err.message, error: err });
 };
