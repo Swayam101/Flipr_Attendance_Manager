@@ -435,7 +435,9 @@ small {
 }
 
 body.bg-theme70 {
-    background: url('./images/1.png') no-repeat center center fixed;
+    background: url('./images/glass4.jpg') no-repeat center center fixed;
+    background: url('./images/glass5.jpg') no-repeat center center fixed;
+    /* background: url('./images/1.png') no-repeat center center fixed; */
     background-size: cover;
     -webkit-background-size: cover;
     /* Safari support */
@@ -6056,4 +6058,8 @@ table.grid td {
 }
 .piechart-container{
     width: auto;
+}
+.linechart-container{
+    max-width: 750px;
+    width: 550px;
 }

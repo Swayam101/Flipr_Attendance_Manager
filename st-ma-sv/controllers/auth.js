@@ -29,7 +29,7 @@ export const registerUser = asyncWrapper(async (req, res, next) => {
     roll:latestRoll
   });
 
-  res.json({ message: "Sign Up Scuccessful!", latestRoll,latestUser });
+  res.json({ message: "Sign Up Scuccessful!", latestRoll, user });
 });
 
 export const loginUser = asyncWrapper(async (req, res, next) => {
