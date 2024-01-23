@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import Mark_attendence from '../components/Mark_attendence';
+import useAuthStore from '../contexts/AuthStore';
 
 
 function Attendence_Marking() {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const isAdmin = useAuthStore((state)=>state.isAdmin)
     const userRole = isAdmin ? 'admin' : 'student';
-    const attendanceDataFromBackend = "studenthashstringfrombackend";
+    const attendanceDataFromBackend ="studenthashstringfrombackend";
     return (
         <>
       <Topbar userRole={userRole} />

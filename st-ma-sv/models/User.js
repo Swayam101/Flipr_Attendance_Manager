@@ -28,6 +28,10 @@ const studentSchema = new Schema(
     roll:{
       type:String,
       required:true
+    },
+    attendanceMarked:{
+      type:Boolean,
+      default:false,
     }
   },
   { versionKey: false, timestamps: true }

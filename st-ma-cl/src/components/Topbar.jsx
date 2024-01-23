@@ -188,6 +188,9 @@ function Topbar({ userRole }) {
                       const newPendingStudents=pendingStudents.filter(obj=>obj._id!==selectedStudent._id)
                       setPendingStudents(newPendingStudents)
                       setShowModal(false)
+                      toast.success("Student Approved Successfully!",{
+                        
+                      })
                     } catch (error) {
                       console.log("Approval erro");
                     }
