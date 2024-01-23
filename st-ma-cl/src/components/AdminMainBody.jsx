@@ -13,7 +13,7 @@ function AdminMainBody({ userRole }) {
         { x: 'PresentDays', y: 25 },
         { x: 'AbsentDays', y: 5 },
     ];
-
+    
     return (
         <div className="main_body_wrapper">
             {userRole === 'admin' && (

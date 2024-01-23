@@ -6,7 +6,9 @@ import useAuthStore from '../contexts/AuthStore';
 
 
 function Attendence_Marking() {
+
     const isAdmin = useAuthStore((state)=>state.isAdmin)
+
     const userRole = isAdmin ? 'admin' : 'student';
     const attendanceDataFromBackend ="studenthashstringfrombackend";
     return (

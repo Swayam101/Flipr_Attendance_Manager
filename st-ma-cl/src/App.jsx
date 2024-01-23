@@ -18,39 +18,39 @@ import Forget_password from "./pages/Forget_password";
 import Attendence_Marking from "./pages/Attendence_Marking.jsx";
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
+  return (   
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/"
-          element={<ProtectedRoute component={<Dashboard />} />}
-        />
-        <Route
-          path="/mark_attendance"
-          element={<ProtectedRoute component={<Attendence_Marking />} />}
-        />
-        <Route
-          path="/student_approval"
-          element={<ProtectedRoute component={<StudenDashboard />} />}
-        />
-        <Route
-          path="/students"
-          element={<ProtectedRoute component={<Students />} />}
-        />
-        <Route
-          path="/attendance"
-          element={<ProtectedRoute component={<Attendence />} />}
-        />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/forget_password"
-          element={<ProtectedRoute component={<Forget_password />} />}
-        />
-        <Route path="*" element={<Unauthorised />} />
-      </Routes>
-    </Router>
+          <Route
+            path="/"
+            element={<AdminRoute component={<Dashboard />} />}
+          />
+          <Route
+            path="/student_approval"
+            element={<StudentRoute component={<StudenDashboard />} />}
+          />
+          <Route
+            path="/students"
+            element={<AdminRoute component={<Students />} />}
+          />
+          <Route
+            path="/attendance"
+            element={<AdminRoute component={<Attendence />} />}
+          />
+          <Route
+            path="/profile"
+            element={<Profile />}
+          />
+          <Route
+            path="/forget_password"
+            element={<StudentRoute component={<Forget_password />} />}
+          />
+          <Route path="*" element={<Unauthorised/>} />
+
+        </Routes>
+      </Router>
   );
 }
 export default App;

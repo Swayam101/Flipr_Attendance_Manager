@@ -2,9 +2,10 @@ import React ,{useState} from 'react'
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
 import Student_attendence from '../components/Student_attendence'
+import useAuthStore from '../contexts/AuthStore';
 
 function Attendence() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const isAdmin= useAuthStore((store)=>store.isAdmin);
   const userRole = isAdmin ? 'admin' : 'student';
   return (
     <>
