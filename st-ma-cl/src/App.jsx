@@ -23,30 +23,39 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/"
-          element={<ProtectedRoute component={<Dashboard />} />}
-        />
-        <Route
-          path="/student_approval"
-          element={<ProtectedRoute component={<StudenDashboard />} />}
-        />
-        <Route
-          path="/students"
-          element={<ProtectedRoute component={<Students />} />}
-        />
-        <Route
-          path="/attendance"
-          element={<ProtectedRoute component={<Attendence />} />}
-        />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/forget_password"
-          element={<ProtectedRoute component={<Forget_password />} />}
-        />
-        <Route path="*" element={<Unauthorised />} />
-      </Routes>
-    </Router>
+          <Route
+            path="/"
+            element={<ProtectedRoute component={<Dashboard />} />}
+          />
+          <Route
+            path="/student_approval"
+            element={<ProtectedRoute component={<StudenDashboard />} />}
+          />
+          <Route
+            path="/students"
+            element={<ProtectedRoute component={<Students />} />}
+          />
+          <Route
+            path="/attendance"
+            element={<ProtectedRoute component={<Attendence />} />}
+          />
+          <Route
+            path="/mark_attendance"
+            element={<ProtectedRoute component={<Attendence_Marking />} />}
+          />
+          
+          <Route
+            path="/profile"
+            element={<Profile />}
+          />
+          <Route
+            path="/forget_password"
+            element={<ProtectedRoute component={<Forget_password />} />}
+          />
+          <Route path="*" element={<Unauthorised/>} />
+
+        </Routes>
+      </Router>
   );
 }
 export default App;

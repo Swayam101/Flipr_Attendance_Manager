@@ -5837,7 +5837,7 @@ table.grid td {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-left: 5rem;
+    margin-left: 7rem;
     margin-top: -18rem;
     width: 100%;
     padding: 10px;
@@ -5845,7 +5845,7 @@ table.grid td {
 }
 
 .row_wrapper {
-    width: 75%;
+    width: 80%;
     height: 20vh;
     display: flex;
     flex-direction: row;
@@ -5855,7 +5855,7 @@ table.grid td {
 .matric_div {
     margin: 10px 20px;
     padding: 15px;
-    width: 300px;
+    width: 350px;
     max-width: 350px;
     display: flex;
     flex-direction: row;
@@ -6053,4 +6053,7 @@ table.grid td {
 /* qrcode generation */
 .qrcode{
     height: auto;
+}
+.piechart-container{
+    width: auto;
 }

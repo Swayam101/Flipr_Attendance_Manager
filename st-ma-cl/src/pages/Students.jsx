@@ -86,8 +86,9 @@ const Students = () => {
                 <tr>
                   <th>Roll No.</th>
                   <th>Name</th>
-                  <th>Age</th>
-                  <th>Grade</th>
+                  <th>Phone</th>
+                  <th>BOD</th>
+                  <th>Address</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,7 +97,8 @@ const Students = () => {
                     <td>{student.roll}</td>
                     <td>{student.name}</td>
                     <td>{student.age}</td>
-                    <td>{student.grade}</td>
+                    <td>{student.phone}</td>
+                    <td>{student.address}</td>
                   </tr>
                 ))}
               </tbody>
