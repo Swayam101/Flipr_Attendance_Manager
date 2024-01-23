@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import {QRCodeSVG} from 'qrcode.react';
 
+
 const MarkAttendance = ({ attendanceData }) => {
   const [isGenerated, setIsGenerated] = useState(false);
 
