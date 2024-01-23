@@ -25,27 +25,32 @@ function App() {
 
           <Route
             path="/"
-            element={<AdminRoute component={<Dashboard />} />}
+            element={<ProtectedRoute component={<Dashboard />} />}
           />
           <Route
             path="/student_approval"
-            element={<StudentRoute component={<StudenDashboard />} />}
+            element={<ProtectedRoute component={<StudenDashboard />} />}
           />
           <Route
             path="/students"
-            element={<AdminRoute component={<Students />} />}
+            element={<ProtectedRoute component={<Students />} />}
           />
           <Route
             path="/attendance"
-            element={<AdminRoute component={<Attendence />} />}
+            element={<ProtectedRoute component={<Attendence />} />}
           />
+          <Route
+            path="/mark_attendance"
+            element={<ProtectedRoute component={<Attendence_Marking />} />}
+          />
+          
           <Route
             path="/profile"
             element={<Profile />}
           />
           <Route
             path="/forget_password"
-            element={<StudentRoute component={<Forget_password />} />}
+            element={<ProtectedRoute component={<Forget_password />} />}
           />
           <Route path="*" element={<Unauthorised/>} />
 

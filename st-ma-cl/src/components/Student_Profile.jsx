@@ -68,6 +68,17 @@ function Student_Profile() {
                                 style={{cursor: 'not-allowed'}}
                                 disabled={true}
                             />
+                            <h5>
+                                Roll-No:
+                            </h5>
+                            <input
+                                type="text"
+                                name="roll_no"
+                                value={formData.roll_no}
+                                onChange={handleInputChange}
+                                disabled={true}
+                                style={{cursor: 'not-allowed'}}
+                            />
                         </div>
                         
                         <div className="info-field">
@@ -82,19 +93,53 @@ function Student_Profile() {
                                 disabled={!editMode}
                             />
                             <h5>
-                                Roll-No:
+                                DOB:
                             </h5>
                             <input
                                 type="text"
-                                name="roll_no"
-                                value={formData.roll_no}
+                                name="age"
+                                value={formData.Age}
                                 onChange={handleInputChange}
-                                disabled={true}
-                                style={{cursor: 'not-allowed'}}
+                                disabled={!editMode}
                             />
                         </div>
                         
-                       
+                        <div className="info-field">
+                            <h5>
+                                Age:
+                            </h5>
+                            <input
+                                type="text"
+                                name="age"
+                                value={formData.age}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                            />
+                            <h5>
+                                Country:
+                            </h5>
+                            <input
+                                type="text"
+                                name="country"
+                                value={formData.Country}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                            />
+                        </div>
+
+                        <div className="info-field">
+                            <h5>
+                                Address:
+                            </h5>
+                            <input
+                                type="text"
+                                name="address"
+                                value={formData.address}
+                                onChange={handleInputChange}
+                                disabled={!editMode}
+                                style={{width:'80%'}}
+                            />
+                        </div>
                         <div className="pro-info-sub">
                         {editMode && <button type="submit">Save</button>}
                         </div>
