@@ -1,6 +1,6 @@
 import React from 'react';
 import { PiStudentFill } from 'react-icons/pi';
-import { VictoryPie } from 'victory';
+import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis } from 'victory';
 
 
 function AdminMainBody({ userRole }) {
@@ -14,6 +14,14 @@ function AdminMainBody({ userRole }) {
         { x: 'AbsentDays', y: 5 },
     ];
 
+    const AdminLineChartData = [
+        { day: 'Monday', presentStudents: 15 },
+        { day: 'Tuesday', presentStudents: 20 },
+        { day: 'Wednesday', presentStudents: 18 },
+        { day: 'Thursday', presentStudents: 25 },
+        { day: 'Friday', presentStudents: 22 },
+        // Add data for other days as needed
+    ];
     return (
         <div className="main_body_wrapper">
             {userRole === 'admin' && (
@@ -63,7 +71,33 @@ function AdminMainBody({ userRole }) {
                                 ]}
                             />
                         </div>
-
+                        <div className="card matric_div linechart-container">
+                            <VictoryChart domainPadding={20} >
+                                <VictoryLine
+                                    data={AdminLineChartData}
+                                    x="day"
+                                    y="presentStudents"
+                                    style={{
+                                        data: { stroke: 'rgb(220, 178, 7)' },
+                                    }}
+                                />
+                                <VictoryAxis
+                                    tickValues={AdminLineChartData.map(data => data.day)}
+                                    style={{
+                                        axis: { stroke: 'white' },
+                                        tickLabels: { fill: 'white' },
+                                    }}
+                                />
+                                <VictoryAxis
+                                    dependentAxis
+                                    tickFormat={(tick) => `${tick}`}
+                                    style={{
+                                        axis: { stroke: 'white' },
+                                        tickLabels: { fill: 'white' },
+                                    }}
+                                />
+                            </VictoryChart>
+                        </div>
                     </div>
                 </>
             )}

@@ -15,9 +15,7 @@ const Login = () => {
 
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
-
   const saveUserData=useAuthStore((state)=>state.setUserData)
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -68,6 +66,9 @@ const Login = () => {
         data: userData,
       });
       toast.success(response.data.message);
+      console.log(response.data.user);
+      response.data.user.isLoggedIn=true;
+      saveUserData(response.data.user);
       navigate("/student_approval")
     } catch (error) {
       console.log(error);
