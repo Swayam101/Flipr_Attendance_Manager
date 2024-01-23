@@ -85,7 +85,7 @@ function Topbar({ userRole }) {
               </div>
               <div className="list-options">
                 <Link to={`/profile`}>
-                  <button className="profileOptionButton">View Profile</button>
+                  <button className="profileOptionButton" style={{marginRight:'10px'}}>View Profile</button>
                 </Link>
                 <button
                   onClick={async (e) => {
@@ -188,6 +188,7 @@ function Topbar({ userRole }) {
                       const newPendingStudents=pendingStudents.filter(obj=>obj._id!==selectedStudent._id)
                       setPendingStudents(newPendingStudents)
                       setShowModal(false)
+                      toast.success("student Approved Successfully!")
                     } catch (error) {
                       console.log("Approval erro");
                     }

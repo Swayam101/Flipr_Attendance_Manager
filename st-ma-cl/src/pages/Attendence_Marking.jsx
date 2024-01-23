@@ -5,7 +5,7 @@ import Mark_attendence from '../components/Mark_attendence';
 
 
 function Attendence_Marking() {
-    const [isAdmin, setIsAdmin] = useState(false);
+  const isAdmin= useAuthStore((store)=>store.isAdmin);
     const userRole = isAdmin ? 'admin' : 'student';
     const attendanceDataFromBackend = "studenthashstringfrombackend";
     return (

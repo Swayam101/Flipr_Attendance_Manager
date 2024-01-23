@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import axiosConfig from '../utils/axiosConfig';
+import useAuthStore from '../contexts/AuthStore';
 
 const Students = () => {
 
-  const [isAdmin, setIsAdmin] = useState(false);
+  const isAdmin= useAuthStore((store)=>store.isAdmin);
   const userRole = isAdmin ? 'admin' : 'student';
 
   const [students, setStudents] = useState([]);

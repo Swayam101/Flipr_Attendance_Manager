@@ -40,7 +40,7 @@ function App() {
           />
           <Route
             path="/attendance"
-            element={<StudentRoute component={<Attendence />} />}
+            element={<AdminRoute component={<Attendence />} />}
           />
           <Route
             path="/profile"
