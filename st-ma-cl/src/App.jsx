@@ -18,10 +18,10 @@ import Forget_password from "./pages/Forget_password";
 import Attendence_Marking from "./pages/Attendence_Marking.jsx";
 
 function App() {
-  return (   
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
           <Route
             path="/"
@@ -46,12 +46,13 @@ function App() {
           
           <Route
             path="/profile"
-            element={<Profile />}
+            element={<ProtectedRoute component={<Profile />}/>}
           />
           <Route
             path="/forget_password"
             element={<ProtectedRoute component={<Forget_password />} />}
           />
+          
           <Route path="*" element={<Unauthorised/>} />
 
         </Routes>

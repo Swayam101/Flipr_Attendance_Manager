@@ -25,13 +25,29 @@ const studentSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    roll:{
-      type:String,
-      required:true
+    roll: {
+      type: String,
+      required: true,
     },
-    attendanceMarked:{
-      type:Boolean,
-      default:false,
+    attendanceMarked: {
+      type: Boolean,
+      default: false,
+    },
+    DOB: {
+      type: Date,
+      default:" "
+    },
+    country: {
+      type: String,
+      default:" "
+    },
+    address: {
+      type: String,
+      default:" "
+    },
+    phone:{
+      type:String,
+      default:" "
     }
   },
   { versionKey: false, timestamps: true }

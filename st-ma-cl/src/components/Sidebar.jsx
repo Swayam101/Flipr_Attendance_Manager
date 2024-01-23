@@ -6,7 +6,6 @@ import useAuthStore from '../contexts/AuthStore';
 
 function Sidebar({ userRole }) {
   const [activeItem, setActiveItem] = useState('Dashboard');
-
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
   };

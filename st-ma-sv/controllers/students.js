@@ -30,3 +30,15 @@ export const approveStudent=asyncWrapper(async (req, res, next) => {
   res.json({student})
 });
 
+
+export const updateUserProfile=asyncWrapper(async (req, res, next) => {
+  const {_id}=req.user
+  const {phone,dateOfBirth,country,address}=req.body
+
+  const updatedUser=await User.findOneAndUpdate({_id},{phone,DOB:dateOfBirth,country,address})
+
+  res.json({updatedUser})
+
+});
+
+
