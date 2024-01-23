@@ -8,20 +8,17 @@ import Students from "./pages/Students";
 import Attendence from "./pages/Attendence";
 import StudenDashboard from "./pages/StudenDashboard";
 
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
-import StudentRoute from "./components/StudentRoute.jsx";
-import AdminRoute from  './components/AdminRoute.jsx'
 import Unauthorised from "./components/Unauthorised.jsx";
 
-import Profile from './pages/Profile';
-import Forget_password  from './pages/Forget_password';
+import Profile from "./pages/Profile";
+import Forget_password from "./pages/Forget_password";
 
 import Attendence_Marking from "./pages/Attendence_Marking.jsx";
 
-
 function App() {
-  return (
-    
+  return (   
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -54,7 +51,6 @@ function App() {
 
         </Routes>
       </Router>
-   
   );
 }
 export default App;

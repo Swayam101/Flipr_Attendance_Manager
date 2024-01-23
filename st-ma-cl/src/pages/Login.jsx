@@ -37,7 +37,7 @@ const Login = () => {
       saveUserData(response.data.user)
       if(response.data.user.isAdmin) return navigate("/")
       if(!response.data.user.approved) return navigate("/student_approval")
-      navigate('/students')
+      navigate('/')
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
