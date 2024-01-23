@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import useAuthStore from "../contexts/AuthStore.js";
+import useAttendanceStore from "../contexts/StudentAttendanceStore.js";
 
 const Login = () => {
 
@@ -16,6 +17,7 @@ const Login = () => {
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
   const saveUserData=useAuthStore((state)=>state.setUserData)
+  const saveAttendanceData=useAttendanceStore((state)=>state.fetchAttendanceData)
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,6 +35,7 @@ const Login = () => {
       toast.success(response.data.message);
       response.data.user.isLoggedIn=true
       saveUserData(response.data.user)
+      saveAttendanceData()
       if(response.data.user.isAdmin) return navigate("/")
       if(!response.data.user.approved) return navigate("/student_approval")
       navigate('/')

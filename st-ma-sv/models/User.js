@@ -29,13 +29,8 @@ const studentSchema = new Schema(
       type: String,
       required: true,
     },
-    attendanceMarked: {
-      type: Boolean,
-      default: false,
-    },
     DOB: {
       type: Date,
-      default:(()=>Date.now())()
     },
     country: {
       type: String,

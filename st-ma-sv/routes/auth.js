@@ -11,7 +11,7 @@ import { protectRoute } from "../middlewares/routeProtect.js";
 
 // Initialising Router
 const router = Router();
-// admin pass: qwer5^
+
 router.post(
   "/",
   [

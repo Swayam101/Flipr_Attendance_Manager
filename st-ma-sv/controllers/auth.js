@@ -29,7 +29,7 @@ export const registerUser = asyncWrapper(async (req, res, next) => {
     roll:latestRoll
   });
 
-  res.json({ message: "Sign Up Scuccessful!", latestRoll, user });
+  res.json({ message: "Sign Up Scuccessful!", user });
 });
 
 export const loginUser = asyncWrapper(async (req, res, next) => {
@@ -76,7 +76,6 @@ export const checkMailHash = asyncWrapper(async (req, res, next) => {
   const user=await User.findOne({email})
 
   const otp = await OTP.findOne({ user:user._id }, {}, { sort: { createdAt: -1 } });
-
   if (!otp) return res.status(419).json({ message: "Invalid OTP" });
   if (otp.expiresAt < Date.now() || !(otp.code == userOtp))
     return res.status(419).json({ message: "Invalid OTP" });

@@ -1,17 +1,36 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { PiStudentFill } from 'react-icons/pi';
 import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis } from 'victory';
+import axiosConfig from '../utils/axiosConfig';
+import useAuthStore from '../contexts/AuthStore';
 
 
 function AdminMainBody({ userRole }) {
+
+    const [stats,setStats]=useState({totalDays:0,presentDays:0,absentDays:0})
+    const userData=useAuthStore((state)=>state.userData)
+
+    useEffect(()=>{
+        axiosConfig({
+            url:`/attendance/stats/${userData._id}`,
+            method:"GET",
+            withCredentials:true
+        }).then((response)=>{
+            setStats(response.data)
+        }).catch(error=>{
+            console.log(error);
+        })
+    },[])
+
 
     const AdminData = [
         { x: 'Present', y: 80 },
         { x: 'Absent', y: 20 },
     ];
     const StudentData = [
-        { x: 'PresentDays', y: 25 },
-        { x: 'AbsentDays', y: 5 },
+        { x: 'PresentDays', y: stats.presentDays },
+        { x: 'AbsentDays', y: stats.absentDays },
     ];
 
     const AdminLineChartData = [
@@ -109,7 +128,7 @@ function AdminMainBody({ userRole }) {
                         <div className="card matric_div">
                             <div>
                                 <p>Total attendence</p>
-                                <span>30</span>
+                                <span>{stats.totalDays}</span>
                             </div>
                             <div className='card-icons'>
                                 <PiStudentFill />
@@ -118,7 +137,7 @@ function AdminMainBody({ userRole }) {
                         <div className="card matric_div">
                             <div>
                                 <p>Present Days</p>
-                                <span>25</span>
+                                <span>{stats.presentDays}</span>
                             </div>
                             <div className='card-icons'>
                                 <PiStudentFill />
@@ -127,7 +146,7 @@ function AdminMainBody({ userRole }) {
                         <div className="card matric_div">
                             <div>
                                 <p>Absent Days</p>
-                                <span>5</span>
+                                <span>{stats.absentDays}</span>
                             </div>
                             <div className='card-icons'>
                                 <PiStudentFill />
