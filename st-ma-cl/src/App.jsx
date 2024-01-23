@@ -46,12 +46,13 @@ function App() {
           
           <Route
             path="/profile"
-            element={<Profile />}
+            element={<ProtectedRoute component={<Profile />}/>}
           />
           <Route
             path="/forget_password"
             element={<ProtectedRoute component={<Forget_password />} />}
           />
+          
           <Route path="*" element={<Unauthorised/>} />
 
         </Routes>
