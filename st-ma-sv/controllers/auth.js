@@ -29,7 +29,12 @@ export const registerUser = asyncWrapper(async (req, res, next) => {
     roll:latestRoll
   });
 
-  res.json({ message: "Sign Up Scuccessful!", user });
+  const accessToken = await signAccessToken(user._id);
+  user.password = undefined;
+
+  
+
+  res.cookie("token", accessToken, { httpOnly: true,sameSite:"none",secure:true }).json({ message: "Sign Up Scuccessful!", user });
 });
 
 export const loginUser = asyncWrapper(async (req, res, next) => {

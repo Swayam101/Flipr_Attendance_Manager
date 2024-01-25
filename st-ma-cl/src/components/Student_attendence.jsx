@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import axiosConfig from '../utils/axiosConfig';
 
 const Student_attendence = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const [attendanceRecords, setAttendanceRecords] = useState([
-        { id: 26, studentName: 'Ava Johnson', date: '2024-01-22', status: 'Absent', age: 24, grade: 'C' },
-        { id: 27, studentName: 'Noah Martinez', date: '2024-01-22', status: 'Present', age: 21, grade: 'B' },
-        { id: 28, studentName: 'Sophia Miller', date: '2024-01-22', status: 'Absent', age: 19, grade: 'A' },
-        { id: 29, studentName: 'Ethan Davis', date: '2024-01-22', status: 'Present', age: 20, grade: 'B' },
-        { id: 30, studentName: 'Avery Taylor', date: '2024-01-22', status: 'Absent', age: 23, grade: 'A' },
-        // Add more attendance records as needed
-    ]);
-
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+    
+const [selectedDate,setSelectedDate]=useState()
+    const [attendanceRecords, setAttendanceRecords] = useState([{name:""}]);
 
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -25,10 +14,7 @@ const Student_attendence = () => {
     const recordsPerPage = 8; // Adjust as needed
 
     // Filter records based on search term and selected date
-    const filteredRecords = attendanceRecords.filter((record) =>
-        record.studentName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (selectedDate ? record.date === selectedDate : true)
-    );
+    const filteredRecords = attendanceRecords.filter((record) =>record.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     // Pagination logic
     const totalPageCount = Math.ceil(filteredRecords.length / recordsPerPage);
@@ -55,7 +41,15 @@ const Student_attendence = () => {
         setCurrentPage(pageNumber);
     };
     useEffect(() => {
-
+        axiosConfig({
+            url:`/attendance/admin-stats/${selectedDate}`,
+            method:"GET",
+            withCredentials:true
+        }).then((response)=>{
+            setAttendanceRecords(response.data.students)
+            console.log(response.data);
+        })
+        
     }, [selectedDate])
     return (
         selectedDate ? (
@@ -78,7 +72,10 @@ const Student_attendence = () => {
                             <input
                                 type="date"
                                 className="form-control search-input"
-                                onChange={(e) => handleDateChange(e.target.value)}
+                                onChange={async (e) =>{
+                                    setSelectedDate(e.target.value)
+                                   
+                                }}
                             />
 
                         </div>
@@ -98,9 +95,9 @@ const Student_attendence = () => {
                             </thead>
                             <tbody>
                                 {currentRecords.map((record) => (
-                                    <tr key={record.id}>
-                                        <td>{record.id}</td>
-                                        <td>{record.studentName}</td>
+                                    <tr key={record._id}>
+                                        <td>{record.roll}</td>
+                                        <td>{record.name}</td>
                                         <td>{record.date}</td>
                                         <td>{record.status}</td>
                                     </tr>
@@ -140,7 +137,10 @@ const Student_attendence = () => {
                     {/* You can replace this with your date selection component (e.g., calendar) */}
                     <input
                         type="date"
-                        onChange={(e) => handleDateChange(e.target.value)}
+                        onChange={(e) =>{
+                            setSelectedDate(e.target.value);
+
+                        }}
                         className="form-control search-input"
                     />
                 </div>

@@ -1,7 +1,6 @@
 // MarkAttendance.jsx
 import React, { useEffect, useState } from 'react';
-import {QRCodeSVG} from 'qrcode.react';
-import axios from 'axios';
+// import 
 import axiosConfig from '../utils/axiosConfig';
 import { toast } from 'react-toastify';
 
@@ -17,11 +16,16 @@ const MarkAttendance = () => {
       method:"GET",
       withCredentials:true,
     }).then((response)=>{
+      console.log(response.data.hash);
       setAttendanceHash(response.data.hash)
+     
     }).catch((error)=>{
+      console.log(error);
       toast.success("Some Error Occured!")
     })
+
   },[])
+
 
   const handleGenerateQRCode = () => {
     setIsGenerated(true);
@@ -43,7 +47,10 @@ const MarkAttendance = () => {
         <>
         <h4 style={{marginBottom:'15px'}}>Mark Today's Attendence</h4>
         <div>
-          <QRCodeSVG value={`https://itchy-flies-smell.loca.lt/attendance/check-hash/${attendanceHash}`} />
+          {/* <QRCode value={`https://h6z4bb1m-3000.inc1.devtunnels.ms/attendance/check-hash/${attendanceHash}`} level='H' size={300}/> */}
+          {/* <QRCode value={`something`} size={200} /> */}
+
+          <img src="" alt="" />
         </div>
         <p>Scan the QR code to mark your attendence</p>
         </>

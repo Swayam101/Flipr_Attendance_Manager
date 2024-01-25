@@ -5,42 +5,58 @@ import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis } from 'victory';
 import axiosConfig from '../utils/axiosConfig';
 import useAuthStore from '../contexts/AuthStore';
 
+const transformLineChartData=(data)=>{
+    data.forEach()
+}
+
 
 function AdminMainBody({ userRole }) {
 
     const [stats,setStats]=useState({totalDays:0,presentDays:0,absentDays:0})
+    const [adminStats,setAdminStats]=useState({totalStudents:0,totalPresent:0,totalAbsent:0,weekData:[]})
     const userData=useAuthStore((state)=>state.userData)
 
     useEffect(()=>{
-        axiosConfig({
-            url:`/attendance/stats/${userData._id}`,
-            method:"GET",
-            withCredentials:true
-        }).then((response)=>{
-            setStats(response.data)
-        }).catch(error=>{
-            console.log(error);
-        })
+        if(userData.isAdmin){
+            axiosConfig({
+                url:`/attendance/admin-stats`,
+                method:"GET",
+                withCredentials:true
+            }).then((response)=>{
+                setAdminStats(response.data)
+                console.log(response.data.weekData);
+            }).catch(error=>{
+               console.log(error);
+            })
+            
+        }
+        else {
+            axiosConfig({
+                url:`/attendance/stats/${userData._id}`,
+                method:"GET",
+                withCredentials:true
+            }).then((response)=>{
+                setStats(response.data)
+            }).catch(error=>{
+                console.log(error);
+            })
+        }
     },[])
 
 
     const AdminData = [
-        { x: 'Present', y: 80 },
-        { x: 'Absent', y: 20 },
+        { x: 'Present', y: adminStats.totalPresent },
+        { x: 'Absent', y: adminStats.totalAbsent },
     ];
     const StudentData = [
         { x: 'PresentDays', y: stats.presentDays },
         { x: 'AbsentDays', y: stats.absentDays },
     ];
 
-    const AdminLineChartData = [
-        { day: 'Monday', presentStudents: 15 },
-        { day: 'Tuesday', presentStudents: 20 },
-        { day: 'Wednesday', presentStudents: 18 },
-        { day: 'Thursday', presentStudents: 25 },
-        { day: 'Friday', presentStudents: 22 },
-        // Add data for other days as needed
-    ];
+    const AdminLineChartData = adminStats.weekData.map(({ dayOfWeek, count }) => ({
+        day: dayOfWeek,
+        presentStudents: count
+    }));
     return (
         <div className="main_body_wrapper">
             {userRole === 'admin' && (
@@ -49,7 +65,7 @@ function AdminMainBody({ userRole }) {
                         <div className="card matric_div">
                             <div>
                                 <p>Total Students</p>
-                                <span>100</span>
+                                <span>{adminStats.totalStudents}</span>
                             </div>
                             <div className='card-icons'>
                                 <PiStudentFill />
@@ -58,7 +74,7 @@ function AdminMainBody({ userRole }) {
                         <div className="card matric_div">
                             <div>
                                 <p>Present Students</p>
-                                <span>80</span>
+                                <span>{adminStats.totalPresent}</span>
                             </div>
                             <div className='card-icons'>
                                 <PiStudentFill />
@@ -67,7 +83,7 @@ function AdminMainBody({ userRole }) {
                         <div className="card matric_div">
                             <div>
                                 <p>Absent Students</p>
-                                <span>20</span>
+                                <span>{adminStats.totalAbsent}</span>
                             </div>
                             <div className='card-icons'>
                                 <PiStudentFill />
