@@ -1,4 +1,4 @@
-import React, { useRef, useState,useContext } from "react";
+import React, { useRef, useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,8 @@ import useAuthStore from "../contexts/AuthStore.js";
 const Login = () => {
 
   const [isChecked, setIsChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -15,8 +17,9 @@ const Login = () => {
 
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
-  const saveUserData=useAuthStore((state)=>state.setUserData)
- 
+
+  const saveUserData = useAuthStore((state) => state.setUserData)
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const userCredentials = {
@@ -28,13 +31,13 @@ const Login = () => {
         url: "http://localhost:3000/auth/login",
         method: "POST",
         data: userCredentials,
-        withCredentials:true,
+        withCredentials: true,
       });
       toast.success(response.data.message);
-      response.data.user.isLoggedIn=true
+      response.data.user.isLoggedIn = true
       saveUserData(response.data.user)
-      if(response.data.user.isAdmin) return navigate("/")
-      if(!response.data.user.approved) return navigate("/student_approval")
+      if (response.data.user.isAdmin) return navigate("/")
+      if (!response.data.user.approved) return navigate("/student_approval")
       navigate('/')
     } catch (error) {
       console.log(error);
@@ -68,7 +71,7 @@ const Login = () => {
       });
       toast.success(response.data.message);
       console.log(response.data.user);
-      response.data.user.isLoggedIn=true;
+      response.data.user.isLoggedIn = true;
       saveUserData(response.data.user);
       navigate("/student_approval")
     } catch (error) {
@@ -85,7 +88,9 @@ const Login = () => {
       });
     }
   };
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <div className="main">
       <input
@@ -114,11 +119,23 @@ const Login = () => {
             placeholder="Enter Email"
           />
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="pswd"
             placeholder="Enter Password"
             ref={passwordRef}
           />
+          <button className="eye-icon" onClick={togglePasswordVisibility}
+            style={{
+              position: 'absolute',
+              top: '216px',
+              right: '40px',
+              fontSize: '18px',
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+            }}>
+            {showPassword ? "👁️" : "👁️‍🗨️"}
+          </button>
           <button className="login-button" onClick={handleSignUp}>
             Sign up
           </button>
@@ -137,11 +154,23 @@ const Login = () => {
             ref={loginEmailRef}
           />
           <input
-            type="password"
+           type={showPassword ? "text" : "password"}
             name="pswd"
             placeholder="Password"
             ref={loginPasswordRef}
           />
+          <button className="eye-icon" onClick={togglePasswordVisibility}
+            style={{
+              position: 'absolute',
+              top: '160px',
+              right: '40px',
+              fontSize: '18px',
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+            }}>
+            {showPassword ? "👁️" : "👁️‍🗨️"}
+          </button>
           <button onClick={handleLogin} className="login-button">
             Login
           </button>
