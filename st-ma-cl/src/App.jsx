@@ -18,6 +18,11 @@ import Forget_password from "./pages/Forget_password";
 import Attendence_Marking from "./pages/Attendence_Marking.jsx";
 
 function App() {
+
+  window.addEventListener('load',()=>{
+    localStorage.removeItem('user-data')
+  })
+
   return (
     <Router>
       <Routes>
