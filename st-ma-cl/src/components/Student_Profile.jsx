@@ -1,28 +1,36 @@
 import React, { useContext, useState } from "react";
 import avtar from "../images/avtar2.jpg";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaMailBulk } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import useAuthStore from "../contexts/AuthStore";
 import axiosConfig from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 
+function calculateAge(dateOfBirth) {
+  var dob = new Date(dateOfBirth);
+  var currentDate = new Date();
+  var age = currentDate.getFullYear() - dob.getFullYear();
+  if (
+    currentDate.getMonth() < dob.getMonth() ||
+    (currentDate.getMonth() === dob.getMonth() &&
+      currentDate.getDate() < dob.getDate())
+  ) {
+    age--;
+  }
+  return age;
+}
+
+const formatDate = (date) => {
+  const newDate = new Date(date);
+  console.log(date);  
+  const formattedDate = newDate.toISOString().split("T")[0];
+  return formattedDate;
+};
+
 function Student_Profile() {
   const userData = useAuthStore((state) => state.userData);
+  const [userDataState,setUserDataState]=useState({...userData})
   const setUserData = useAuthStore((state) => state.setUserData);
-
-  function calculateAge(dateOfBirth) {
-    var dob = new Date(dateOfBirth);
-    var currentDate = new Date();
-    var age = currentDate.getFullYear() - dob.getFullYear();
-    if (
-      currentDate.getMonth() < dob.getMonth() ||
-      (currentDate.getMonth() === dob.getMonth() &&
-        currentDate.getDate() < dob.getDate())
-    ) {
-      age--;
-    }
-    return age;
-  }
 
   const [editMode, setEditMode] = useState(false);
 
@@ -32,8 +40,8 @@ function Student_Profile() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
+    setUserDataState({
+      ...userDataState,
       [name]: value,
     });
   };
@@ -44,14 +52,16 @@ function Student_Profile() {
       const response = await axiosConfig({
         url: "/student/update-profile",
         method: "POST",
-        data: userData,
+        data: userDataState,
         withCredentials: true,
       });
       toast.success("Profile Updated Successfully!");
       response.data.updatedUser.isLoggedIn = true;
+      console.log(response.data.updatedUser);
       setUserData(response.data.updatedUser);
       setEditMode(false);
     } catch (error) {
+      console.log(error);
       toast.error("Failed to update profile.");
     }
   };
@@ -84,7 +94,7 @@ function Student_Profile() {
               <input
                 type="text"
                 name="name"
-                value={userData.name}
+                value={userDataState.name}
                 style={{ cursor: "not-allowed" }}
                 disabled={true}
               />
@@ -92,8 +102,7 @@ function Student_Profile() {
               <input
                 type="text"
                 name="roll"
-                value={userData.roll}
-                onChange={handleInputChange}
+                value={userDataState.roll}
                 disabled={true}
                 style={{ cursor: "not-allowed" }}
               />
@@ -104,7 +113,7 @@ function Student_Profile() {
               <input
                 type="text"
                 name="phone"
-                value={userData.phone}
+                value={userDataState.phone}
                 onChange={handleInputChange}
                 disabled={!editMode}
               />
@@ -112,7 +121,7 @@ function Student_Profile() {
               <input
                 type="date"
                 name="DOB"
-                value={userData.DOB}
+                value={formatDate(userDataState.DOB)}
                 onChange={handleInputChange}
                 disabled={!editMode}
               />
@@ -123,7 +132,7 @@ function Student_Profile() {
               <input
                 type="text"
                 name="age"
-                value={calculateAge(new Date(userData.DOB))}
+                value={calculateAge(userDataState.DOB)}
                 onChange={handleInputChange}
                 disabled={true}
                 style={{ cursor: "not-allowed" }}
@@ -132,7 +141,7 @@ function Student_Profile() {
               <input
                 type="text"
                 name="country"
-                value={userData.country}
+                value={userDataState.country}
                 onChange={handleInputChange}
                 disabled={!editMode}
               />
@@ -143,7 +152,7 @@ function Student_Profile() {
               <input
                 type="text"
                 name="address"
-                value={userData.address}
+                value={userDataState.address}
                 onChange={handleInputChange}
                 disabled={!editMode}
                 style={{ width: "80%" }}

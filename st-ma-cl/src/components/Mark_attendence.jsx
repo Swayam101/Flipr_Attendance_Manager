@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import axiosConfig from '../utils/axiosConfig';
 import { toast } from 'react-toastify';
 import QRious from 'qrious';
@@ -10,17 +10,20 @@ const MarkAttendance = () => {
 
   useEffect(() => {
     axiosConfig({
-      url: '/attendance/get-hash',
-      method: 'GET',
-      withCredentials: true,
+      url:'/attendance/get-hash',
+      method:"GET",
+      withCredentials:true,
+    }).then((response)=>{
+      console.log(response.data.hash);
+      setAttendanceHash(response.data.hash)
+    
+    }).catch((error)=>{
+      console.log(error);
+      toast.success("Some Error Occured!")
     })
-      .then((response) => {
-        setAttendanceHash(response.data.hash);
-      })
-      .catch((error) => {
-        toast.success('Some Error Occurred!');
-      });
-  }, []);
+
+  },[])
+
 
   const handleGenerateQRCode = () => {
     setIsGenerated(true);
@@ -43,12 +46,14 @@ const MarkAttendance = () => {
       )}
       {isGenerated && attendanceHash && (
         <>
+
           <h4 style={{ marginBottom: '15px' }}>Mark Today's Attendance</h4>
           <div>
             {/* Use QRious to generate the QR code */}
             <img src={new QRious({ value: attendanceHash, size: 200 }).toDataURL()} alt="QR Code" />
           </div>
           <p>Scan the QR code to mark your attendance</p>
+
         </>
       )}
     </div>

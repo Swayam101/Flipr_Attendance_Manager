@@ -1,7 +1,7 @@
 import React ,{useState} from 'react'
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
-import Student_attendence from '../components/Student_attendence'
+import Student_attendence from '../components/Student_attendence.jsx'
 import useAuthStore from '../contexts/AuthStore';
 
 function Attendence() {

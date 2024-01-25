@@ -10,7 +10,7 @@ const errorHandlerMiddleware = async (err, req, res, next) => {
     return res.status(409).json({ error: message });
   }
  if(err.message=='jwt expired') return res.status(401).json({message:"Your Token Has Expired!",error:err.message})
-
+console.log(err);
   res.status(500).json({ message: err.message, error: err });
 };
 export default errorHandlerMiddleware;

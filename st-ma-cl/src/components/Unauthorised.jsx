@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import unauth from '../images/unauth.webp'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../contexts/AuthContext'
+import useAuthStore from '../contexts/AuthStore.js'
+
 
 const Unauthorised = () => {
-  const { isAdmin } = useContext(AuthContext)
+  const isAdmin=useAuthStore((state)=>state.isAdmin)
   return (
     <div style={{display:'flex', flexDirection:'column'}}>
       <div style={{ height: "60vh", width: "60vw", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

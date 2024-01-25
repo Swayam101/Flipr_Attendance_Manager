@@ -17,6 +17,7 @@ const Login = () => {
 
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
+
   const saveUserData = useAuthStore((state) => state.setUserData)
 
   const handleLogin = async (e) => {
@@ -66,6 +67,7 @@ const Login = () => {
         url: "http://localhost:3000/auth",
         method: "POST",
         data: userData,
+        withCredentials:true
       });
       toast.success(response.data.message);
       console.log(response.data.user);
