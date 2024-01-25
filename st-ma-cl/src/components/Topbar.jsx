@@ -63,7 +63,7 @@ function Topbar({ userRole }) {
           <div className="topbar__icon" onClick={handleBellIconClick}>
             <FaRegBell />
             {pendingStudents.length > 0 && (
-              <div className="notification-count">{pendingStudents.length==0?"0":pendingStudents.length}</div>
+              <div className="notification-count">{pendingStudents.length == 0 ? "0" : pendingStudents.length}</div>
             )}
           </div>
         )}
@@ -85,18 +85,18 @@ function Topbar({ userRole }) {
               </div>
               <div className="list-options">
                 <Link to={`/profile`}>
-                  <button className="profileOptionButton" style={{marginRight:'10px'}}>View Profile</button>
+                  <button className="profileOptionButton" style={{ marginRight: '10px' }}>View Profile</button>
                 </Link>
                 <button
                   onClick={async (e) => {
-                    
+
                     try {
                       const response = await axiosConfig({
                         url: "/auth/logout",
                         method: "POST",
                         withCredentials: true,
                       });
-                     
+
                       console.log(response);
                       toast.success(response.data.message);
                       logOutUser();
@@ -141,7 +141,7 @@ function Topbar({ userRole }) {
                   bottom: "auto",
                   marginRight: "-50%",
                   transform: "translate(-50%, -50%)",
-                  backgroundColor: " rgba(78, 89, 92)",
+                  backgroundColor: 'rgb(0,32,85,0.9)',
                   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   border: "none",
                   width: "350px",
@@ -152,7 +152,8 @@ function Topbar({ userRole }) {
                   marginLeft: "70px",
                 },
                 overlay: {
-                  background: "rgba(98, 96, 96, 0.5)",
+                  backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+                  backdropFilter: 'blur(3px)', 
                 },
               }}
             >
@@ -178,19 +179,19 @@ function Topbar({ userRole }) {
               </h6>
               <div>
                 <button
-                  onClick={async (e)=>{
+                  onClick={async (e) => {
                     try {
-                      const response=await axiosConfig({
-                        url:`/student/approve/${selectedStudent._id}`,
-                        method:"POST",
-                        withCredentials:true
+                      const response = await axiosConfig({
+                        url: `/student/approve/${selectedStudent._id}`,
+                        method: "POST",
+                        withCredentials: true
                       })
-                      const newPendingStudents=pendingStudents.filter(obj=>obj._id!==selectedStudent._id)
+                      const newPendingStudents = pendingStudents.filter(obj => obj._id !== selectedStudent._id)
                       setPendingStudents(newPendingStudents)
                       setShowModal(false)
 
-                      toast.success("Student Approved Successfully!",{
-                        
+                      toast.success("Student Approved Successfully!", {
+
                       })
                     } catch (error) {
                       console.log("Approval erro");
