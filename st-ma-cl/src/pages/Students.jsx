@@ -104,7 +104,7 @@ const Students = () => {
                     <td>{student.roll}</td>
 
                     <td>{student.name.charAt(0).toUpperCase() + student.name.slice(1).toLowerCase()}</td>
-                    <td>{student.age}</td>
+                  
                     <td>{student.phone}</td>
                     <td>{formatDate(student.DOB)}</td>
                     <td>{student.address}</td>
