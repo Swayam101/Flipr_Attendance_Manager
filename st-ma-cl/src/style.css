@@ -5839,7 +5839,7 @@ table.grid td {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-left: 7rem;
+    margin-left: 16rem;
     margin-top: -18rem;
     width: 100%;
     padding: 10px;
@@ -5847,7 +5847,7 @@ table.grid td {
 }
 
 .row_wrapper {
-    width: 80%;
+    width: 100%;
     height: 20vh;
     display: flex;
     flex-direction: row;
@@ -5899,11 +5899,11 @@ table.grid td {
     height: 200px;
     margin-left: 150px;
     box-shadow: rgba(0, 66, 121, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-        display: flex;
+    display: flex;
     text-align: center;
     align-items: center;
     padding: 10px;
-    background-color:rgb(0, 66, 121,0.3);
+    background-color: rgb(0, 66, 121, 0.3);
 }
 
 .approval-box h4 {
@@ -5932,11 +5932,11 @@ table.grid td {
 .search-input {
     background-color: transparent !important;
     border: 1px solid grey !important;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;    
 }
 
 .table-head {
-    background-color: #3f5d68;
+    background-color: rgb(0, 66, 121, 0.9);
 }
 
 .page-numbers {
@@ -5966,10 +5966,10 @@ table.grid td {
     display: flex;
     flex-direction: column;
     width: 200px;
-    background-color:rgb(0, 66, 121,0.9);
+    background-color: rgb(0, 66, 121, 0.9);
     justify-content: center;
     align-items: center;
-    border: 2px solid  #004279;
+    border: 2px solid #004279;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     margin-right: 5px;
     transition: opacity 0.3s ease-out transform 0.3s ease-in-out;
@@ -5978,7 +5978,7 @@ table.grid td {
 .topLayer {
     width: 100%;
     height: 60px;
-    background-color:#003164;
+    background-color: #003164;
     position: relative;
     border-bottom: 1px solid #959c9e;
     box-shadow: rgba(255, 255, 255, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
@@ -5996,17 +5996,20 @@ table.grid td {
     height: 80px;
     border: 1px solid #959c9e;
 }
-.username-title{
+
+.username-title {
     margin-top: 60px;
     margin-left: 15px;
 }
-.username-title p{
+
+.username-title p {
     font-size: 12px;
     letter-spacing: .2lvh;
     font-weight: 100;
     font-family: cursive;
     margin-top: -5px;
 }
+
 .profileOptionButton {
     padding: 6px;
     border: 1px solid white;
@@ -6031,19 +6034,22 @@ table.grid td {
     align-items: center;
     margin-left: 15px;
 }
+
 /* notification for approval */
-.notification-count{
+.notification-count {
     font-size: 10px;
     position: absolute;
     top: 1px;
     right: 65px;
 
 }
-.notification-popup{
+
+.notification-popup {
     width: 270px;
     max-height: 400px;
 }
-.pending-students{
+
+.pending-students {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -6054,13 +6060,79 @@ table.grid td {
 }
 
 /* qrcode generation */
-.qrcode{
+.qrcode {
     height: auto;
 }
-.piechart-container{
+
+.piechart-container {
     width: auto;
 }
-.linechart-container{
+
+.linechart-container {
     max-width: 750px;
     width: 550px;
+}
+
+
+/* for loading animation */
+.loading_container {
+    position: fixed;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Ensure it's on top of other content */
+}
+
+.lds_ripple {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.lds_ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds_ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+
+@keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
 }
