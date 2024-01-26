@@ -5,10 +5,6 @@ import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis } from 'victory';
 import axiosConfig from '../utils/axiosConfig';
 import useAuthStore from '../contexts/AuthStore';
 
-const transformLineChartData=(data)=>{
-    data.forEach()
-}
-
 
 function AdminMainBody({ userRole }) {
 
@@ -17,6 +13,7 @@ function AdminMainBody({ userRole }) {
     const userData=useAuthStore((state)=>state.userData)
 
     useEffect(()=>{
+       
         if(userData.isAdmin){
             axiosConfig({
                 url:`/attendance/admin-stats`,

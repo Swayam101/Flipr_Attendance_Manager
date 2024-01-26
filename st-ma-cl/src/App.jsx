@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
@@ -16,12 +16,26 @@ import Profile from "./pages/Profile";
 import Forget_password from "./pages/Forget_password";
 
 import Attendence_Marking from "./pages/Attendence_Marking.jsx";
+import io from 'socket.io-client'
+import useAuthStore from "./contexts/AuthStore.js";
 
 function App() {
-
-  window.addEventListener('load',()=>{
-    localStorage.removeItem('user-data')
-  })
+  const logOutUser=useAuthStore((state)=>state.logOutUser)
+  
+  const socket=io("http://localhost:3000")
+    // socket.on('logoutuser',(data)=>{
+    //   console.log(`Socket OutPut:${data.message}`);
+    //   logOutUser()
+    // })
+    useEffect(()=>{
+      socket.on('connection',()=>{
+        console.log("Socket Conneced!");
+      })
+      socket.on('logoutuser',()=>{
+        logOutUser()
+      })
+    })
+  
 
   return (
     <Router>

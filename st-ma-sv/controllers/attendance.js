@@ -1,3 +1,4 @@
+// Core Packages
 import crypto from "crypto";
 
 // Model Imports
@@ -6,16 +7,16 @@ import User from "../models/User.js";
 
 // Utility Imports
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { getWeekdayCount, hasMarkedAttendance } from "../utils/dataManips.js";
+import {  hasMarkedAttendance } from "../utils/dataManips.js";
 import OTP from "../models/OTP.js";
-import { log } from "console";
+
 
 export const getAttendanceQr = asyncWrapper(async (req, res, next) => {
   const { _id } = req.user;
   const otp = crypto.randomBytes(3).toString("hex");
   const expiresAt = new Date(Date.now() + 60 * 1000);
   const checkSum = `${_id}deldel${otp}`;
-  const otpDoc = await OTP.create({
+  await OTP.create({
     user: _id,
     code: otp,
     expiresAt,

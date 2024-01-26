@@ -13,6 +13,7 @@ import sendMail from "../utils/sendMail.js";
 import { incrementRollNumber } from "../utils/dataManips.js";
 
 
+
 export const registerUser = asyncWrapper(async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -32,8 +33,6 @@ export const registerUser = asyncWrapper(async (req, res, next) => {
   const accessToken = await signAccessToken(user._id);
   user.password = undefined;
 
-  
-
   res.cookie("token", accessToken, { httpOnly: true,sameSite:"none",secure:true }).json({ message: "Sign Up Scuccessful!", user });
 });
 
@@ -50,8 +49,6 @@ export const loginUser = asyncWrapper(async (req, res, next) => {
   user.password = undefined;
 
   res.cookie("token", accessToken, { httpOnly: true,sameSite:"none",secure:true }).json({ message: "Log In Successful!", user });;
-  
-  
 });
 
 export const sendUpdatePasswordEmail = asyncWrapper(async (req, res, next) => {
@@ -70,7 +67,7 @@ export const sendUpdatePasswordEmail = asyncWrapper(async (req, res, next) => {
     expiresAt,
   });
 
-  sendMail(reciever,"OTP For password Reset",`Here is Your OTP:  ${otp}    Expires in 1 Minute!`);
+  sendMail(reciever,"OTP for Attendance Manager Password Update!",`Here is the Required OTP: ${otp} \n Expires In 1 Minute(s)`)
 
   res.status(200).json({ message: "Email Sent Successfully!"});
 });
@@ -81,6 +78,7 @@ export const checkMailHash = asyncWrapper(async (req, res, next) => {
   const user=await User.findOne({email})
 
   const otp = await OTP.findOne({ user:user._id }, {}, { sort: { createdAt: -1 } });
+
   if (!otp) return res.status(419).json({ message: "Invalid OTP" });
   if (otp.expiresAt < Date.now() || !(otp.code == userOtp))
     return res.status(419).json({ message: "Invalid OTP" });

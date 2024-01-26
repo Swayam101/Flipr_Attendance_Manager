@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -18,6 +19,7 @@ const store = (set, get) => ({
       isLoggedIn: false,
       isAdmin: false,
     }));
+    toast.info("Logged Out Succcessfully!")
   }
 });
 

@@ -5,7 +5,7 @@ import AdminMainBody from '../components/AdminMainBody';
 import useAuthStore from '../contexts/AuthStore';
 
 function Dashboard() {
-
+  
   const isAdmin=useAuthStore((state)=>state.isAdmin)
   const userRole = isAdmin ? 'admin' : 'student';
   
