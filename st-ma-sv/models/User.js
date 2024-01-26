@@ -44,6 +44,10 @@ const studentSchema = new Schema(
     phone:{
       type:String,
       default:" "
+    },
+    socketId:{
+      type:String,
+      default:"",
     }
   },
   { versionKey: false, timestamps: true }

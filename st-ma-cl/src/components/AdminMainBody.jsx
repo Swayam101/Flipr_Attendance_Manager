@@ -1,21 +1,19 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { PiStudentFill } from 'react-icons/pi';
 import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis ,VictoryBar} from 'victory';
 import axiosConfig from '../utils/axiosConfig';
 import useAuthStore from '../contexts/AuthStore';
 
-const transformLineChartData = (data) => {
-    data.forEach()
-}
 
 function AdminMainBody({ userRole }) {
 
     const [stats, setStats] = useState({ totalDays: 0, presentDays: 0, absentDays: 0 })
     const [adminStats, setAdminStats] = useState({ totalStudents: 0, totalPresent: 0, totalAbsent: 0, weekData: [] })
     const userData = useAuthStore((state) => state.userData)
-    const [loading, setLoading] = useState(true); // State variable to track loading
+    const [loading, setLoading] = useState(true);
 
+
+  
     useEffect(() => {
         if (userData.isAdmin) {
             axiosConfig({
@@ -108,7 +106,7 @@ function AdminMainBody({ userRole }) {
                             </div>
                             <div className="row_wrapper">
                                 <div className="card matric_div piechart-container">
-                                    <VictoryPie
+                                    {adminStats.totalAbsent==0 && adminStats.totalPresent==0?"No Data Available!":<VictoryPie
                                         data={AdminData}
                                         colorScale={['#005d99', '#dcb207']}
                                         style={{
@@ -117,7 +115,7 @@ function AdminMainBody({ userRole }) {
                                         }}
                                         labelRadius={40}
                                         labels={({ datum }) => [datum.x, `${Math.round((datum.y / adminStats.totalStudents) * 100)}%`]}
-                                    />
+                                    />}
                                 </div>
                                 <div className="card matric_div linechart-container">
                                     <VictoryChart domainPadding={20}>

@@ -6,6 +6,9 @@ import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 config();
 
+// UserDefined Imports
+import {io} from '../index.js'
+
 // Controller Functions
 export const protectRoute = async (req, res, next) => {
   let token;
@@ -24,7 +27,8 @@ export const protectRoute = async (req, res, next) => {
       next();
     }
   } catch (error) {
-    next(error)
+    io.emit('logoutuser',{message:"Log Out User!"})
+   return next(error)
   }
-  if (!token) next(new Error("This Feature requires Login To Continue!"));
+
 };

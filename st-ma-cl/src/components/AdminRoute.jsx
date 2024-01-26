@@ -1,8 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-import React, { useContext } from "react";
 import useAuthStore from "../contexts/AuthStore";
-import { toast } from "react-toastify";
+
 
 const AdminRoute = ({ component, ...rest }) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);

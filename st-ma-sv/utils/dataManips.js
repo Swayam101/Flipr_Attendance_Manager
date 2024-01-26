@@ -1,4 +1,5 @@
 import Attendance from "../models/Attendance.js";
+import qrcode from 'qrcode'
 
 export function incrementRollNumber(rollNo) {
   const numericPart = rollNo.match(/\d+/);
@@ -55,4 +56,10 @@ export function getWeekdayCount(startDate) {
   }
 
   return weekdayCount;
+}
+
+export const generatedQrCode=async function generateQrCode(data) {
+  const opts = { errorCorrectionLevel: 'H' }; // High error correction
+  const qrCodeDataUrl = await qrcode.toDataURL(data, opts);
+  return qrCodeDataUrl;
 }

@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-export default (reciever,subject,text,link)=>{
+export default (reciever,subject,text)=>{
     const client=nodemailer.createTransport({
         service:"Gmail",
         auth:{
@@ -12,6 +12,6 @@ export default (reciever,subject,text,link)=>{
         from:"swayam@attendance.com",
         to:reciever,
         subject:subject,
-        html:`${text}<br>${link}`
+        html:`${text}<br>`
     })
 }

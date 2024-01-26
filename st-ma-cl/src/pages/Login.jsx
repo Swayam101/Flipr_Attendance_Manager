@@ -1,9 +1,11 @@
 import React, { useRef, useState, useContext } from "react";
-import axios from "axios";
+import axiosConfig from "../utils/axiosConfig.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import useAuthStore from "../contexts/AuthStore.js";
+import useSocketStore from "../contexts/SocketStore.js";
+
 
 const Login = () => {
 
@@ -13,10 +15,16 @@ const Login = () => {
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const navigate = useNavigate();
 
   const loginEmailRef = useRef();
   const loginPasswordRef = useRef();
+
+  const navigate = useNavigate();
+
+  const socket=useSocketStore((state)=>state.socket)
+  const socketId=useSocketStore((state)=>state.socketId)
+
+ 
 
   const saveUserData = useAuthStore((state) => state.setUserData)
 
@@ -27,8 +35,8 @@ const Login = () => {
       password: loginPasswordRef.current.value,
     };
     try {
-      const response = await axios({
-        url: "http://localhost:3000/auth/login",
+      const response = await axiosConfig({
+        url: "/auth/login",
         method: "POST",
         data: userCredentials,
         withCredentials: true,
@@ -36,6 +44,7 @@ const Login = () => {
       toast.success(response.data.message);
       response.data.user.isLoggedIn = true
       saveUserData(response.data.user)
+      socket.emit('user-socket-id',{socketId,email:response.data.user.email})
       if (response.data.user.isAdmin) return navigate("/")
       if (!response.data.user.approved) return navigate("/student_approval")
       navigate('/')
@@ -63,11 +72,10 @@ const Login = () => {
     };
 
     try {
-      const response = await axios({
-        url: "http://localhost:3000/auth",
+      const response = await axiosConfig({
+        url: "/auth",
         method: "POST",
         data: userData,
-        withCredentials:true
       });
       toast.success(response.data.message);
       console.log(response.data.user);

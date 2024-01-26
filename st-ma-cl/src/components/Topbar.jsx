@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import "../style.css";
 
 import { FaRegBell, FaTimes } from "react-icons/fa";
-import { LuMessageSquare } from "react-icons/lu";
 
 import avtar from "../images/avtar2.jpg";
 import { Link } from "react-router-dom";
@@ -10,6 +9,8 @@ import Modal from "react-modal";
 import axiosConfig from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 import useAuthStore from "../contexts/AuthStore";
+import { io } from "socket.io-client";
+import useSocketStore from "../contexts/SocketStore";
 
 
 function Topbar({ userRole }) {
@@ -20,6 +21,8 @@ function Topbar({ userRole }) {
 
   const [showOptions, setShowOptions] = useState(false);
 
+  const socket=useSocketStore((state)=>state.socket)
+
   const [showNotifications, setShowNotifications] = useState(false);
   const [pendingStudents, setPendingStudents] = useState([]);
   useEffect(() => {
@@ -29,7 +32,14 @@ function Topbar({ userRole }) {
     }).then((response) => {
       setPendingStudents(response.data.students);
     });
+    socket.on('approve-student',(data)=>{
+      setPendingStudents(data.students)
+      console.log("Emmited Event Approve Student!");
+    })
   }, []);
+
+
+
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -63,7 +73,9 @@ function Topbar({ userRole }) {
           <div className="topbar__icon" onClick={handleBellIconClick}>
             <FaRegBell />
             {pendingStudents.length > 0 && (
-              <div className="notification-count">{pendingStudents.length == 0 ? "0" : pendingStudents.length}</div>
+              <div className="notification-count">
+                {pendingStudents.length == 0 ? "0" : pendingStudents.length}
+              </div>
             )}
           </div>
         )}
@@ -85,20 +97,21 @@ function Topbar({ userRole }) {
               </div>
               <div className="list-options">
                 <Link to={`/profile`}>
-                  <button className="profileOptionButton" style={{ marginRight: '10px' }}>View Profile</button>
+                  <button
+                    className="profileOptionButton"
+                    style={{ marginRight: "10px" }}
+                  >
+                    View Profile
+                  </button>
                 </Link>
                 <button
                   onClick={async (e) => {
-
                     try {
-                      const response = await axiosConfig({
+                      await axiosConfig({
                         url: "/auth/logout",
                         method: "POST",
                         withCredentials: true,
                       });
-
-                      console.log(response);
-                      toast.success(response.data.message);
                       logOutUser();
                     } catch (error) {
                       toast.error(error.response.data.message);
@@ -141,7 +154,7 @@ function Topbar({ userRole }) {
                   bottom: "auto",
                   marginRight: "-50%",
                   transform: "translate(-50%, -50%)",
-                  backgroundColor: 'rgb(0,32,85,0.9)',
+                  backgroundColor: "rgb(0,32,85,0.9)",
                   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   border: "none",
                   width: "350px",
@@ -152,8 +165,8 @@ function Topbar({ userRole }) {
                   marginLeft: "70px",
                 },
                 overlay: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)', 
-                  backdropFilter: 'blur(3px)', 
+                  backgroundColor: "rgba(0, 0, 0, 0.6)",
+                  backdropFilter: "blur(3px)",
                 },
               }}
             >
@@ -181,18 +194,19 @@ function Topbar({ userRole }) {
                 <button
                   onClick={async (e) => {
                     try {
-                      const response = await axiosConfig({
+                      await axiosConfig({
                         url: `/student/approve/${selectedStudent._id}`,
                         method: "POST",
-                        withCredentials: true
-                      })
-                      const newPendingStudents = pendingStudents.filter(obj => obj._id !== selectedStudent._id)
-                      setPendingStudents(newPendingStudents)
-                      setShowModal(false)
+                        withCredentials: true,
+                        data:{}
+                      });
+                      const newPendingStudents = pendingStudents.filter(
+                        (obj) => obj._id !== selectedStudent._id
+                      );
+                      setPendingStudents(newPendingStudents);
+                      setShowModal(false);
 
-                      toast.success("Student Approved Successfully!", {
-
-                      })
+                      toast.success("Student Approved Successfully!", {});
                     } catch (error) {
                       console.log("Approval erro");
                     }
