@@ -102,9 +102,7 @@ const Students = () => {
                 {currentStudents.map((student) => (
                   <tr key={student._id}>
                     <td>{student.roll}</td>
-
                     <td>{student.name.charAt(0).toUpperCase() + student.name.slice(1).toLowerCase()}</td>
-                  
                     <td>{student.phone}</td>
                     <td>{formatDate(student.DOB)}</td>
                     <td>{student.address}</td>
