@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 
 import asyncWrapper from "../utils/asyncWrapper.js";
+import { io } from "../index.js";
 
 export const getAllStudents = asyncWrapper(async (req, res, next) => {
   const students = await User.find(
@@ -8,7 +9,7 @@ export const getAllStudents = asyncWrapper(async (req, res, next) => {
     {},
     { sort: { roll: -1 } }
   );
- 
+
   res.json({ students });
 });
 
@@ -25,16 +26,23 @@ export const getUnApprovedStudents = asyncWrapper(async (req, res, next) => {
 
 export const approveStudent = asyncWrapper(async (req, res, next) => {
   const { studentId } = req.params;
- 
+
   const student = await User.findOneAndUpdate(
     { _id: studentId },
-    { approved: true }
+    { approved: true },
+    { new: true }
   );
+  student.password=undefined
+  io.emit("approved", {
+    student,
+  });
   res.json({ student });
 });
 
 export const updateUserProfile = asyncWrapper(async (req, res, next) => {
   const { _id } = req.user;
-  const updatedUser = await User.findOneAndUpdate({ _id }, req.body,{new:true});
+  const updatedUser = await User.findOneAndUpdate({ _id }, req.body, {
+    new: true,
+  });
   res.cookie().json({ updatedUser });
 });

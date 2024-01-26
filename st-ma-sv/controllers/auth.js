@@ -11,11 +11,15 @@ import asyncWrapper from "../utils/asyncWrapper.js";
 import { signAccessToken } from "../utils/signToken.js";
 import sendMail from "../utils/sendMail.js";
 import { incrementRollNumber } from "../utils/dataManips.js";
+import {io} from  '../index.js'
+import { log } from "console";
 
 
 
 export const registerUser = asyncWrapper(async (req, res, next) => {
   const { name, email, password } = req.body;
+
+  console.log("Route Reache!");
 
   const hashedPassword = await bcrypt.hash(password, 10);
   var latestRoll=0;
@@ -32,6 +36,11 @@ export const registerUser = asyncWrapper(async (req, res, next) => {
 
   const accessToken = await signAccessToken(user._id);
   user.password = undefined;
+
+  const students = await User.find({ approved: false, isAdmin: false });
+  io.emit('approve-student',{
+    students
+  })
 
   res.cookie("token", accessToken, { httpOnly: true,sameSite:"none",secure:true }).json({ message: "Sign Up Scuccessful!", user });
 });

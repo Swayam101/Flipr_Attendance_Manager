@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../style.css";
 
 import { FaRegBell, FaTimes } from "react-icons/fa";
@@ -9,6 +9,9 @@ import Modal from "react-modal";
 import axiosConfig from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 import useAuthStore from "../contexts/AuthStore";
+import { io } from "socket.io-client";
+import useSocketStore from "../contexts/SocketStore";
+
 
 function Topbar({ userRole }) {
   const logOutUser = useAuthStore((state) => state.logOutUser);
@@ -17,6 +20,8 @@ function Topbar({ userRole }) {
   Modal.setAppElement("#root");
 
   const [showOptions, setShowOptions] = useState(false);
+
+  const socket=useSocketStore((state)=>state.socket)
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [pendingStudents, setPendingStudents] = useState([]);
@@ -27,7 +32,14 @@ function Topbar({ userRole }) {
     }).then((response) => {
       setPendingStudents(response.data.students);
     });
+    socket.on('approve-student',(data)=>{
+      setPendingStudents(data.students)
+      console.log("Emmited Event Approve Student!");
+    })
   }, []);
+
+
+
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -182,10 +194,11 @@ function Topbar({ userRole }) {
                 <button
                   onClick={async (e) => {
                     try {
-                      const response = await axiosConfig({
+                      await axiosConfig({
                         url: `/student/approve/${selectedStudent._id}`,
                         method: "POST",
                         withCredentials: true,
+                        data:{}
                       });
                       const newPendingStudents = pendingStudents.filter(
                         (obj) => obj._id !== selectedStudent._id

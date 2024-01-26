@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import axiosConfig from "../utils/axiosConfig";
 import {useNavigate} from 'react-router-dom'
@@ -12,7 +11,7 @@ const ForgetPassword = () => {
   const handleContinue = async () => {
     const userEmail = emailRef.current.value;
     try {
-      const response=await axios({url:"http://localhost:3000/auth/send-update-mail",method:"POST",data:{
+      const response=await axiosConfig({url:"/auth/send-update-mail",method:"POST",data:{
           reciever:userEmail
       }})
       setMailStatus(true);
