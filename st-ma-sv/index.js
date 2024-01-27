@@ -18,7 +18,6 @@ import authRouter from "./routes/auth.js";
 import attendanceRouter from "./routes/attendance.js";
 import studentRouter from './routes/student.js'
 import errorHandlerMiddleware from "./middlewares/errorHandler.js";
-import User from './models/User.js';
 import Qr from './models/Qr.js';
 import { markAbsent } from './controllers/attendance.js';
 
@@ -51,8 +50,7 @@ cron.schedule('*/10 * * * * *',async () => {
   const qrCode=await Qr.create({
     code:newHashCode
   })
-
-  // Emit updated has to all the clients
+  // Emit updated hash to all the clients
   io.emit('hashUpdate',{qrCodeHash:qrCode.code});
   console.log(`Current Hash : ${qrCode.code}`);
 });
