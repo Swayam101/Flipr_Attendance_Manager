@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PiStudentFill } from 'react-icons/pi';
-import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis ,VictoryBar} from 'victory';
+import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
 import axiosConfig from '../utils/axiosConfig';
 import useAuthStore from '../contexts/AuthStore';
 
@@ -13,7 +13,7 @@ function AdminMainBody({ userRole }) {
     const [loading, setLoading] = useState(true);
 
 
-  
+
     useEffect(() => {
         if (userData.isAdmin) {
             axiosConfig({
@@ -22,7 +22,7 @@ function AdminMainBody({ userRole }) {
                 withCredentials: true
             }).then((response) => {
                 setAdminStats(response.data)
-                setLoading(false); 
+                setLoading(false);
                 console.log(response.data.weekData);
             }).catch(error => {
                 console.log(error);
@@ -36,7 +36,7 @@ function AdminMainBody({ userRole }) {
                 withCredentials: true
             }).then((response) => {
                 setStats(response.data)
-                setLoading(false); 
+                setLoading(false);
             }).catch(error => {
                 console.log(error);
             })
@@ -106,16 +106,29 @@ function AdminMainBody({ userRole }) {
                             </div>
                             <div className="row_wrapper">
                                 <div className="card matric_div piechart-container">
-                                    {adminStats.totalAbsent==0 && adminStats.totalPresent==0?"No Data Available!":<VictoryPie
-                                        data={AdminData}
-                                        colorScale={['#005d99', '#dcb207']}
-                                        style={{
-                                            labels: { fontSize: 20, fill: 'white' },
-                                            data: { stroke: 'white', strokeWidth: 1 },
-                                        }}
-                                        labelRadius={40}
-                                        labels={({ datum }) => [datum.x, `${Math.round((datum.y / adminStats.totalStudents) * 100)}%`]}
-                                    />}
+                                    {adminStats.totalAbsent === 0 && adminStats.totalPresent === 0 ? (
+                                        <VictoryPie
+                                            data={[{ x: 'No Data', y: 1 }]}
+                                            colorScale={['transparent']}
+                                            style={{
+                                                labels: { fontSize: 20, fill: 'white' },
+                                                data: { stroke: 'white', strokeWidth: 1 },
+                                            }}
+                                            labelRadius={40}
+                                            labels={({ datum }) => datum.x}
+                                        />
+                                    ) : (
+                                        <VictoryPie
+                                            data={AdminData}
+                                            colorScale={['#005d99', '#dcb207']}
+                                            style={{
+                                                labels: { fontSize: 20, fill: 'white' },
+                                                data: { stroke: 'white', strokeWidth: 1 },
+                                            }}
+                                            labelRadius={40}
+                                            labels={({ datum }) => [datum.x, `${Math.round((datum.y / adminStats.totalStudents) * 100)}%`]}
+                                        />
+                                    )}
                                 </div>
                                 <div className="card matric_div linechart-container">
                                     <VictoryChart domainPadding={20}>
@@ -192,7 +205,7 @@ function AdminMainBody({ userRole }) {
                                 </div>
                             </div>
                             <div className="row_wrapper">
-                                {stats.totalDays > 0 && ( // Check if there are any attendance records
+                                {stats.totalDays > 0 ? (
                                     <div className="card matric_div piechart-container">
                                         <VictoryPie
                                             data={StudentData}
@@ -205,7 +218,18 @@ function AdminMainBody({ userRole }) {
                                             labels={({ datum }) => [datum.x, `${Math.round((datum.y / stats.totalDays) * 100)}%`]}
                                         />
                                     </div>
-                                ) }
+                                ) : <div className="card matric_div piechart-container">
+                                    <VictoryPie
+                                        data={[{ x: 'No Data', y: 1 }]}
+                                        colorScale={['transparent']}
+                                        style={{
+                                            labels: { fontSize: 20, fill: 'white' },
+                                            data: { stroke: 'white', strokeWidth: 1 },
+                                        }}
+                                        labelRadius={40}
+                                        labels={({ datum }) => datum.x}
+                                    />
+                                </div>}
                             </div>
                         </>
                     )}
