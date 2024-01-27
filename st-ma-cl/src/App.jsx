@@ -32,7 +32,10 @@ function App() {
       console.log(socket.id);
       toast.info("Server Connection Succesful!") 
     });
-    socket.on('logoutuser',()=>{ logOutUser()  })
+    socket.on('logoutuser',(data)=>{ 
+      console.log(data.message);
+      logOutUser()  
+    })
     console.log(socketId);
     return () => {
       socket.off("connect")

@@ -27,8 +27,7 @@ export const protectRoute = async (req, res, next) => {
       next();
     }
   } catch (error) {
-    io.emit('logoutuser',{message:"Log Out User!"})
+  io.emit('logoutuser',{message:"Log Out User!"})
    return next(error)
   }
-
 };

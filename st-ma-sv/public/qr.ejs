@@ -55,9 +55,9 @@
   <script>
     const socket = io();
 
-    // Listen for hash updates from the server
+    
     socket.on('hashUpdate', (data) => {
-      // Update the QR code data URL
+    
       const imgElement = document.querySelector('img');
       imgElement.src = data.qrCodeDataUrl;
     });
