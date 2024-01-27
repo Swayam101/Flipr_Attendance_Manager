@@ -1,1 +1,0 @@
-export const SOCKET_URL="https://attendance-manager-backend-k0vh.onrender.com"
