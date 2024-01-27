@@ -205,7 +205,7 @@ function AdminMainBody({ userRole }) {
                                 </div>
                             </div>
                             <div className="row_wrapper">
-                                {stats.totalDays > 0 ? (
+                                {stats.totalDays > 0 && stats.presentDays > 0 || stats.absentDays > 0 ? (
                                     <div className="card matric_div piechart-container">
                                         <VictoryPie
                                             data={StudentData}
