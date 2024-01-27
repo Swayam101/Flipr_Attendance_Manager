@@ -1,48 +1,43 @@
 import React, { useEffect, useState } from 'react';
 
-import axiosConfig from '../utils/axiosConfig';
-import { toast } from 'react-toastify';
 import QRious from 'qrious';
+import useSocketStore from '../contexts/SocketStore';
+import useAuthStore from '../contexts/AuthStore';
 
 const MarkAttendance = () => {
   const [isGenerated, setIsGenerated] = useState(false);
-  const [attendanceHash, setAttendanceHash] = useState(null);
+  const [attendanceHash, setAttendanceHash] = useState("");
+  const socket=useSocketStore((state)=>state.socket)
+  const userData=useAuthStore((state)=>state.userData)
 
   useEffect(() => {
-    axiosConfig({
-      url:'/attendance/get-hash',
-      method:"GET",
-      withCredentials:true,
-    }).then((response)=>{
-      console.log(response.data.hash);
-      setAttendanceHash(response.data.hash)
+      socket.on('hashUpdate', (data) => {
+        
+      setAttendanceHash(data.qrCodeHash)
+      setIsGenerated(true);
+      console.log(`https://h6z4bb1m-3000.inc1.devtunnels.ms/attendance/check-hash/${userData._id}/${attendanceHash}`);
+    });
     
-    }).catch((error)=>{
-      console.log(error);
-      toast.success("Some Error Occured!")
-    })
+    return ()=>{
+      socket.off('hashUpdate')
+    }
+    
 
   },[])
 
 
-  const handleGenerateQRCode = () => {
-    setIsGenerated(true);
-  };
+
 
   return (
     <div className='card approval-box qrcode'>
       {!isGenerated && (
-        <>
-          <h4 style={{ marginBottom: '15px' }}>Generate QR Code</h4>
-          <p>Click below button to generate QR code for Today's attendance</p>
-          <button
-            onClick={handleGenerateQRCode}
-            className='profileOptionButton'
-            style={{ fontSize: '14px', marginTop: '10px' }}
-          >
-            Generate QR code
-          </button>
-        </>
+       <div className="loading_container">
+       <div className="lds_ripple">
+           <div></div>
+           <div></div>
+       </div>
+       <p>Please wait while QR is being generated....</p>
+   </div>
       )}
       {isGenerated && attendanceHash && (
         <>
@@ -50,7 +45,7 @@ const MarkAttendance = () => {
           <h4 style={{ marginBottom: '15px' }}>Mark Today's Attendance</h4>
           <div>
             {/* Use QRious to generate the QR code */}
-            <img src={new QRious({ value: attendanceHash, size: 200 }).toDataURL()} alt="QR Code" />
+            <img src={new QRious({ value: `https://h6z4bb1m-3000.inc1.devtunnels.ms/attendance/check-hash/${userData._id}/${attendanceHash}`, size: 200 }).toDataURL()} alt="QR Code" />
           </div>
           <p>Scan the QR code to mark your attendance</p>
 

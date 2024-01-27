@@ -63,3 +63,16 @@ export const generatedQrCode=async function generateQrCode(data) {
   const qrCodeDataUrl = await qrcode.toDataURL(data, opts);
   return qrCodeDataUrl;
 }
+
+export const calculateDaysFromDate=(givenDate)=> {
+  
+  const parsedGivenDate = new Date(givenDate);
+ 
+  const currentDate = new Date();
+  
+  const timeDifference = currentDate - parsedGivenDate;
+ 
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+}
