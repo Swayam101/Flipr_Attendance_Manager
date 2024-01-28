@@ -219,10 +219,7 @@ const Login = () => {
           <button onClick={handleAdminLogin} className="login-button">
             Admin Login
           </button>
-          <a href="/forgot-password" className="forget-p">
-
           <a href="/forgot_password" className="forget-p">
-            
             Forgot Password?
           </a>
         </form>
