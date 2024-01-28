@@ -12,9 +12,9 @@ export const checkAttendanceHash = asyncWrapper(async (req, res, next) => {
   const { hash, user } = req.params;
   const date = new Date();
 
-  const currentTime=date.getHours()*60+date.getMinutes()
-  const isAllowedToAttend=currentTime >= 8 * 60 && currentTime <= 10 * 60;
-  if(!isAllowedToAttend) return res.json({message:"Time Limit To Mark Attendance Has Been Reached!"})
+  // const currentTime=date.getHours()*60+date.getMinutes()
+  // const isAllowedToAttend=currentTime >= 8 * 60 && currentTime <= 10 * 60;
+  // if(!isAllowedToAttend) return res.json({message:"Time Limit To Mark Attendance Has Been Reached!"})
 
   const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } }); 
   
