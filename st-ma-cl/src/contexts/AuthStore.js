@@ -26,7 +26,7 @@ const store = (set, get) => ({
 const useAuthStore = create(
   persist(store, {
     name: "user-data",
-    storage: createJSONStorage(() => localStorage),
+    storage: createJSONStorage(() => sessionStorage),
   })
 );
 

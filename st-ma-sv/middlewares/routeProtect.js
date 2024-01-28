@@ -5,14 +5,11 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 config();
-
-// UserDefined Imports
-import {io} from '../index.js'
-
 // Controller Functions
 export const protectRoute = async (req, res, next) => {
   let token;
-
+ 
+  
   try {
     if (req.cookies.token) {
       token = req.cookies.token;
@@ -24,10 +21,9 @@ export const protectRoute = async (req, res, next) => {
         "approved",
       ]);
       req.user = user;
-      next();
+     return next();
     }
   } catch (error) {
-  io.emit('logoutuser',{message:"Log Out User!"})
    return next(error)
   }
 };

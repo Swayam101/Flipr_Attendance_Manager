@@ -35,15 +35,14 @@ const studentSchema = new Schema(
     },
     country: {
       type: String,
-      default:" "
+      
     },
     address: {
       type: String,
-      default:" "
+      
     },
     phone:{
       type:String,
-      default:" "
     },
     socketId:{
       type:String,

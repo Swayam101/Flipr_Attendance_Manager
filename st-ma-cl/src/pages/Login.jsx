@@ -4,11 +4,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import useAuthStore from "../contexts/AuthStore.js";
-import useSocketStore from "../contexts/SocketStore.js";
-
 
 const Login = () => {
-
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -21,12 +18,43 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const socket=useSocketStore((state)=>state.socket)
-  const socketId=useSocketStore((state)=>state.socketId)
+  // const socket = useSocketStore((state) => state.socket);
 
- 
 
-  const saveUserData = useAuthStore((state) => state.setUserData)
+  const saveUserData = useAuthStore((state) => state.setUserData);
+
+  const handleAdminLogin=async (e)=>{
+    e.preventDefault();
+    const userCredentials = {
+      email: loginEmailRef.current.value,
+      password: loginPasswordRef.current.value,
+    };
+    try {
+      const response = await axiosConfig({
+        url: "/auth/login/admin",
+        method: "POST",
+        data: userCredentials,
+        withCredentials: true,
+      });
+      toast.success(response.data.message);
+      response.data.admin.isLoggedIn = true;
+      saveUserData(response.data.admin);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -42,12 +70,11 @@ const Login = () => {
         withCredentials: true,
       });
       toast.success(response.data.message);
-      response.data.user.isLoggedIn = true
-      saveUserData(response.data.user)
-      socket.emit('user-socket-id',{socketId,email:response.data.user.email})
-      if (response.data.user.isAdmin) return navigate("/")
-      if (!response.data.user.approved) return navigate("/student_approval")
-      navigate('/')
+      response.data.user.isLoggedIn = true;
+      saveUserData(response.data.user);
+      if (response.data.user.isAdmin) return navigate("/");
+      if (!response.data.user.approved) return navigate("/student_approval");
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
@@ -81,7 +108,7 @@ const Login = () => {
       console.log(response.data.user);
       response.data.user.isLoggedIn = true;
       saveUserData(response.data.user);
-      navigate("/student_approval")
+      return navigate("/attendance");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error, {
@@ -132,16 +159,19 @@ const Login = () => {
             placeholder="Enter Password"
             ref={passwordRef}
           />
-          <button className="eye-icon" onClick={togglePasswordVisibility}
+          <button
+            className="eye-icon"
+            onClick={togglePasswordVisibility}
             style={{
-              position: 'absolute',
-              top: '216px',
-              right: '40px',
-              fontSize: '18px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}>
+              position: "absolute",
+              top: "216px",
+              right: "40px",
+              fontSize: "18px",
+              backgroundColor: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             {showPassword ? "👁️" : "👁️‍🗨️"}
           </button>
           <button className="login-button" onClick={handleSignUp}>
@@ -162,27 +192,37 @@ const Login = () => {
             ref={loginEmailRef}
           />
           <input
-           type={showPassword ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             name="pswd"
             placeholder="Password"
             ref={loginPasswordRef}
           />
-          <button className="eye-icon" onClick={togglePasswordVisibility}
+          <button
+            className="eye-icon"
+            onClick={togglePasswordVisibility}
             style={{
-              position: 'absolute',
-              top: '160px',
-              right: '40px',
-              fontSize: '18px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}>
+              position: "absolute",
+              top: "160px",
+              right: "40px",
+              fontSize: "18px",
+              backgroundColor: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             {showPassword ? "👁️" : "👁️‍🗨️"}
           </button>
           <button onClick={handleLogin} className="login-button">
             Login
           </button>
+
+          <button onClick={handleAdminLogin} className="login-button">
+            Admin Login
+          </button>
+          <a href="/forgot-password" className="forget-p">
+
           <a href="/forgot_password" className="forget-p">
+            
             Forgot Password?
           </a>
         </form>

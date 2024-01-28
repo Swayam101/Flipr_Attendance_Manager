@@ -3,7 +3,7 @@ import { Router } from "express";
 import { body, validationResult } from "express-validator";
 
 // Controller Functions
-import { registerUser, loginUser, logoutUser, sendUpdatePasswordEmail,checkMailHash } from "../controllers/auth.js";
+import { registerUser, loginUser, logoutUser, sendUpdatePasswordEmail,checkMailHash, loginAdmin } from "../controllers/auth.js";
 
 // Middlewares
 import validationMiddleware from "../middlewares/validator.js";
@@ -36,6 +36,7 @@ router.post(
 );
 
 router.post("/login",loginUser)
+router.post('/login/admin',loginAdmin)
 
 router.post('/send-update-mail',sendUpdatePasswordEmail)
 router.post('/check-hash',checkMailHash)

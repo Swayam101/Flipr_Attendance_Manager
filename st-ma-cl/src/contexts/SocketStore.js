@@ -1,7 +1,6 @@
-import { toast } from "react-toastify";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import io from 'socket.io-client'
+import io from "socket.io-client";
 
 const store = (set, get) => ({
   socket: io("http://localhost:3000"),
@@ -9,8 +8,8 @@ const store = (set, get) => ({
   setSocketId: (socketId) => {
     console.log("Socket Id Added!");
     set((state) => ({
-      socket:state.socket,
-      socketId:socketId
+      socket: state.socket,
+      socketId: socketId,
     }));
   },
 });
@@ -18,7 +17,7 @@ const store = (set, get) => ({
 const useSocketStore = create(
   persist(store, {
     name: "socket-data",
-    storage: createJSONStorage(() => localStorage),
+    storage: createJSONStorage(() => sessionStorage),
   })
 );
 

@@ -45,10 +45,9 @@ const MarkAttendance = () => {
           <h4 style={{ marginBottom: '15px' }}>Mark Today's Attendance</h4>
           <div>
            
-            <img src={new QRious({ value: `https://attendance-backend-iovb.onrender.com/attendance/check-hash/${userData._id}/at/${attendanceHash}`, size: 200 }).toDataURL()} alt="QR Code" />
+            <img src={new QRious({ value: `https://h6z4bb1m-3000.inc1.devtunnels.ms/attendance/check-hash/${userData._id}/at/${attendanceHash}`, size: 200 }).toDataURL()} alt="QR Code" />
           </div>
           <p>Scan the QR code to mark your attendance</p>
-
         </>
       )}
     </div>
