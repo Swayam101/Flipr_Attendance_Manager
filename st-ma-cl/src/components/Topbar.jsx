@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../style.css";
 
 import { FaRegBell, FaTimes } from "react-icons/fa";
@@ -9,7 +9,6 @@ import Modal from "react-modal";
 import axiosConfig from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 import useAuthStore from "../contexts/AuthStore";
-import { io } from "socket.io-client";
 import useSocketStore from "../contexts/SocketStore";
 
 
@@ -34,8 +33,14 @@ function Topbar({ userRole }) {
     });
     socket.on('approve-student',(data)=>{
       setPendingStudents(data.students)
-      console.log("Emmited Event Approve Student!");
+     
     })
+    
+    
+    return ()=>{
+      socket.off('approve-student')
+    }
+    // socket.emit("join-room",user._id)
   }, []);
 
 
@@ -107,14 +112,15 @@ function Topbar({ userRole }) {
                 <button
                   onClick={async (e) => {
                     try {
+                      logOutUser();
                       await axiosConfig({
                         url: "/auth/logout",
                         method: "POST",
                         withCredentials: true,
                       });
-                      logOutUser();
+                     
                     } catch (error) {
-                      toast.error(error.response.data.message);
+                      // toast.error(error.response.data.message);
                       logOutUser();
                     }
                   }}
@@ -208,7 +214,7 @@ function Topbar({ userRole }) {
 
                       toast.success("Student Approved Successfully!", {});
                     } catch (error) {
-                      console.log("Approval erro");
+                      console.log("Approval error!");
                     }
                   }}
                   className="profileOptionButton"

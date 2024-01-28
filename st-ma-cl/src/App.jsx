@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 
 import Dashboard from "./pages/Dashboard";
@@ -18,41 +18,38 @@ import Forget_password from "./pages/Forget_password";
 import Attendence_Marking from "./pages/Attendence_Marking.jsx";
 
 import useSocketStore from "./contexts/SocketStore.js";
-import { toast } from "react-toastify";
 import useAuthStore from "./contexts/AuthStore.js";
 
-
 function App() {
-    const socket=useSocketStore((state)=>state.socket)
-    const socketId=useSocketStore((state)=>state.socketId)
-    
-    const logOutUser=useAuthStore((state)=>state.logOutUser)
+  const socket = useSocketStore((state) => state.socket);
+
+  const isLoggedIn=useAuthStore((state)=>state.isLoggedIn)
+  const user=useAuthStore((state)=>state.userData)
+  const isApproved=user?.approved
+  // const isAdmin=useAuthStore((state)=>state.isAdmin)
+
+  const logOutUser = useAuthStore((state) => state.logOutUser);
   useEffect(() => {
-    socket.on("connect", () => { 
-      console.log(socket.id);
-      toast.info("Server Connection Succesful!") 
-    });
-    socket.on('logoutuser',(data)=>{ 
-      console.log(data.message);
-      logOutUser()  
+    socket.on("logoutuser", (data) => {
+      console.log(` The Datamessage: ${data.message}`);
+      logOutUser();
     })
-    console.log(socketId);
     return () => {
-      socket.off("connect")
-      socket.off("logoutuser")
+      socket.off("connect");
+      socket.off("logoutuser");
     };
   });
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={isLoggedIn?<Navigate to={'/'}/>:<Login />} />
         <Route
           path="/"
           element={<ProtectedRoute component={<Dashboard />} />}
         />
         <Route
           path="/student_approval"
-          element={<ProtectedRoute component={<StudenDashboard />} />}
+          element={!isApproved?<StudenDashboard />:<Navigate to={'/'}/>}
         />
         <Route
           path="/students"

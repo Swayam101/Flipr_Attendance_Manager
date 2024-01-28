@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../style.css';
 import adminlogo from '../images/adminlogo1.png';
@@ -11,9 +11,10 @@ function Sidebar({ userRole }) {
     setActiveItem(itemName);
   };
 
+
   const userData = useAuthStore((store) => store.userData);
   const isApproved = userData.approved;
-  console.log(isApproved);
+
   return (
     <div className="sidebar-wrapper">
       <div className="admin_logo">

@@ -1,13 +1,14 @@
 import User from "../models/User.js";
 
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { io } from "../index.js";
+import sendMail from "../utils/sendMail.js";
+// import { io } from "../index.js";
 
 export const getAllStudents = asyncWrapper(async (req, res, next) => {
   const students = await User.find(
     { isAdmin: false },
     {},
-    { sort: { roll: -1 } }
+    { sort: { roll: 1 } }
   );
 
   res.json({ students });
@@ -26,6 +27,7 @@ export const getUnApprovedStudents = asyncWrapper(async (req, res, next) => {
 
 export const approveStudent = asyncWrapper(async (req, res, next) => {
   const { studentId } = req.params;
+  const io=req.app.get('socketio')
 
   const student = await User.findOneAndUpdate(
     { _id: studentId },
@@ -33,9 +35,11 @@ export const approveStudent = asyncWrapper(async (req, res, next) => {
     { new: true }
   );
   student.password=undefined
+  sendMail(student.email,"Attendance Manager Notification","Your Attendance Manager Account Has Been Approved! , Kindly Login To Continue!")
   io.emit("approved", {
     student,
   });
+
   res.json({ student });
 });
 
@@ -44,5 +48,5 @@ export const updateUserProfile = asyncWrapper(async (req, res, next) => {
   const updatedUser = await User.findOneAndUpdate({ _id }, req.body, {
     new: true,
   });
-  res.cookie().json({ updatedUser });
+  res.json({ updatedUser });
 });

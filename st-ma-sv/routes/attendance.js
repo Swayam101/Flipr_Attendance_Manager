@@ -4,7 +4,7 @@ import { getMyAttendance, getMyAttendanceStats,checkAttendanceHash, getAdminAtte
 
 const router = Router();
 
-router.get("/check-hash/:user/at/:hash",checkAttendanceHash );
+router.get("/",protectRoute,checkAttendanceHash );
 
 router.get("/admin-stats",protectRoute,getAdminAttendanceStats)
 router.get("/admin-stats/:date",protectRoute,getDateWiseAttendance)

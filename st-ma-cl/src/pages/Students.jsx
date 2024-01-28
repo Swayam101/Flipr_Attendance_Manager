@@ -103,9 +103,9 @@ const Students = () => {
                   <tr key={student._id}>
                     <td>{student.roll}</td>
                     <td>{student.name.charAt(0).toUpperCase() + student.name.slice(1).toLowerCase()}</td>
-                    <td>{student.phone}</td>
-                    <td>{formatDate(student.DOB)}</td>
-                    <td>{student.address}</td>
+                    <td>{student.phone?student.phone:"N/A" }</td>
+                    <td>{student.DOB?formatDate(student.DOB):"N/A"}</td>
+                    <td>{student.address?student.address:"N/A"}</td>
                   </tr>
                 ))}
               </tbody>

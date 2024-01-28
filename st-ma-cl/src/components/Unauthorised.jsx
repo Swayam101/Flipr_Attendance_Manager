@@ -11,7 +11,7 @@ const Unauthorised = () => {
       <div style={{ height: "60vh", width: "60vw", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <img src={unauth} alt="" />
       </div>
-        <Link to={isAdmin ? "/" : "student_approval"}><button style={{position:'absolute', top:'680px', left:'47%'}}>GO Back</button></Link>
+        <Link to={"/"}><button style={{position:'absolute', top:'680px', left:'47%'}}>GO Back</button></Link>
     </div>
   )
 }

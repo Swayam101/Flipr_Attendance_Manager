@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PiStudentFill } from 'react-icons/pi';
-import { VictoryPie, VictoryChart, VictoryLine, VictoryAxis, VictoryBar } from 'victory';
+import { VictoryPie, VictoryChart, VictoryAxis, VictoryBar } from 'victory';
 import axiosConfig from '../utils/axiosConfig';
 import useAuthStore from '../contexts/AuthStore';
 
@@ -205,7 +205,7 @@ function AdminMainBody({ userRole }) {
                                 </div>
                             </div>
                             <div className="row_wrapper">
-                                {stats.totalDays > 0 ? (
+                                {stats.totalDays > 1 ? (
                                     <div className="card matric_div piechart-container">
                                         <VictoryPie
                                             data={StudentData}

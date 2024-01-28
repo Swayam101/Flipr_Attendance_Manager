@@ -4,33 +4,36 @@ import User from "../models/User.js";
 
 // Utility Imports
 import asyncWrapper from "../utils/asyncWrapper.js";
-import { calculateDaysFromDate, hasMarkedAttendance } from "../utils/dataManips.js";
+import {
+  calculateDaysFromDate,
+  hasMarkedAttendance,
+} from "../utils/dataManips.js";
 import Qr from "../models/Qr.js";
 
-
 export const checkAttendanceHash = asyncWrapper(async (req, res, next) => {
-  const { hash, user } = req.params;
+  const { hash } = req.body;
+  const { _id } = req.user;
   const date = new Date();
 
+  // Hardcoded Functionality to Attendance be markable during 8AM and 10Am
   // const currentTime=date.getHours()*60+date.getMinutes()
   // const isAllowedToAttend=currentTime >= 8 * 60 && currentTime <= 10 * 60;
   // if(!isAllowedToAttend) return res.json({message:"Time Limit To Mark Attendance Has Been Reached!"})
 
-  const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } }); 
-  
-  if(currentQrCode.code!=hash) return res.status(403).json({message:"Invalid QR Code!"})
+  const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } });
+  console.log(currentQrCode.code);
+  if (currentQrCode.code != hash)
+    return res.status(403).json({ message: "Invalid QR Code!" });
 
-  const alreadyMarked = await hasMarkedAttendance(user, date);
+  const alreadyMarked = await hasMarkedAttendance(_id, date);
   if (alreadyMarked)
     return res
       .status(403)
       .json({ message: "Attendance Has Been Makred Already!" });
 
-  
-
-  await Attendance.create({ user, date, status: "Present" });
-  await User.findOneAndUpdate({ _id: user }, { attendanceMarked: true });
-  res.status(200).send("<h1>Attendance Marked Successfully!</h1>");
+  await Attendance.create({ user:_id, date, status: "Present" });
+  await User.findOneAndUpdate({ _id }, { attendanceMarked: true });
+  return res.status(200).json({ message: "Attendance Marked Successfully! " });
 });
 
 export const getMyAttendance = asyncWrapper(async (req, res, next) => {
@@ -50,7 +53,7 @@ export const getMyAttendanceStats = asyncWrapper(async (req, res, next) => {
     status: "Absent",
   });
   const user = await User.findOne({ _id: studentId });
-  const totalDays=calculateDaysFromDate(user.createdAt)+1
+  const totalDays = calculateDaysFromDate(user.createdAt);
   res.json({
     totalDays,
     presentDays,
@@ -128,7 +131,53 @@ export const getAdminAttendanceStats = asyncWrapper(async (req, res, next) => {
 export const getDateWiseAttendance = asyncWrapper(async (req, res, next) => {
   const { date } = req.params;
   const formattedDateWithOffset = new Date(date);
-
+  // const result = await User.aggregate([
+  //   {
+  //     $lookup: {
+  //       from: "attendances", // Assuming the collection name for attendance records is "attendance"
+  //       let: { userId: "$_id" },
+  //       pipeline: [
+  //         {
+  //           $match: {
+  //             $expr: {
+  //               $and: [
+  //                 { $eq: ["$user", "$$userId"] },
+  //                 {
+  //                   $gte: ["$date", new Date(formattedDateWithOffset)],
+  //                 },
+  //                 {
+  //                   $lt: [
+  //                     "$date",
+  //                     new Date(
+  //                       new Date(formattedDateWithOffset).setDate(
+  //                         new Date(formattedDateWithOffset).getDate() + 1
+  //                       )
+  //                     ),
+  //                   ],
+  //                 },
+  //               ],
+  //             },
+  //           },
+  //         },
+  //       ],
+  //       as: "attendanceData",
+  //     },
+  //   },
+  //   {
+  //     $project: {
+  //       _id: 1,
+  //       name: 1,
+  //       roll: 1,
+  //       status: {
+  //         $cond: {
+  //           if: { $gt: [{ $size: "$attendanceData" }, 0] },
+  //           then: { $arrayElemAt: ["$attendanceData.status", 0] },
+  //           else: "N/A",
+  //         },
+  //       },
+  //     },
+  //   },
+  // ]);
   const result = await Attendance.aggregate([
     {
       $match: {
@@ -167,32 +216,28 @@ export const getDateWiseAttendance = asyncWrapper(async (req, res, next) => {
   res.json({ students: result });
 });
 
-
-export const markAbsent=async () => {
-
+export const markAbsent = async () => {
   const currentDate = new Date();
-    const tenAM = new Date(currentDate);
-    tenAM.setHours(10, 0, 0, 0);
+  const tenAM = new Date(currentDate);
+  tenAM.setHours(10, 0, 0, 0);
 
   try {
     const absentStudents = await User.find({
-      approved: true, 
-      isAdmin: false, 
-      createdAt: { $lt: tenAM }, 
+      approved: true,
+      isAdmin: false,
+      createdAt: { $lt: tenAM },
     });
 
     if (absentStudents.length > 0) {
-      const attendanceRecords = absentStudents.map(student => ({
+      const attendanceRecords = absentStudents.map((student) => ({
         user: student._id,
         date: currentDate,
-        status: 'Absent',
+        status: "Absent",
       }));
       await Attendance.insertMany(attendanceRecords);
       console.log(`${absentStudents.length} Students Marked Absent!`);
     }
-
-    
   } catch (error) {
-    console.error('Error updating students:', error);
+    console.error("Error updating students:", error);
   }
-}
+};

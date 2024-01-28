@@ -1,6 +1,7 @@
 // Core Modules
 import http from 'http'
 import crypto from 'crypto'
+import path from 'path';
 
 // Third Party Packages
 import bodyParser from "body-parser";
@@ -20,6 +21,8 @@ import studentRouter from './routes/student.js'
 import errorHandlerMiddleware from "./middlewares/errorHandler.js";
 import Qr from './models/Qr.js';
 import { markAbsent } from './controllers/attendance.js';
+import { generatedQrCode } from './utils/dataManips.js';
+import { fileURLToPath } from 'url';
 
 // Express App Initialisation
 const PORT = process.env.PORT || 3000;
@@ -27,7 +30,7 @@ const app = express();
 const server=http.createServer(app)
 
 // Web socket initialisation
-export const io=new Server(server,{
+const io=new Server(server,{
   cors:{
     origin:"*",
     methods:["GET","POST"],
@@ -36,8 +39,12 @@ export const io=new Server(server,{
 })
 
 // Detecting socket Connection!
-io.on('connect',(socket)=>{
-    console.log(`New Socket Connection : ${socket.id}`);
+io.on('connection',(socket)=>{
+
+    socket.on('unapproved',()=>{
+      socket.join('unapproved')
+    })
+
 })
 
 // Cron Job To Mark Students Absent After 10 AM
@@ -50,10 +57,17 @@ cron.schedule('*/10 * * * * *',async () => {
   const qrCode=await Qr.create({
     code:newHashCode
   })
-  // Emit updated hash to all the clients
-  io.emit('hashUpdate',{qrCodeHash:qrCode.code});
-  console.log(`Current Hash : ${qrCode.code}`);
+  const qrImageUrl=await generatedQrCode(qrCode.code)
+  console.log(qrCode.code);
+  io.emit('hashUpdate',{qrImageUrl});
+
 });
+
+const __dirname=path.dirname(fileURLToPath(import.meta.url))
+
+app.set('socketio',io)
+app.set('views',path.join(__dirname,'public'))
+app.set('view engine','ejs')
 
 
 // Data Parsing Middlwares
@@ -61,6 +75,11 @@ app.use(cors({origin:true,credentials:true}))
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serving The Qr Page!
+app.get('/',(req,res,next)=>{
+  res.render('qr',)
+})
 
 // REST API Endpoints
 app.use("/auth", authRouter);
@@ -75,7 +94,6 @@ app.use(errorHandlerMiddleware)
 server.listen(PORT, () => {
   console.log(`Server Started @ PORT ${PORT}`);
 })
-
 
 // Connecting to MDB Atlas (cloud DB)
 mongoose
