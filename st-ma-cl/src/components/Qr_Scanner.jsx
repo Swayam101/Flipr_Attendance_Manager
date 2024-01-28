@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import QrScanner from 'react-qr-scanner';
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import axiosConfig from '../utils/axiosConfig.js'
-import toast from 'react-toastify'
+import {toast} from 'react-toastify'
 
 
 function Qr_Scanner() {
