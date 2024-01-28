@@ -71,6 +71,7 @@ app.set('view engine','ejs')
 
 
 // Data Parsing Middlwares
+app.use(express.static("public"))
 app.use(cors({origin:true,credentials:true}))
 app.use(cookieParser())
 app.use(bodyParser.json());
