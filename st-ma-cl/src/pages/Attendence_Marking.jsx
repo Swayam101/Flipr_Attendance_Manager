@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import Mark_attendence from '../components/Mark_attendence';
 import useAuthStore from '../contexts/AuthStore';
+import Qr_Scanner from '../components/Qr_Scanner';
 
 
 
@@ -16,8 +17,8 @@ function Attendence_Marking() {
         <>
       <Topbar userRole={userRole} />
       <Sidebar userRole={userRole} />
-     
-      <Mark_attendence  />
+      {/* <Mark_attendence  /> */}
+      <Qr_Scanner/>
     </>
     )
 }

@@ -182,7 +182,7 @@ const Login = () => {
           <button onClick={handleLogin} className="login-button">
             Login
           </button>
-          <a href="/forgot-password" className="forget-p">
+          <a href="/forgot_password" className="forget-p">
             Forgot Password?
           </a>
         </form>

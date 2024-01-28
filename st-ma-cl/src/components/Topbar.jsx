@@ -11,20 +11,27 @@ import { toast } from "react-toastify";
 import useAuthStore from "../contexts/AuthStore";
 import { io } from "socket.io-client";
 import useSocketStore from "../contexts/SocketStore";
+import { MdMenu } from "react-icons/md";
+import { MdDashboard } from "react-icons/md";
+import { MdOutlineQrCodeScanner } from "react-icons/md";
+import { PiStudentBold } from "react-icons/pi";
+import { SlCalender } from "react-icons/sl";
 
 
 function Topbar({ userRole }) {
   const logOutUser = useAuthStore((state) => state.logOutUser);
-
   const user = useAuthStore((state) => state.userData);
   Modal.setAppElement("#root");
 
   const [showOptions, setShowOptions] = useState(false);
-
-  const socket=useSocketStore((state)=>state.socket)
-
   const [showNotifications, setShowNotifications] = useState(false);
   const [pendingStudents, setPendingStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // State for managing sidebar open/close
+
+  const socket = useSocketStore((state) => state.socket);
+
   useEffect(() => {
     axiosConfig({
       url: "/student/approved",
@@ -32,16 +39,14 @@ function Topbar({ userRole }) {
     }).then((response) => {
       setPendingStudents(response.data.students);
     });
-    socket.on('approve-student',(data)=>{
-      setPendingStudents(data.students)
+    socket.on("approve-student", (data) => {
+      setPendingStudents(data.students);
       console.log("Emmited Event Approve Student!");
-    })
+    });
   }, []);
 
-
-
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const userData = useAuthStore((store) => store.userData);
+  const isApproved = userData.approved;
 
   const handleProfileClick = () => {
     if (showNotifications) setShowNotifications(false);
@@ -65,9 +70,39 @@ function Topbar({ userRole }) {
     setShowModal(false);
   };
 
+
   return (
     <div className="topbar">
-      <div></div>
+      <div className="topbar_left">
+
+        {userRole === "admin" && (
+          <>
+            <div className="s-topbar-icon">
+              <Link to="/"><MdDashboard style={{ color: 'white' }} /></Link>
+            </div>
+            <div className="s-topbar-icon">
+              <Link to="/students"><PiStudentBold style={{ color: 'white' }} />
+              </Link>
+            </div>
+            <div className="s-topbar-icon">
+              <Link to="/attendance"><SlCalender a style={{ color: 'white' }} />
+              </Link>
+            </div>
+          </>
+        )}
+        {userRole === "student" && (
+          <>
+            <div className="s-topbar-icon">
+              <Link to="/"><MdDashboard style={{ color: 'white' }} /></Link>
+            </div>
+            <div className="s-topbar-icon">
+              <Link to="/mark_attendance"><MdOutlineQrCodeScanner style={{ color: 'white' }} />
+              </Link>
+            </div>
+          </>
+        )}
+      </div>
+
       <div className="topbar__right">
         {userRole === "admin" && (
           <div className="topbar__icon" onClick={handleBellIconClick}>
@@ -153,7 +188,7 @@ function Topbar({ userRole }) {
                   right: "auto",
                   bottom: "auto",
                   marginRight: "-50%",
-                  transform: "translate(-50%, -50%)",
+                  transform: "translate(-70%, -50%)",
                   backgroundColor: "rgb(0,32,85,0.9)",
                   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   border: "none",
@@ -198,7 +233,7 @@ function Topbar({ userRole }) {
                         url: `/student/approve/${selectedStudent._id}`,
                         method: "POST",
                         withCredentials: true,
-                        data:{}
+                        data: {},
                       });
                       const newPendingStudents = pendingStudents.filter(
                         (obj) => obj._id !== selectedStudent._id

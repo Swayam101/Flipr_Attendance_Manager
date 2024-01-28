@@ -72,8 +72,8 @@ function App() {
           element={<ProtectedRoute component={<Profile />} />}
         />
         <Route
-          path="/forget_password"
-          element={<ProtectedRoute component={<Forget_password />} />}
+          path="/forgot_password"
+          element={<Forget_password />}
         />
 
         <Route path="*" element={<Unauthorised />} />
