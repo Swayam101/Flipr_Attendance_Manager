@@ -1,11 +1,12 @@
-.profile_container{
+.profile_container {
     width: 70vw;
     height: 75vh;
     margin-left: 15vw;
     display: flex;
     flex-direction: row;
 }
-.profile-left{
+
+.profile-left {
     width: 25%;
     height: 40vh;
     margin: 5px;
@@ -15,7 +16,8 @@
     padding: 7px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.student-profile-sec img{
+
+.student-profile-sec img {
     margin-top: 10px;
     width: 170px;
     height: 170px;
@@ -23,37 +25,45 @@
     border-radius: 50%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
-.username-st-pro{
+
+.username-st-pro {
     margin-top: 15px;
 }
-.pencil-icon{
+
+.pencil-icon {
     font-size: 25px;
     position: absolute;
-    top:56%;
+    top: 56%;
     left: 60%;
-    color: rgb(230, 229, 229);;
+    color: rgb(230, 229, 229);
+    ;
 }
-.profile-right{
+
+.profile-right {
     width: 70%;
     margin: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     margin-left: 20px;
 }
-.general-info-heading{
+
+.general-info-heading {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 15px;
 }
-.general-info-heading h4{
+
+.general-info-heading h4 {
     font-weight: bold;
     margin-top: 10px;
 }
-.personal-info form{
+
+.personal-info form {
     height: 100%;
     overflow: hidden;
 }
-.info-field{
+
+.info-field {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -62,23 +72,94 @@
     justify-content: space-between;
     padding: 3px 20px;
 }
-.info-field input{
+
+.info-field input {
     width: 200px;
 }
-.info-field h5{
+
+.info-field h5 {
     width: 150px !important;
 }
-.address-input{
-    width:80% !important;
+
+.address-input {
+    width: 80% !important;
 }
-.pro-info-sub{
+
+.pro-info-sub {
     display: flex;
     justify-content: center;
     margin-top: 15px;
     margin-left: 40px;
 }
-.pro-info-sub button{
+
+.pro-info-sub button {
     padding: 7px 20px;
     font-weight: bold;
     font-size: 18px;
+}
+
+/* responsive */
+@media only screen and (max-width: 767px) {
+    .profile_container {
+        margin-left: 0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-left {
+        width: 25%;
+        height: 40vh;
+        margin: 5px;
+        padding: 7px;
+        margin-top: 40%;
+    }
+
+    .username-st-pro {
+        margin-top: 7px;
+    }
+
+    .pencil-icon {
+        top: 60%;
+        left: 80%;
+    }
+
+
+    .profile-right {
+        width: 100vw;
+    }
+
+    .general-info-heading {
+        flex-direction: row;
+        padding: 15px;
+    }
+
+    .general-info-heading h4 {
+        font-size: 20px;
+    }
+
+    .personal-info form {
+        height: 100%;
+    }
+
+    .info-field {
+        flex-direction: row;
+        padding: 1px 4px;
+        padding-right: 10px;
+    }
+
+    .info-field input {
+        width: 100px;
+        margin: 15px 5px;
+    }
+    
+    .info-field h5 {
+        width: 120px !important;
+        font-size: 14px;
+    }
+    
+    .address-input {
+        width: 100vw !important;
+    }
+    
 }

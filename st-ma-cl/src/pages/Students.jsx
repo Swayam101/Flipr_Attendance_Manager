@@ -33,7 +33,7 @@ const Students = () => {
 
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const studentsPerPage = 8; // Adjust as needed
+  const studentsPerPage = 7; // Adjust as needed
 
   // Filter students based on search term
   const filteredStudents = students.filter(student =>

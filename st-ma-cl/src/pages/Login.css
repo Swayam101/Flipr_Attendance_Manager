@@ -115,3 +115,13 @@ button:hover{
 .continue-btn:hover{
 	background-color: #2d5160;
 }
+
+
+@media only screen and (max-width: 767px) {
+
+	.main{
+		width: 320px;
+		height: 480px;
+		border-radius: 10px;
+	}	
+}
