@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import QrScanner from 'react-qr-scanner';
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import axiosConfig from '../utils/axiosConfig.js'
+import toast from 'react-toastify'
 
 
 function Qr_Scanner() {
     const [result, setResult] = useState(false);
     const [attendanceMarked, setAttendanceMarked] = useState(false);
 
-    const handleScan = (data) => {
+    const handleScan =async  (data) => {
         if (data && !attendanceMarked) {
             console.log("Scanned data:", data);
             setResult(true);
-            // Here you can send the scanned data to your backend for processing
-            // Example: sendScannedData(data);
+            try {
+              const response=  await axiosConfig({
+                    url:"/attendance",
+                    data:{hash:data.text},
+                    withCredentials:true,
+                })
+                toast.success(response.data.message)
+            } catch (error) {
+                toast.error("backend error || attendance marked already ||  ")
+            }
             setAttendanceMarked(true); // Close the scanner after scanning
         }
     };
