@@ -15,13 +15,16 @@ function Qr_Scanner() {
             setResult(true);
             try {
               const response=  await axiosConfig({
+                    method:'POST',
                     url:"/attendance",
                     data:{hash:data.text},
                     withCredentials:true,
                 })
+                console.log(response)
                 toast.success(response.data.message)
             } catch (error) {
-                toast.error("backend error || attendance marked already ||  ")
+                toast.error(error.response.data.message);
+                // toast.error("backend error || attendance marked already ||  ")
             }
             setAttendanceMarked(true); // Close the scanner after scanning
         }

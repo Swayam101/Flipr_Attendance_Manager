@@ -22,9 +22,10 @@ export const checkAttendanceHash = asyncWrapper(async (req, res, next) => {
 
   const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } });
   console.log(currentQrCode.code);
-  if (currentQrCode.code != hash)
+  if (currentQrCode.code != hash){
+    console.log("aya hai bhai------", currentQrCode, " ans hash is", hash);
     return res.status(403).json({ message: "Invalid QR Code!" });
-
+  }
   const alreadyMarked = await hasMarkedAttendance(_id, date);
   if (alreadyMarked)
     return res
@@ -53,7 +54,7 @@ export const getMyAttendanceStats = asyncWrapper(async (req, res, next) => {
     status: "Absent",
   });
   const user = await User.findOne({ _id: studentId });
-  const totalDays = calculateDaysFromDate(user.createdAt);
+  const totalDays = calculateDaysFromDate(user.createdAt)+1;
   res.json({
     totalDays,
     presentDays,
