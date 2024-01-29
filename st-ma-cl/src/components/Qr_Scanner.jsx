@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import QrScanner from 'react-qr-scanner';
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { IoMdCheckmarkCircleOutline ,IoMdCloseCircle} from "react-icons/io";
 import axiosConfig from '../utils/axiosConfig.js'
 import {toast} from 'react-toastify'
 
@@ -8,6 +8,7 @@ import {toast} from 'react-toastify'
 function Qr_Scanner() {
     const [result, setResult] = useState(false);
     const [attendanceMarked, setAttendanceMarked] = useState(false);
+    const [message, setMessage]= useState('');
 
     const handleScan =async  (data) => {
         if (data && !attendanceMarked) {
@@ -21,10 +22,9 @@ function Qr_Scanner() {
                     withCredentials:true,
                 })
                 console.log(response)
-                toast.success(response.data.message)
+                setMessage(response.data.message)                
             } catch (error) {
-                toast.error(error.response.data.message);
-                // toast.error("backend error || attendance marked already ||  ")
+                setMessage(error.response.data.message)
             }
             setAttendanceMarked(true); // Close the scanner after scanning
         }
@@ -56,8 +56,12 @@ function Qr_Scanner() {
 
             {result && attendanceMarked && (
                 <div className="animated-checkmark">
-                    <p>Attendance marked successfully!</p>
+                    <p>{message}</p>
+                    {message==="Attendance Marked Successfully! " ?
                     <IoMdCheckmarkCircleOutline style={{ color: 'green', fontSize: '70px' }} />
+                    :
+                    <IoMdCloseCircle style={{ color: 'red', fontSize: '70px' }} />
+                    }
                 </div>
             )}
         </div>
