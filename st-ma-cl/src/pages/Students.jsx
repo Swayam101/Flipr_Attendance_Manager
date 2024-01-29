@@ -17,6 +17,7 @@ const Students = () => {
       withCredentials:true,
     }).then((response)=>{
       setStudents(response.data.students)
+      setLoading(false);
     })
   },[])
 
@@ -66,77 +67,96 @@ const Students = () => {
   };
 
   const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   return (
     <>
-      <Topbar userRole={userRole}/>
-      <Sidebar userRole={userRole}/>
-      <div className="container card student-table">
-        <div className="row search-bar">
-          <div className="col-md-4 offset-md-8">
-            <div className="input-group mb-3">
-              <input
-                type="text"
-                className="form-control search-input"
-                placeholder="Search for students..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+    <Topbar userRole={userRole} />
+    <Sidebar userRole={userRole} />
+    <div className="container card student-table">
+      {loading ? (
+        <div className="loading_container">
+          <div className="lds_ripple">
+            <div></div>
+            <div></div>
+          </div>
+          <p>Loading....</p>
+        </div>
+      ) : (
+        <>
+          <div className="row search-bar">
+            <div className="col-md-4 offset-md-8">
+              <div className="input-group mb-3">
+                <input
+                  type="text"
+                  className="form-control search-input"
+                  placeholder="Search for students..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="row std-table">
-          <div className="col">
-            <table className="table table-striped table-bordered table-hover">
-              <thead className='table-head'>
-                <tr>
-                  <th>Roll No.</th>
-                  <th>Name</th>
-                  <th>Phone</th>
-                  <th>DOB</th>
-                  <th>Address</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentStudents.map((student) => (
-                  <tr key={student._id}>
-                    <td>{student.roll}</td>
-                    <td>{student.name.charAt(0).toUpperCase() + student.name.slice(1).toLowerCase()}</td>
-                    <td>{student.phone?student.phone:"N/A" }</td>
-                    <td>{student.DOB?formatDate(student.DOB):"N/A"}</td>
-                    <td>{student.address?student.address:"N/A"}</td>
+          <div className="row std-table">
+            <div className="col">
+              <table className="table table-striped table-bordered table-hover">
+                <thead className="table-head">
+                  <tr>
+                    <th>Roll No.</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Address</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentStudents.map((student) => (
+                    <tr key={student._id}>
+                      <td>{student.roll}</td>
+                      <td>{student.name.charAt(0).toUpperCase() + student.name.slice(1).toLowerCase()}</td>
+                      <td>{student.phone ? student.phone : 'N/A'}</td>
+                      <td>{student.DOB ? formatDate(student.DOB) : 'N/A'}</td>
+                      <td>{student.address ? student.address : 'N/A'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
-        <div className="row pagination-row">
-          <div className="col">
-            <nav>
-              <ul className="pagination justify-content-end">
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button className="page-link prev-nxt-btn" onClick={() => handlePaginationClick(currentPage - 1)}>&laquo;</button>
-                </li>
-
-                {generatePageNumbers().map((pageNumber) => (
-                  <li key={pageNumber} className={`page-item ${pageNumber === currentPage ? 'active' : ''}`}>
-                    <button className="page-link page-numbers" onClick={() => handlePaginationClick(pageNumber)}>{pageNumber}</button>
+          <div className="row pagination-row">
+            <div className="col">
+              <nav>
+                <ul className="pagination justify-content-end">
+                  <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                    <button className="page-link prev-nxt-btn" onClick={() => handlePaginationClick(currentPage - 1)}>
+                      &laquo;
+                    </button>
                   </li>
-                ))}
 
-                <li className={`page-item ${currentPage === totalPageCount ? 'disabled' : ''}`}>
-                  <button className="page-link prev-nxt-btn" onClick={() => handlePaginationClick(currentPage + 1)}>&raquo;</button>
-                </li>
-              </ul>
-            </nav>
+                  {generatePageNumbers().map((pageNumber) => (
+                    <li key={pageNumber} className={`page-item ${pageNumber === currentPage ? 'active' : ''}`}>
+                      <button className="page-link page-numbers" onClick={() => handlePaginationClick(pageNumber)}>
+                        {pageNumber}
+                      </button>
+                    </li>
+                  ))}
+
+                  <li className={`page-item ${currentPage === totalPageCount ? 'disabled' : ''}`}>
+                    <button className="page-link prev-nxt-btn" onClick={() => handlePaginationClick(currentPage + 1)}>
+                      &raquo;
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+      )}
+    </div>
+  </>
+);
 };
 
 export default Students;
