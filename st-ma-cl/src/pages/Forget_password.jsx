@@ -73,7 +73,7 @@ const OtpChecker = ({email}) => {
        navigate("/login")
     } catch (error) {
         toast.error(error.response.data.message);
-        navigate("/forget_password")
+        navigate("/forgot_password")
     }
   };
 
