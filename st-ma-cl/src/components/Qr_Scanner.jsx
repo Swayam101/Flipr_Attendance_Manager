@@ -31,6 +31,7 @@ function Qr_Scanner() {
     };
 
     const handleError = (err) => {
+        setMessage(err)
         console.error(err);
     };
 
