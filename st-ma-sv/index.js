@@ -54,7 +54,7 @@ io.on('connection',(socket)=>{
 cron.schedule('0 10 * * *', markAbsent);
 
 // Cron Job To Refresh current hash every 10 seconds
-cron.schedule('*/10 * * * * *',async () => {
+cron.schedule('*/30 * * * * *',async () => {
   const newHashCode = crypto.randomBytes(6).toString('hex');
   await Qr.deleteMany({});
   const qrCode=await Qr.create({
