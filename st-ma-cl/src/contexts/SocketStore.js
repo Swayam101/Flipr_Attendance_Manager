@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import io from "socket.io-client";
 
 const store = (set, get) => ({
-  socket: io("http://localhost:3000"),
+  socket: io("https://attendance-backend-iovb.onrender.com/"),
   socketId: "",
   setSocketId: (socketId) => {
     console.log("Socket Id Added!");

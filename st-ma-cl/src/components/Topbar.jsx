@@ -32,6 +32,7 @@ function Topbar({ userRole }) {
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for managing sidebar open/close
 
   const socket = useSocketStore((state) => state.socket);
+  const isApproved = useAuthStore((store) => store.isApproved);
 
   useEffect(() => {
     axiosConfig({
@@ -98,7 +99,7 @@ function Topbar({ userRole }) {
             </div>
           </>
         )}
-        {userRole === "student" && (
+        {userRole === "student" && isApproved && (
           <>
             <div className="s-topbar-icon">
               <Link to="/"><MdDashboard style={{ color: 'white' }} /></Link>
