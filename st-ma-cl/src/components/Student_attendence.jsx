@@ -11,6 +11,7 @@ const Student_attendence = () => {
     const filteredRecords = attendanceRecords.filter((record) => record.name.toLowerCase().includes(searchTerm.toLowerCase()));
     const totalPageCount = Math.ceil(filteredRecords.length / recordsPerPage);
     const maxVisiblePages = 5;
+    const [loading, setLoading] = useState(false); // Add loading state
 
     const generatePageNumbers = () => {
         const pages = [];
@@ -31,12 +32,14 @@ const Student_attendence = () => {
     };
 
     useEffect(() => {
+        setLoading(true);
         axiosConfig({
             url: `/attendance/admin-stats/${selectedDate}`,
             method: "GET",
             withCredentials: true
         }).then((response) => {
             setAttendanceRecords(response.data.students);
+            setLoading(false);
             console.log(response.data);
         });
     }, [selectedDate]);
@@ -69,34 +72,47 @@ const Student_attendence = () => {
                     </div>
                 </div>
 
-                <div className="row std-table">
-                    <div className="col">
-                        {currentRecords.length === 0 ? (
-                            <p>No records found</p>
-                        ) : (
-                            <table className="table table-striped table-bordered table-hover">
-                                <thead className='table-head'>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {currentRecords.map((record) => (
-                                        <tr key={record._id}>
-                                            <td>{record.roll}</td>
-                                            <td>{record.name}</td>
-                                            <td>{new Date(record.date).toDateString()}</td>
-                                            <td>{record.status}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        )}
+
+                {loading ? (
+                    <div className="loading_container">
+                        <div className="lds_ripple">
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p>Loading....</p>
                     </div>
-                </div>
+                ) : (
+                    <div className="row std-table">
+                        <div className="col">
+                            {currentRecords.length === 0 ? (
+                                <p>No records found</p>
+                            ) : (
+                                <table className="table table-striped table-bordered table-hover">
+                                    <thead className='table-head'>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentRecords.map((record) => (
+                                            <tr key={record._id}>
+                                                <td>{record.roll}</td>
+                                                <td>{record.name}</td>
+                                                <td>{new Date(record.date).toDateString()}</td>
+                                                <td>{record.status}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+                        </div>
+                    </div>
+
+                )}
+
 
                 <div className="row pagination-row">
                     <div className="col">
