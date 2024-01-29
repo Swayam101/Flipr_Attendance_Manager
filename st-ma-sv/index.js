@@ -1,3 +1,5 @@
+
+
 // Core Modules
 import http from 'http'
 import crypto from 'crypto'
@@ -23,6 +25,7 @@ import Qr from './models/Qr.js';
 import { markAbsent } from './controllers/attendance.js';
 import { generatedQrCode } from './utils/dataManips.js';
 import { fileURLToPath } from 'url';
+import { protectRoute } from './middlewares/routeProtect.js';
 
 // Express App Initialisation
 const PORT = process.env.PORT || 3000;
@@ -48,7 +51,7 @@ io.on('connection',(socket)=>{
 })
 
 // Cron Job To Mark Students Absent After 10 AM
-cron.schedule('0 10 * * *', markAbsent);
+cron.schedule('36 12 * * *', markAbsent);
 
 // Cron Job To Refresh current hash every 10 seconds
 cron.schedule('*/30 * * * * *',async () => {
@@ -78,7 +81,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serving The Qr Page!
-app.get('/',(req,res,next)=>{
+app.get('/',protectRoute,(req,res,next)=>{
   res.render('qr',)
 })
 

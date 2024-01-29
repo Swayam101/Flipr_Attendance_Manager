@@ -44,8 +44,9 @@ export const approveStudent = asyncWrapper(async (req, res, next) => {
 });
 
 export const updateUserProfile = asyncWrapper(async (req, res, next) => {
-  const { _id } = req.user;
-  const updatedUser = await User.findOneAndUpdate({ _id }, req.body, {
+  const userId = req.user._id;
+  const {_id,...updatedData}=req.body
+  const updatedUser = await User.findOneAndUpdate({ _id:userId }, updatedData, {
     new: true,
   });
   res.json({ updatedUser });

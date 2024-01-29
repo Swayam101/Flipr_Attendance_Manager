@@ -1,4 +1,5 @@
 const errorHandlerMiddleware = async (err, req, res, next) => {
+  console.log(err);
   if (err.code == 11000) {
     const collection = err.message
       .split(" ")[5]

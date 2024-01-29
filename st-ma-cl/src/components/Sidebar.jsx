@@ -12,8 +12,8 @@ function Sidebar({ userRole }) {
   };
 
 
-  const userData = useAuthStore((store) => store.userData);
-  const isApproved = userData.approved;
+  
+  const isApproved = useAuthStore((store) => store.isApproved);
 
   return (
     <div className="sidebar-wrapper">

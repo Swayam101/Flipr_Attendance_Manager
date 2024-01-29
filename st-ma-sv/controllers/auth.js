@@ -11,7 +11,6 @@ import asyncWrapper from "../utils/asyncWrapper.js";
 import { signAccessToken } from "../utils/signToken.js";
 import sendMail from "../utils/sendMail.js";
 import { incrementRollNumber } from "../utils/dataManips.js";
-import { threadId } from "worker_threads";
 // import {io} from  '../index.js'
 
 export const registerUser = asyncWrapper(async (req, res, next) => {
@@ -35,13 +34,16 @@ export const registerUser = asyncWrapper(async (req, res, next) => {
     email,
     password: hashedPassword,
     roll: latestRoll,
+    // createdAt: new Date().toLocaleString("en-US", {
+    //   timeZone: "Asia/Calcutta",
+    // }),
   });
 
   const accessToken = await signAccessToken(user._id);
   user.password = undefined;
 
   const students = await User.find({ approved: false, isAdmin: false });
-  
+
   io.emit("approve-student", {
     students,
   });
@@ -76,18 +78,18 @@ export const loginUser = asyncWrapper(async (req, res, next) => {
     .json({ message: "Log In Successful!", user });
 });
 
-export const loginQr=asyncWrapper(async (req,res,next)=>{
-    const {pin} =req.body
-    if(pin!='1234') throw new Error('Unauthorised : Access Denied')
-    res.json({message:'Qr Login Successful!'})
-})
+export const loginQr = asyncWrapper(async (req, res, next) => {
+  const { pin } = req.body;
+  if (pin != "1234") throw new Error("Unauthorised : Access Denied");
+  res.json({ message: "Qr Login Successful!" });
+});
 
-export const loginAdmin= asyncWrapper(async (req, res, next) => {
+export const loginAdmin = asyncWrapper(async (req, res, next) => {
   const { email, password } = req.body;
-  if (email!='admin@admin.com') throw new Error("Invalid Admin Credentials");
-  if (password!='Qwer5^') throw new Error("Invalid Admin Credentials");
+  if (email != "admin@admin.com") throw new Error("Invalid Admin Credentials");
+  if (password != "Qwer5^") throw new Error("Invalid Admin Credentials");
 
-  const admin=await User.findOne({isAdmin:true})
+  const admin = await User.findOne({ isAdmin: true });
 
   const accessToken = await signAccessToken(admin._id);
   admin.password = undefined;
@@ -148,5 +150,6 @@ export const checkMailHash = asyncWrapper(async (req, res, next) => {
 });
 
 export const logoutUser = asyncWrapper(async (req, res, next) => {
+  console.log("EndPoint Reached!");
   res.clearCookie("token").json({ message: "Logout Successful!" });
 });
