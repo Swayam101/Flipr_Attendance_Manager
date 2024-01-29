@@ -6,6 +6,7 @@ import User from "../models/User.js";
 import asyncWrapper from "../utils/asyncWrapper.js";
 import {
   calculateDaysFromDate,
+  convertToIST,
   hasMarkedAttendance,
 } from "../utils/dataManips.js";
 import Qr from "../models/Qr.js";
@@ -17,11 +18,10 @@ export const checkAttendanceHash = asyncWrapper(async (req, res, next) => {
       timeZone: "Asia/Calcutta",
     });
 
-
+    console.log(`Scanned Code: ${hash}`);
   const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } });
-  console.log(currentQrCode.code);
-  if (currentQrCode.code != hash){
-    console.log("aya hai bhai------", currentQrCode, " ans hash is", hash);
+  console.log(`Current Code Code: ${currentQrCode}`);
+  if (currentQrCode?.code != hash){
     return res.status(403).json({ message: "Invalid QR Code!" });
   }
   const alreadyMarked = await hasMarkedAttendance(_id, date);
@@ -110,17 +110,23 @@ export const getAdminAttendanceStats = asyncWrapper(async (req, res, next) => {
     },
   ]);
 
+
   const totalStudents = await User.countDocuments({
     isAdmin: false,
   });
   const totalPresent = await Attendance.countDocuments({
-    date: { $gte: today },
+    date: { $gte: new Date(today).toLocaleString('en-US',{
+      timeZone:'Asia/Kolkata'
+    }) },
     status: "Present",
   });
   const totalAbsent = await Attendance.countDocuments({
-    date: { $gte: today },
+    date: { $gte: new Date(today).toLocaleString('en-US',{
+      timeZone:'Asia/Kolkata'
+    }) },
     status: "Absent",
   });
+
 
   res
     .status(200)
@@ -129,60 +135,15 @@ export const getAdminAttendanceStats = asyncWrapper(async (req, res, next) => {
 
 export const getDateWiseAttendance = asyncWrapper(async (req, res, next) => {
   const { date } = req.params;
-  const formattedDateWithOffset = new Date(date);
-  // const result = await User.aggregate([
-  //   {
-  //     $lookup: {
-  //       from: "attendances", // Assuming the collection name for attendance records is "attendance"
-  //       let: { userId: "$_id" },
-  //       pipeline: [
-  //         {
-  //           $match: {
-  //             $expr: {
-  //               $and: [
-  //                 { $eq: ["$user", "$$userId"] },
-  //                 {
-  //                   $gte: ["$date", new Date(formattedDateWithOffset)],
-  //                 },
-  //                 {
-  //                   $lt: [
-  //                     "$date",
-  //                     new Date(
-  //                       new Date(formattedDateWithOffset).setDate(
-  //                         new Date(formattedDateWithOffset).getDate() + 1
-  //                       )
-  //                     ),
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           },
-  //         },
-  //       ],
-  //       as: "attendanceData",
-  //     },
-  //   },
-  //   {
-  //     $project: {
-  //       _id: 1,
-  //       name: 1,
-  //       roll: 1,
-  //       status: {
-  //         $cond: {
-  //           if: { $gt: [{ $size: "$attendanceData" }, 0] },
-  //           then: { $arrayElemAt: ["$attendanceData.status", 0] },
-  //           else: "N/A",
-  //         },
-  //       },
-  //     },
-  //   },
-  // ]);
+  console.log(date);
+  const formattedDateWithOffset = new Date(new Date(date));
+ 
   const result = await Attendance.aggregate([
     {
       $match: {
         date: {
           $gte: new Date(formattedDateWithOffset),
-          $lt: new Date(
+          $lte: new Date(
             new Date(formattedDateWithOffset).setDate(
               new Date(formattedDateWithOffset).getDate() + 1
             )
@@ -212,7 +173,13 @@ export const getDateWiseAttendance = asyncWrapper(async (req, res, next) => {
       },
     },
   ]);
-  res.json({ students: result });
+
+  const dateFormattedStudents=result.map((student)=>({
+    ...student,
+    date:convertToIST(date)
+  }))
+
+  res.json({ students: dateFormattedStudents });
 });
 
 export const markAbsent = async () => {

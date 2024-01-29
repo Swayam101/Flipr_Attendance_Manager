@@ -51,7 +51,7 @@ io.on('connection',(socket)=>{
 })
 
 // Cron Job To Mark Students Absent After 10 AM
-cron.schedule('0 10 * * *', markAbsent);
+cron.schedule('36 12 * * *', markAbsent);
 
 // Cron Job To Refresh current hash every 10 seconds
 cron.schedule('*/30 * * * * *',async () => {
