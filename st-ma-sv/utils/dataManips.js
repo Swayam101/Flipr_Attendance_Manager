@@ -76,3 +76,8 @@ export const calculateDaysFromDate=(givenDate)=> {
 
   return daysDifference;
 }
+
+export const convertToIST = (utcDateString) => {
+  const options = { timeZone: 'Asia/Kolkata' }; // Indian Standard Time (IST)
+  return new Date(utcDateString).toLocaleString('en-US', options);
+};

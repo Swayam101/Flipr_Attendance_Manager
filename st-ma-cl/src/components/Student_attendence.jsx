@@ -98,7 +98,7 @@ const [selectedDate,setSelectedDate]=useState()
                                     <tr key={record._id}>
                                         <td>{record.roll}</td>
                                         <td>{record.name}</td>
-                                        <td>{record.date}</td>
+                                        <td>{new Date(record.date).toDateString()}</td>
                                         <td>{record.status}</td>
                                     </tr>
                                 ))}
