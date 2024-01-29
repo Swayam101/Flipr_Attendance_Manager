@@ -24,8 +24,7 @@ function App() {
   const socket = useSocketStore((state) => state.socket);
 
   const isLoggedIn=useAuthStore((state)=>state.isLoggedIn)
-  const user=useAuthStore((state)=>state.userData)
-  const isApproved=user?.approved
+  const isApproved=useAuthStore((state)=>state.isApproved);
   // const isAdmin=useAuthStore((state)=>state.isAdmin)
 
   const logOutUser = useAuthStore((state) => state.logOutUser);
@@ -42,14 +41,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={isLoggedIn?<Navigate to={'/'}/>:<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/"
           element={<ProtectedRoute component={<Dashboard />} />}
         />
         <Route
           path="/student_approval"
-          element={!isApproved?<StudenDashboard />:<Navigate to={'/'}/>}
+          element={<StudenDashboard />}
         />
         <Route
           path="/students"

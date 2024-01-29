@@ -1,7 +1,7 @@
-const mongoose=require("mongoose");
+import mongoose from "mongoose";
 
-const dummyStudents=require('./dummyData.js')
-const bcrypt=require('bcrypt')
+import dummyStudents from './dummyData.js'
+import bcrypt from 'bcrypt'
 
 
 const studentSchema = new mongoose.Schema(
@@ -63,8 +63,8 @@ const studentSchema = new mongoose.Schema(
   }
 
   function generateRandomDate() {
-    const startDate = new Date('2023-12-01');
-    const endDate = new Date('2024-01-10');
+    const startDate = new Date('2023-12-01')
+    const endDate = new Date('2024-01-10')
     const randomTime = startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime());
     return new Date(randomTime);
   }

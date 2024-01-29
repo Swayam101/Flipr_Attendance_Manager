@@ -72,7 +72,6 @@ const Login = () => {
       toast.success(response.data.message);
       response.data.user.isLoggedIn = true;
       saveUserData(response.data.user);
-      if (response.data.user.isAdmin) return navigate("/");
       if (!response.data.user.approved) return navigate("/student_approval");
       navigate("/");
     } catch (error) {
@@ -103,12 +102,13 @@ const Login = () => {
         url: "/auth",
         method: "POST",
         data: userData,
+        withCredentials:true,
       });
       toast.success(response.data.message);
       console.log(response.data.user);
       response.data.user.isLoggedIn = true;
       saveUserData(response.data.user);
-      return navigate("/attendance");
+      return navigate("/student_approval");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error, {

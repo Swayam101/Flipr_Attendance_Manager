@@ -1,3 +1,5 @@
+
+
 // Core Modules
 import http from 'http'
 import crypto from 'crypto'
@@ -23,6 +25,7 @@ import Qr from './models/Qr.js';
 import { markAbsent } from './controllers/attendance.js';
 import { generatedQrCode } from './utils/dataManips.js';
 import { fileURLToPath } from 'url';
+import { protectRoute } from './middlewares/routeProtect.js';
 
 // Express App Initialisation
 const PORT = process.env.PORT || 3000;
@@ -78,7 +81,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serving The Qr Page!
-app.get('/',(req,res,next)=>{
+app.get('/',protectRoute,(req,res,next)=>{
   res.render('qr',)
 })
 

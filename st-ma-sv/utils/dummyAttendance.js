@@ -23,12 +23,12 @@ const attendanceSchema = new Schema({
 const Attendance = model("attendance", attendanceSchema);
 
 const userIds = [
-  '65b4ea23058230c6776bbcb4',
-  '65b4ea23058230c6776bbcb5',
-  '65b4ea23058230c6776bbcb6',
-  '65b4ea23058230c6776bbcb7',
-  '65b4ea23058230c6776bbcb8',
-  '65b4ea23058230c6776bbcb9'
+  '65b73d5f6be15f3cd6038a15',
+  '65b73d5f6be15f3cd6038a16',
+  '65b73d5f6be15f3cd6038a17',
+  '65b73d5f6be15f3cd6038a18',
+  '65b73d5f6be15f3cd6038a19',
+  '65b73d5f6be15f3cd6038a1a'
 ];
 
 // Generate dummy data for attendance records from the user creation date to today
@@ -62,7 +62,7 @@ const generateDummyAttendanceData = async () => {
 
 const getUserCreationDate = async (userId) => {
   const user=await User.findOne({_id:userId})
-  return new Date(user.createdAt);
+  return new Date(user.createdAt)
 };
 
 mongoose.connect("mongodb+srv://swayamgccp:pKncTHtuSBeuBp68@cluster0.4xxl6iz.mongodb.net/")

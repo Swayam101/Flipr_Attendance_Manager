@@ -6,11 +6,13 @@ const store = (set, get) => ({
   userData: null,
   isLoggedIn: false,
   isAdmin: false,
+  isApproved:false,
   setUserData: (user) => {
     set((state) => ({
       userData: user,
       isLoggedIn: user.isLoggedIn,
       isAdmin: user.isAdmin,
+      isApproved:user.approved
     }));
   },
   logOutUser: () => {
@@ -18,6 +20,7 @@ const store = (set, get) => ({
       userData: null,
       isLoggedIn: false,
       isAdmin: false,
+      isApproved:false
     }));
     toast.info("Logged Out Succcessfully!")
   }

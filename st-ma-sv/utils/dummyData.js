@@ -73,4 +73,5 @@ const dummyStudents = [
   }
 ];
 
-module.exports=dummyStudents;
+
+export default dummyStudents;

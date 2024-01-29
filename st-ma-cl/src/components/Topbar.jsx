@@ -4,7 +4,7 @@ import "../style.css";
 import { FaRegBell, FaTimes } from "react-icons/fa";
 
 import avtar from "../images/avtar2.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import axiosConfig from "../utils/axiosConfig";
 import { toast } from "react-toastify";
@@ -21,6 +21,8 @@ function Topbar({ userRole }) {
   const logOutUser = useAuthStore((state) => state.logOutUser);
   const user = useAuthStore((state) => state.userData);
   Modal.setAppElement("#root");
+
+  const navigate=useNavigate()
 
   const [showOptions, setShowOptions] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -52,8 +54,7 @@ function Topbar({ userRole }) {
 
   }, []);
 
-  const userData = useAuthStore((store) => store.userData);
-  const isApproved = userData.approved;
+
 
   const handleProfileClick = () => {
     if (showNotifications) setShowNotifications(false);
@@ -149,16 +150,21 @@ function Topbar({ userRole }) {
                 <button
                   onClick={async (e) => {
                     try {
+                      e.preventDefault()
                       logOutUser();
-                      await axiosConfig({
+                      navigate('/')
+                      console.log("Button Clicked!");
+                     const response= await axiosConfig({
                         url: "/auth/logout",
                         method: "POST",
-                        withCredentials: true,
                       });
+                      console.log(response);
+                      
                      
                     } catch (error) {
-                      // toast.error(error.response.data.message);
-                      logOutUser();
+                      console.log(`Log Out error: ${error}`);
+                      // // toast.error(error.response.data.message);
+                      // logOutUser();
                     }
                   }}
                   className="profileOptionButton"

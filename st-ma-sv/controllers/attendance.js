@@ -13,12 +13,10 @@ import Qr from "../models/Qr.js";
 export const checkAttendanceHash = asyncWrapper(async (req, res, next) => {
   const { hash } = req.body;
   const { _id } = req.user;
-  const date = new Date();
+  const date = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Calcutta",
+    });
 
-  // Hardcoded Functionality to Attendance be markable during 8AM and 10Am
-  // const currentTime=date.getHours()*60+date.getMinutes()
-  // const isAllowedToAttend=currentTime >= 8 * 60 && currentTime <= 10 * 60;
-  // if(!isAllowedToAttend) return res.json({message:"Time Limit To Mark Attendance Has Been Reached!"})
 
   const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } });
   console.log(currentQrCode.code);
@@ -53,7 +51,7 @@ export const getMyAttendanceStats = asyncWrapper(async (req, res, next) => {
     status: "Absent",
   });
   const user = await User.findOne({ _id: studentId });
-  const totalDays = calculateDaysFromDate(user.createdAt);
+  const totalDays = calculateDaysFromDate(user.createdAt)+1;
   res.json({
     totalDays,
     presentDays,
