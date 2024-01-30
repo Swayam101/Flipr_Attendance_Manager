@@ -4,8 +4,8 @@ export default (reciever,subject,text)=>{
     const client=nodemailer.createTransport({
         service:"Gmail",
         auth:{
-            user:"swayamprajapat21@gmail.com",
-            pass:"suhxxwjudzvgnvtx"
+            user:process.env.COMPANY_MAIL,
+            pass:process.env.COMPANY_MAIL_PASS
         }
     })
     client.sendMail({

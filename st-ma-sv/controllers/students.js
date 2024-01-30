@@ -2,7 +2,6 @@ import User from "../models/User.js";
 
 import asyncWrapper from "../utils/asyncWrapper.js";
 import sendMail from "../utils/sendMail.js";
-// import { io } from "../index.js";
 
 export const getAllStudents = asyncWrapper(async (req, res, next) => {
   const students = await User.find(
