@@ -1,6 +1,6 @@
 // Third Party Packages
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
 // Controller Functions
 import { registerUser, loginUser, logoutUser, sendUpdatePasswordEmail,checkMailHash, loginAdmin } from "../controllers/auth.js";
@@ -36,7 +36,6 @@ router.post(
 );
 
 router.post("/login",loginUser)
-router.post('/login/admin',loginAdmin)
 
 router.post('/send-update-mail',sendUpdatePasswordEmail)
 router.post('/check-hash',checkMailHash)

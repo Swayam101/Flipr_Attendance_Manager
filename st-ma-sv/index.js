@@ -61,7 +61,7 @@ cron.schedule('*/30 * * * * *',async () => {
     code:newHashCode
   })
   const qrImageUrl=await generatedQrCode(qrCode.code)
-  console.log(qrCode.code);
+ 
   io.emit('hashUpdate',{qrImageUrl});
 
 });

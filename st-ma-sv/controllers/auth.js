@@ -16,11 +16,11 @@ import { incrementRollNumber } from "../utils/dataManips.js";
 export const registerUser = asyncWrapper(async (req, res, next) => {
   const { name, email, password } = req.body;
 
-  console.log("Route Reache!");
+ 
   const io = req.app.get("socketio");
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  var latestRoll = 0;
+  let latestRoll = 0;
   const latestUser = await User.findOne(
     { isAdmin: false },
     {},
@@ -139,7 +139,7 @@ export const checkMailHash = asyncWrapper(async (req, res, next) => {
   );
 
   if (!otp) return res.status(419).json({ message: "Invalid OTP" });
-  if (otp.expiresAt < Date.now() || !(otp.code == userOtp))
+  if (otp.expiresAt < Date.now() || (otp.code != userOtp))
     return res.status(419).json({ message: "Invalid OTP" });
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -150,6 +150,6 @@ export const checkMailHash = asyncWrapper(async (req, res, next) => {
 });
 
 export const logoutUser = asyncWrapper(async (req, res, next) => {
-  console.log("EndPoint Reached!");
+ 
   res.clearCookie("token").json({ message: "Logout Successful!" });
 });
