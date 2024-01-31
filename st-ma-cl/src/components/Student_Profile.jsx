@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, {useState } from "react";
 import avtar from "../images/avtar2.jpg";
-import { FaEdit, FaMailBulk } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import useAuthStore from "../contexts/AuthStore";
 import axiosConfig from "../utils/axiosConfig";

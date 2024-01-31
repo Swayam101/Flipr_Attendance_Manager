@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../style.css';
 import adminlogo from '../images/adminlogo1.png';
@@ -55,7 +55,6 @@ function Sidebar({ userRole }) {
                   Mark Attendance
                 </Link>
               </li>
-              {/* Add other student-specific items here */}
             </>
           )}
         </ul>

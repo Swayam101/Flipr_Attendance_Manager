@@ -1,32 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QrScanner from 'react-qr-scanner';
 import { IoMdCheckmarkCircleOutline ,IoMdCloseCircle} from "react-icons/io";
 import axiosConfig from '../utils/axiosConfig.js'
-import {toast} from 'react-toastify'
-
 
 function Qr_Scanner() {
     const [result, setResult] = useState(false);
     const [attendanceMarked, setAttendanceMarked] = useState(false);
     const [message, setMessage]= useState('');
+    const [qrData,setQrData]=useState(null)
 
     const handleScan =async  (data) => {
         if (data && !attendanceMarked) {
             console.log("Scanned data:", data);
+            setQrData(data)
             setResult(true);
-            try {
-              const response=  await axiosConfig({
-                    method:'POST',
-                    url:"/attendance",
-                    data:{hash:data.text},
-                    withCredentials:true,
-                })
-                console.log(response)
-                setMessage(response.data.message)                
-            } catch (error) {
-                setMessage(error.response.data.message)
-            }
-            setAttendanceMarked(true); // Close the scanner after scanning
         }
     };
 
@@ -34,13 +21,28 @@ function Qr_Scanner() {
         setMessage(err)
         console.error(err);
     };
-
-    const handleMarkAttendance = () => {
-        // Perform actions to mark attendance here
-        console.log("Attendance marked!");
-        setAttendanceMarked(true);
-    };
-
+    
+    useEffect(() => {
+        if (qrData) {
+            try {
+                axiosConfig({
+                    method: 'POST',
+                    url: "/attendance",
+                    data: { hash: qrData.text },
+                    withCredentials: true,
+                }).then((response) => {
+                    console.log(response);
+                    setMessage(response.data.message);
+                    setAttendanceMarked(true);
+                }).catch((error) => {
+                    setMessage(error.response.data.message);
+                });
+            } catch (error) {
+                setMessage(error.message);
+            }
+        }
+    }, [qrData]);
+    
     return (
         <div className='card approval-box qrcode'>
             {!attendanceMarked && (

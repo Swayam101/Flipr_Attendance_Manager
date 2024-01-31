@@ -66,7 +66,6 @@ const Students = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
   const [loading, setLoading] = useState(true); // Add loading state
 
   return (
