@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import Dashboard from "./pages/Dashboard";
@@ -22,11 +22,6 @@ import useAuthStore from "./contexts/AuthStore.js";
 
 function App() {
   const socket = useSocketStore((state) => state.socket);
-
-  const isLoggedIn=useAuthStore((state)=>state.isLoggedIn)
-  const isApproved=useAuthStore((state)=>state.isApproved);
-  // const isAdmin=useAuthStore((state)=>state.isAdmin)
-
   const logOutUser = useAuthStore((state) => state.logOutUser);
   useEffect(() => {
     socket.on("logoutuser", (data) => {
@@ -71,7 +66,6 @@ function App() {
           path="/forgot_password"
           element={<Forget_password />}
         />
-
         <Route path="*" element={<Unauthorised />} />
       </Routes>
     </Router>

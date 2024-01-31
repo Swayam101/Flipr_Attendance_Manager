@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
 import Student_approval from '../components/Student_approval'

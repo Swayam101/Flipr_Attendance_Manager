@@ -1,0 +1,6 @@
+projectKey=Attendence_Flipr_Frontend_1
+serverUrl=http://localhost:9000
+serverVersion=10.3.0.82913
+dashboardUrl=http://localhost:9000/dashboard?id=Attendence_Flipr_Frontend_1
+ceTaskId=AY1eczyPzr-306-CRIwN
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AY1eczyPzr-306-CRIwN
