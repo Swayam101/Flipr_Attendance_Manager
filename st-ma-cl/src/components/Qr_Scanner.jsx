@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import QrScanner from 'react-qr-scanner';
-import { IoMdCheckmarkCircleOutline ,IoMdCloseCircle} from "react-icons/io";
+import { IoMdCheckmarkCircleOutline, IoMdCloseCircle } from "react-icons/io";
 import axiosConfig from '../utils/axiosConfig.js'
-import {toast} from 'react-toastify'
-
 
 function Qr_Scanner() {
     const [result, setResult] = useState(false);
     const [attendanceMarked, setAttendanceMarked] = useState(false);
+<<<<<<< HEAD
     const [message, setMessage]= useState('');
     const [qrData,setQrData]=useState(null)
+=======
+    const [message, setMessage] = useState('');
+    const [qrData, setQrData] = useState(null)
+>>>>>>> f086c77b201075b3039ee1f5b5c6facde5f7bee1
 
-    const handleScan =async  (data) => {
+    const handleScan = async (data) => {
         if (data && !attendanceMarked) {
             console.log("Scanned data:", data);
             setQrData(data)
             setResult(true);
+<<<<<<< HEAD
             setAttendanceMarked(true); // Close the scanner after scanning
+=======
+>>>>>>> f086c77b201075b3039ee1f5b5c6facde5f7bee1
         }
     };
 
@@ -25,11 +31,23 @@ function Qr_Scanner() {
         console.error(err);
     };
 
-    const handleMarkAttendance = () => {
-        // Perform actions to mark attendance here
-        console.log("Attendance marked!");
-        setAttendanceMarked(true);
-    };
+    useEffect(() => {
+        if (qrData) {
+            axiosConfig({
+                method: 'POST',
+                url: "/attendance",
+                data: { hash: qrData.text },
+                withCredentials: true,
+            }).then((response) => {
+                console.log(response);
+                setMessage(response.data.message);
+                setAttendanceMarked(true);
+            }).catch((error) => {
+                setMessage(error.response.data.message || error.message);
+            });
+        }
+    }, [qrData]);
+
 
     // useEffect(()=>{
     //     if(data){
@@ -64,10 +82,10 @@ function Qr_Scanner() {
             {result && attendanceMarked && (
                 <div className="animated-checkmark">
                     <p>{message}</p>
-                    {message==="Attendance Marked Successfully! " ?
-                    <IoMdCheckmarkCircleOutline style={{ color: 'green', fontSize: '70px' }} />
-                    :
-                    <IoMdCloseCircle style={{ color: 'red', fontSize: '70px' }} />
+                    {message === "Attendance Marked Successfully! " ?
+                        <IoMdCheckmarkCircleOutline style={{ color: 'green', fontSize: '70px' }} />
+                        :
+                        <IoMdCloseCircle style={{ color: 'red', fontSize: '70px' }} />
                     }
                 </div>
             )}

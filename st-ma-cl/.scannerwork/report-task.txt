@@ -1,6 +1,0 @@
-projectKey=Attendance-Backend
-serverUrl=http://localhost:9000
-serverVersion=10.3.0.82913
-dashboardUrl=http://localhost:9000/dashboard?id=Attendance-Backend
-ceTaskId=AY1Zoz1HeYu-PRvrg-du
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AY1Zoz1HeYu-PRvrg-du

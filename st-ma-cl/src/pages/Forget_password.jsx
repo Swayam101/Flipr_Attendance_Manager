@@ -50,5 +50,49 @@ const ForgetPassword = () => {
 };
 
 
+<<<<<<< HEAD
+=======
+  const otpRef = useRef();
+  const passwordRef = useRef();
+  const navigate=useNavigate()
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    const otp = otpRef.current.value;
+    const password = passwordRef.current.value;
+    console.log(otp,password);
+    try {
+        const response=await axiosConfig({
+            url:"/auth/check-hash",
+            method:"POST",
+            data:{
+                userOtp:otp,
+                newPassword:password,
+                email
+            }
+        })
+        toast.success(response.data.message);
+       navigate("/login")
+    } catch (error) {
+        toast.error(error.response.data.message);
+        navigate("/forgot_password")
+    }
+  };
+
+  return (
+    <>
+      <input ref={otpRef} type="text" placeholder="Enter OTP" className="forget-input" />
+      <input
+        type="password"
+        ref={passwordRef}
+        placeholder="Enter New Password"
+        className="forget-input"
+      />
+
+      <button onClick={handleResetPassword} className="continue-btn">Reset Password</button>
+    </>
+  );
+};
+>>>>>>> f086c77b201075b3039ee1f5b5c6facde5f7bee1
 
 export default ForgetPassword;

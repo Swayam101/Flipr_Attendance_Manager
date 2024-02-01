@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState } from "react";
 import axiosConfig from "../utils/axiosConfig.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -22,39 +22,6 @@ const Login = () => {
 
 
   const saveUserData = useAuthStore((state) => state.setUserData);
-
-  const handleAdminLogin=async (e)=>{
-    e.preventDefault();
-    const userCredentials = {
-      email: loginEmailRef.current.value,
-      password: loginPasswordRef.current.value,
-    };
-    try {
-      const response = await axiosConfig({
-        url: "/auth/login/admin",
-        method: "POST",
-        data: userCredentials,
-        withCredentials: true,
-      });
-      toast.success(response.data.message);
-      response.data.admin.isLoggedIn = true;
-      saveUserData(response.data.admin);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-
-  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -216,9 +183,6 @@ const Login = () => {
             Login
           </button>
 
-          <button onClick={handleAdminLogin} className="login-button">
-            Admin Login
-          </button>
           <a href="/forgot_password" className="forget-p">
             Forgot Password?
           </a>

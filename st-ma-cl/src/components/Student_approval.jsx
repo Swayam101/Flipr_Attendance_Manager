@@ -7,8 +7,7 @@ import { toast } from "react-toastify";
 function Student_approval() {
   const socket = useSocketStore((state) => state.socket);
   const user = useAuthStore((state) => state.userData);
-  const setUserData = useAuthStore((state) => state.setUserData);
-
+  
   useEffect(() => {
     socket.on("approved", (data) => {
       console.log("Approved Event Fired!");
