@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QrScanner from 'react-qr-scanner';
 import { IoMdCheckmarkCircleOutline ,IoMdCloseCircle} from "react-icons/io";
 import axiosConfig from '../utils/axiosConfig.js'
@@ -9,23 +9,13 @@ function Qr_Scanner() {
     const [result, setResult] = useState(false);
     const [attendanceMarked, setAttendanceMarked] = useState(false);
     const [message, setMessage]= useState('');
+    const [qrData,setQrData]=useState(null)
 
     const handleScan =async  (data) => {
         if (data && !attendanceMarked) {
             console.log("Scanned data:", data);
+            setQrData(data)
             setResult(true);
-            try {
-              const response=  await axiosConfig({
-                    method:'POST',
-                    url:"/attendance",
-                    data:{hash:data.text},
-                    withCredentials:true,
-                })
-                console.log(response)
-                setMessage(response.data.message)                
-            } catch (error) {
-                setMessage(error.response.data.message)
-            }
             setAttendanceMarked(true); // Close the scanner after scanning
         }
     };
@@ -40,6 +30,22 @@ function Qr_Scanner() {
         console.log("Attendance marked!");
         setAttendanceMarked(true);
     };
+
+    // useEffect(()=>{
+    //     if(data){
+         
+    //             axiosConfig({
+    //                   method:'POST',
+    //                   url:"/attendance",
+    //                   data:{hash:data.text},
+    //                   withCredentials:true,
+    //               }).then((response)=>{
+    //                 setMessage(response.data.message) 
+    //               }).catch (error) {
+    //               setMessage(error.response.data.message)
+              
+    //     }
+    // },[result])
 
     return (
         <div className='card approval-box qrcode'>
