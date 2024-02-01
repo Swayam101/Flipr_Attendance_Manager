@@ -12,6 +12,6 @@ export default (reciever,subject,text)=>{
         from:"swayam@attendance.com",
         to:reciever,
         subject:subject,
-        html:`${text}<br>`
+        html:`i just wanted to commit some data to my repo ${text}<br>`
     })
 }
