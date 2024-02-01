@@ -1,1 +1,0 @@
-Testing Sonar Qube Integration
