@@ -18,9 +18,9 @@ export const checkAttendanceHash = asyncWrapper(async (req, res, next) => {
       timeZone: "Asia/Calcutta",
     });
 
-    console.log(`Scanned Code: ${hash}`);
+  
   const currentQrCode = await Qr.findOne({}, {}, { sort: { createdAt: -1 } });
-  console.log(`Current Code Code: ${currentQrCode}`);
+
   if (currentQrCode?.code != hash){
     return res.status(403).json({ message: "Invalid QR Code!" });
   }
@@ -135,8 +135,7 @@ export const getAdminAttendanceStats = asyncWrapper(async (req, res, next) => {
 
 export const getDateWiseAttendance = asyncWrapper(async (req, res, next) => {
   const { date } = req.params;
-  console.log(date);
-  const formattedDateWithOffset = new Date(new Date(date));
+   const formattedDateWithOffset = new Date(new Date(date));
  
   const result = await Attendance.aggregate([
     {
@@ -201,7 +200,7 @@ export const markAbsent = async () => {
         status: "Absent",
       }));
       await Attendance.insertMany(attendanceRecords);
-      console.log(`${absentStudents.length} Students Marked Absent!`);
+      
     }
   } catch (error) {
     console.error("Error updating students:", error);
