@@ -11,9 +11,8 @@ body{
 .main{
 	width: 350px;
 	height: 500px;
-	background: red;
 	overflow: hidden;
-	background:transparent;
+	background:#07063d;
 	border-radius: 10px;
 	box-shadow: 5px 20px 50px #210f7b;
 }

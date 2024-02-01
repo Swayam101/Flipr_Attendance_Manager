@@ -7,9 +7,9 @@ import axiosConfig from "../utils/axiosConfig";
 import { toast } from "react-toastify";
 
 function calculateAge(dateOfBirth) {
-  var dob = new Date(dateOfBirth);
-  var currentDate = new Date();
-  var age = currentDate.getFullYear() - dob.getFullYear();
+  let dob = new Date(dateOfBirth);
+  let currentDate = new Date();
+  let age = currentDate.getFullYear() - dob.getFullYear();
   if (
     currentDate.getMonth() < dob.getMonth() ||
     (currentDate.getMonth() === dob.getMonth() &&
@@ -66,13 +66,19 @@ function Student_Profile() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleEdit();
+    }
+  };
+
   return (
     <div className="profile_container">
       <div className="profile-left card">
         <div className="student-profile-sec">
           <img src={avtar} alt="user profile" />
         </div>
-        <span className="pencil-icon" onClick={handleEdit}>
+        <span className="pencil-icon" onClick={handleEdit}   onKeyDown={handleKeyDown} tabIndex={0}>
           <FaEdit />
         </span>
         <h4 className="username-st-pro">{userData.name}</h4>
@@ -82,7 +88,7 @@ function Student_Profile() {
       <div className="profile-right card">
         <div className="general-info-heading">
           <h4>Personal Information</h4>
-          <button onClick={handleEdit}>
+          <button onClick={handleEdit} onKeyDown={handleKeyDown} tabIndex={0}>
             <FiEdit />
             Edit
           </button>

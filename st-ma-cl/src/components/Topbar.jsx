@@ -13,7 +13,6 @@ import { PiStudentBold } from "react-icons/pi";
 import { SlCalender } from "react-icons/sl";
 import PropTypes from 'prop-types';
 
-
 function Topbar({ userRole }) {
   const logOutUser = useAuthStore((state) => state.logOutUser);
   const user = useAuthStore((state) => state.userData);
@@ -77,12 +76,17 @@ function Topbar({ userRole }) {
     setShowModal(false);
   };
 
-
+  const handleKeyDown = (event) => {
+    // Handle keyboard events here
+    if (event.key === 'Enter') {
+      // Example: Execute the same action as the click handler
+      handleProfileClick();
+    }
+  };
 
   return (
     <div className="topbar">
       <div className="topbar_left">
-
         {userRole === "admin" && (
           <>
             <div className="s-topbar-icon">
@@ -113,7 +117,12 @@ function Topbar({ userRole }) {
 
       <div className="topbar__right">
         {userRole === "admin" && (
-          <div className="topbar__icon" onClick={handleBellIconClick}>
+          <div 
+            className="topbar__icon" 
+            onClick={handleBellIconClick}
+            onKeyDown={handleKeyDown} // Add keydown event listener
+            tabIndex={0} // Ensure element is focusable
+          >
             <FaRegBell />
             {pendingStudents.length > 0 && (
               <div className="notification-count">
@@ -123,7 +132,13 @@ function Topbar({ userRole }) {
           </div>
         )}
         <div className="topbar__userProfile">
-          <img src={avtar} alt="user profile" onClick={handleProfileClick} />
+          <img 
+            src={avtar} 
+            alt="user profile" 
+            onClick={handleProfileClick} 
+            onKeyDown={handleKeyDown} // Add keydown event listener
+            tabIndex={0} // Ensure element is focusable
+          />
           {showOptions && (
             <div className="profileOptions card">
               <div className="topLayer"></div>
@@ -132,6 +147,8 @@ function Topbar({ userRole }) {
                   src={avtar}
                   alt="user profile"
                   onClick={handleProfileClick}
+                  onKeyDown={handleKeyDown} // Add keydown event listener
+                  tabIndex={0} // Ensure element is focusable
                 />
               </div>
               <div className="username-title">
@@ -181,6 +198,8 @@ function Topbar({ userRole }) {
                   key={student._id}
                   className="pending-students"
                   onClick={() => handleStudentClick(student)}
+                  onKeyDown={handleKeyDown} // Add keydown event listener
+                  tabIndex={0} // Ensure element is focusable
                 >
                   <p>{student.name} is pending approval</p>
                 </div>
@@ -220,6 +239,8 @@ function Topbar({ userRole }) {
               <span
                 className="close-button"
                 onClick={handleCloseModal}
+                onKeyDown={handleKeyDown} // Add keydown event listener
+                tabIndex={0} // Ensure element is focusable
                 style={{
                   position: "absolute",
                   top: "4px",
@@ -260,6 +281,8 @@ function Topbar({ userRole }) {
                   }}
                   className="profileOptionButton"
                   style={{ marginTop: "15px", marginBottom: "5px" }}
+                  onKeyDown={handleKeyDown} // Add keydown event listener
+                  tabIndex={0} // Ensure element is focusable
                 >
                   Approve
                 </button>
