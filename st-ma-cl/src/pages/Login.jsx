@@ -18,9 +18,6 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  // const socket = useSocketStore((state) => state.socket);
-
-
   const saveUserData = useAuthStore((state) => state.setUserData);
 
   const handleLogin = async (e) => {
@@ -98,7 +95,6 @@ const Login = () => {
       <input
         type="checkbox"
         id="chk"
-        aria-hidden="true"
         checked={isChecked}
         onChange={() => setIsChecked(!isChecked)}
       />

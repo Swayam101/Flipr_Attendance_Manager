@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.css";
 
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
@@ -13,9 +12,9 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Unauthorised from "./components/Unauthorised.jsx";
 
 import Profile from "./pages/Profile";
-import Forget_password from "./pages/Forget_password";
+import ForgetPassword from "./pages/ForgetPassword.jsx";
 
-import Attendence_Marking from "./pages/Attendence_Marking.jsx";
+import AttendenceMarking from "./pages/AttendenceMarking.jsx";
 
 import useSocketStore from "./contexts/SocketStore.js";
 import useAuthStore from "./contexts/AuthStore.js";
@@ -55,7 +54,7 @@ function App() {
         />
         <Route
           path="/mark_attendance"
-          element={<ProtectedRoute component={<Attendence_Marking />} />}
+          element={<ProtectedRoute component={<AttendenceMarking />} />}
         />
 
         <Route
@@ -64,7 +63,7 @@ function App() {
         />
         <Route
           path="/forgot_password"
-          element={<Forget_password />}
+          element={<ForgetPassword />}
         />
         <Route path="*" element={<Unauthorised />} />
       </Routes>

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Navigate } from "react-router-dom";
 import useAuthStore from "../contexts/AuthStore.js";
 
@@ -7,4 +8,8 @@ const ProtectedRoute=({component})=>{
     return component
 }
 
-export default ProtectedRoute
+ProtectedRoute.propTypes = {
+    component: PropTypes.elementType.isRequired
+};
+
+export default ProtectedRoute;

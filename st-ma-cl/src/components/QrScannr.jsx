@@ -3,7 +3,7 @@ import QrScanner from 'react-qr-scanner';
 import { IoMdCheckmarkCircleOutline, IoMdCloseCircle } from "react-icons/io";
 import axiosConfig from '../utils/axiosConfig.js'
 
-function Qr_Scanner() {
+function QrScannr() {
     const [result, setResult] = useState(false);
     const [attendanceMarked, setAttendanceMarked] = useState(false);
     const [message, setMessage] = useState('');
@@ -68,4 +68,4 @@ function Qr_Scanner() {
     );
 };
 
-export default Qr_Scanner;
+export default QrScannr;

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import '../style.css';
 import adminlogo from '../images/adminlogo1.png';
 import useAuthStore from '../contexts/AuthStore';
+import PropTypes from 'prop-types';
+
 
 function Sidebar({ userRole }) {
   const [activeItem, setActiveItem] = useState('Dashboard');
@@ -64,5 +66,9 @@ function Sidebar({ userRole }) {
     </div>
   );
 }
+
+Sidebar.propTypes = {
+  userRole: PropTypes.oneOf(['admin', 'student']).isRequired
+};
 
 export default Sidebar;

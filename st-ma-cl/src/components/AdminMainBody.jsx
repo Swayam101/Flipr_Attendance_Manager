@@ -3,7 +3,7 @@ import { PiStudentFill } from 'react-icons/pi';
 import { VictoryPie, VictoryChart, VictoryAxis, VictoryBar } from 'victory';
 import axiosConfig from '../utils/axiosConfig';
 import useAuthStore from '../contexts/AuthStore';
-
+import PropTypes from 'prop-types';
 
 function AdminMainBody({ userRole }) {
 
@@ -58,9 +58,7 @@ function AdminMainBody({ userRole }) {
         presentStudents: count
     }));
 
-    // Calculate percentage of present days out of total days
-    const studentAttendancePercentage = (stats.presentDays / stats.totalDays) * 100;
-
+    
     return (
         <div className="main_body_wrapper">
             {userRole === 'admin' && (
@@ -241,4 +239,8 @@ function AdminMainBody({ userRole }) {
     );
 }
 
+AdminMainBody.propTypes = {
+    userRole: PropTypes.oneOf(['admin', 'student']).isRequired
+  };
+  
 export default AdminMainBody;

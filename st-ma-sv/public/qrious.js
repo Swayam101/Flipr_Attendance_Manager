@@ -398,11 +398,11 @@
        * @override
        */
       draw: function(frame) {
-        var i, j;
-        var qrious = this.qrious;
-        var moduleSize = this.getModuleSize(frame);
-        var offset = this.getOffset(frame);
-        var context = this.element.getContext('2d');
+        let i, j;
+        let qrious = this.qrious;
+        let moduleSize = this.getModuleSize(frame);
+        let offset = this.getOffset(frame);
+        let context = this.element.getContext('2d');
   
         context.fillStyle = qrious.foreground;
         context.globalAlpha = qrious.foregroundAlpha;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosConfig from '../utils/axiosConfig';
 
-const Student_attendence = () => {
+const StudentAttendence = () => {
     const [selectedDate, setSelectedDate] = useState();
     const [attendanceRecords, setAttendanceRecords] = useState([{ name: "" }]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -154,4 +154,4 @@ const Student_attendence = () => {
     )
 };
 
-export default Student_attendence;
+export default StudentAttendence;
