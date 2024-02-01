@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import useAuthStore from "../contexts/AuthStore.js";
 import { toast } from "react-toastify";
 
-function Student_approval() {
+function StudentApproval() {
   const socket = useSocketStore((state) => state.socket);
   const user = useAuthStore((state) => state.userData);
   
@@ -33,4 +33,4 @@ function Student_approval() {
   );
 }
 
-export default Student_approval;
+export default StudentApproval;

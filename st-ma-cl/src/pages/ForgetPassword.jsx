@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axiosConfig from "../utils/axiosConfig";
 import {useNavigate} from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 const ForgetPassword = () => {
   const [mailStatus, setMailStatus] = useState(false);
@@ -90,6 +91,10 @@ const OtpChecker = ({email}) => {
       <button onClick={handleResetPassword} className="continue-btn">Reset Password</button>
     </>
   );
+};
+// Add prop type validation for the email prop
+OtpChecker.propTypes = {
+  email: PropTypes.string.isRequired,
 };
 
 export default ForgetPassword;

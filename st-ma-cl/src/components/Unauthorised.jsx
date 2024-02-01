@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import unauth from '../images/unauth.webp'
 import { Link } from 'react-router-dom'
 

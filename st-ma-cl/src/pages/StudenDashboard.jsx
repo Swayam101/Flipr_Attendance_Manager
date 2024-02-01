@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
-import Student_approval from '../components/Student_approval'
+import StudentApproval from '../components/StudentApproval'
 import useAuthStore from '../contexts/AuthStore'
 
 
@@ -12,7 +12,7 @@ function StudenDashboard() {
     <>
       <Topbar userRole={userRole}/>
       <Sidebar userRole={userRole}/>
-      <Student_approval/>
+      <StudentApproval/>
     </>
   )
 }

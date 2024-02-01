@@ -27,7 +27,7 @@ const formatDate = (date) => {
   return formattedDate;
 };
 
-function Student_Profile() {
+function StudentProfile() {
   const userData = useAuthStore((state) => state.userData);
   const [userDataState,setUserDataState]=useState({...userData})
   const setUserData = useAuthStore((state) => state.setUserData);
@@ -174,4 +174,4 @@ function Student_Profile() {
   );
 }
 
-export default Student_Profile;
+export default StudentProfile;
