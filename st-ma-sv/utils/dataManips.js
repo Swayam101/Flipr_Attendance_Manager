@@ -34,21 +34,20 @@ export const hasMarkedAttendance = async (userId, currentDate) => {
 
 export function getWeekdayCount(startDate) {
 
-  const currentDate = new Date();
 
   let weekdayCount = 0;
 
   let currentDateIterator = new Date(startDate);
 
  
-  while (currentDateIterator <= currentDate) {
+  while (currentDateIterator <= (new Date())) {
       const dayOfWeek = currentDateIterator.getDay();
       
       if (dayOfWeek >= 1 && dayOfWeek <= 5) {
           weekdayCount++;
       }
 
-      currentDateIterator.setDate(currentDateIterator.getDate() + 1);
+      currentDateIterator = new Date(currentDateIterator.getTime() + 24 * 60 * 60 * 1000);
   }
 
   return weekdayCount;

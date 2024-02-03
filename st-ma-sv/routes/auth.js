@@ -3,7 +3,7 @@ import { Router } from "express";
 import { body } from "express-validator";
 
 // Controller Functions
-import { registerUser, loginUser, logoutUser, sendUpdatePasswordEmail,checkMailHash, loginAdmin } from "../controllers/auth.js";
+import { registerUser, loginUser, logoutUser, sendUpdatePasswordEmail,checkMailHash } from "../controllers/auth.js";
 
 // Middlewares
 import validationMiddleware from "../middlewares/validator.js";
@@ -21,7 +21,7 @@ router.post(
       .withMessage("Enter A Valid Email Address"),
     body("password")
       .notEmpty()
-      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/)
+      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[#?!@$%^&*-]).{6,}$/)
       .withMessage(
         "Password Is Weak"
       ),
